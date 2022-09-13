@@ -3,3 +3,5 @@ spring:
     url: 'jdbc:postgresql://localhost:5432/carclinic'
     username: carclinicuser
     password: carclinicPwd
+  liquibase:
+    change-log: classpath:liquibase-changeLog.xml
