@@ -1,4 +1,4 @@
-package pl.edu.ur.roda.carclinic.configuration.captcha.exception;
+package pl.edu.ur.roda.carclinic.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

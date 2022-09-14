@@ -1,13 +1,12 @@
 package pl.edu.ur.roda.carclinic.configuration.captcha;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.edu.ur.roda.carclinic.configuration.captcha.exception.CaptchaValidatorResponseException;
+import pl.edu.ur.roda.carclinic.exception.CaptchaValidatorResponseException;
 
 import java.util.Base64;
 
