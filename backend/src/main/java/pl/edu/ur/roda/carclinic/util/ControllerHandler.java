@@ -8,8 +8,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import pl.edu.ur.roda.carclinic.dto.ErrorMessageDto;
 import pl.edu.ur.roda.carclinic.exception.CaptchaValidationException;
+import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
 import pl.edu.ur.roda.carclinic.exception.UnauthorizedProcessException;
 
 import javax.validation.ConstraintViolation;
@@ -66,6 +68,17 @@ public class ControllerHandler {
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<ErrorMessageDto> tokenExpired(TokenExpiredException ex) {
         return new ResponseEntity<>(new ErrorMessageDto(ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ResponseEntity<Map<String, String>> handleMissingServletRequestPartExceptions(MissingServletRequestPartException ex) {
+        Map<String, String> errors = getErrors(ex.getRequestPartName(), ex.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CouldNotFindUserException.class)
+    public ResponseEntity<ErrorMessageDto> handlePlayerNotFoundException(CouldNotFindUserException exception) {
+        return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     private Map<String, String> getErrors(String fieldName, String errorMessage) {

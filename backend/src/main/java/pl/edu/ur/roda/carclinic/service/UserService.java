@@ -2,7 +2,6 @@ package pl.edu.ur.roda.carclinic.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
