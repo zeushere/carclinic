@@ -1,14 +1,21 @@
 package pl.edu.ur.roda.carclinic.util;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import pl.edu.ur.roda.carclinic.dto.ErrorMessageDto;
+import pl.edu.ur.roda.carclinic.exception.CaptchaValidationException;
+import pl.edu.ur.roda.carclinic.exception.UnauthorizedProcessException;
 
-import java.util.AbstractMap;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -22,7 +29,48 @@ public class ControllerHandler {
                     String errorMessage = error.getDefaultMessage();
                     return new AbstractMap.SimpleEntry<>(fieldName, errorMessage);
                 }).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-        return new ResponseEntity(errors, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<Map<String, String>> handleRequestPartExceptions(MissingServletRequestParameterException ex) {
+        Map<String, String> errors = getErrors(ex.getParameterName(), ex.getMessage());
+        return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CaptchaValidationException.class)
+    public ResponseEntity<ErrorMessageDto> handleCaptchaValidation(CaptchaValidationException exception) {
+        return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedProcessException.class)
+    public ResponseEntity<?> handleUnauthorizedDeletePlayer() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConstraintViolationExceptions(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        Set<ConstraintViolation<?>> constraintViolationSet = ex.getConstraintViolations();
+        constraintViolationSet.forEach(constraintViolation -> {
+            LinkedList<String> path = new LinkedList<>();
+            for (Path.Node node : constraintViolation.getPropertyPath()) {
+                path.add(node.getName());
+            }
+            String errorMessage = constraintViolation.getMessage();
+            errors.put(path.getLast(), errorMessage);
+        });
+        return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ErrorMessageDto> tokenExpired(TokenExpiredException ex) {
+        return new ResponseEntity<>(new ErrorMessageDto(ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    private Map<String, String> getErrors(String fieldName, String errorMessage) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(fieldName, errorMessage);
+        return errors;
+    }
 }

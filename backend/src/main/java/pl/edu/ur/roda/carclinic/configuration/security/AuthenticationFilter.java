@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -23,12 +24,16 @@ import java.util.Map;
 class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final String TOKEN_PREFIX = "Bearer ";
+
+    private static final String HEADER_RECAPTCHA = "g-recaptcha";
     private final AuthenticationManager authenticationManager;
     private final JWTManager jwtManager;
     private final ObjectMapper objectMapper;
+    private final CaptchaValidator captchaValidator;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        captchaValidator.validate(getCaptchaTokenFromHeader(request));
         LoginCredentials authRequest = getLoginCredentials(request);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 authRequest.username(),
@@ -48,6 +53,13 @@ class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         token.put("token", generateToken);
         objectMapper.writeValue(response.getOutputStream(), token);
+    }
+
+    private String getCaptchaTokenFromHeader(HttpServletRequest request) {
+        String reCaptchaToken = request.getHeader(HEADER_RECAPTCHA);
+        if (reCaptchaToken == null)
+            throw new BadCredentialsException("ReCaptcha token is not exist");
+        return reCaptchaToken;
     }
 
     private LoginCredentials getLoginCredentials(HttpServletRequest request) {

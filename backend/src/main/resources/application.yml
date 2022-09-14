@@ -15,3 +15,13 @@ spring:
     change-log: classpath:liquibase-changeLog.xml
 cors:
   allowUrl: "*"
+jwt:
+  secret: secret_code
+  expirationTime: 30h
+captcha:
+  secret: NkxlSXhBY1RBQUFBQUdHLXZGSTFUblJXeE1aTkZ1b2pKNFdpZkpXZQ==
+  url: https://www.google.com/recaptcha/api/siteverify
+rest:
+  connection:
+    connectionRequestTimeout: 5s
+    readTimeout: 10s
