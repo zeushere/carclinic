@@ -32,6 +32,9 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Car> cars;
+
     public User(String email, String login, char[] password) {
         this.email = email;
         this.login = login;
