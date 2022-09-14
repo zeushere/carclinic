@@ -1,0 +1,29 @@
+{
+  "properties": [
+    {
+      "name": "captcha.secret",
+      "type": "java.lang.String",
+      "description": "Secret key to reCaptcha validator. For safe encode in Base64."
+    },
+    {
+      "name": "captcha.url",
+      "type": "java.lang.String",
+      "description": "Endpoint to valid recaptcha."
+    },
+    {
+      "name": "rest.connection.connectionRequestTimeout",
+      "type": "java.time.Duration",
+      "description": "Timeout for getting connection"
+    },
+    {
+      "name": "rest.connection.readTimeout",
+      "type": "java.time.Duration",
+      "description": "Time to should be returned data from the destination endpoint."
+    },
+    {
+      "name": "cors.allowUrl",
+      "type": "java.lang.String",
+      "description": "Allow URLs to connect with be application."
+    }
+  ]
+}

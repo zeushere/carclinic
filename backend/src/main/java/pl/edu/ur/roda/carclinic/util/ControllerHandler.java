@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ControllerHandler {
-    
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException exception) {
         Map<String, String> errors = exception.getBindingResult().getAllErrors().stream()
