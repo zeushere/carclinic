@@ -20,8 +20,14 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<UserReadDto> register(
             @Valid @RequestBody UserCreateDto userCreateDto,
-            @RequestParam("g-recaptcha") String captcha){
-        return new ResponseEntity(userService.createUser(userCreateDto, captcha), HttpStatus.CREATED);
+            @RequestParam("g-recaptcha") String captcha) {
+        return new ResponseEntity<>(userService.createUser(userCreateDto, captcha), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/hello")
+    @ResponseBody
+    public ResponseEntity<String> hello() {
+        return new ResponseEntity<>("Kocham Ksenie Frumosu", HttpStatus.OK);
     }
 
 }
