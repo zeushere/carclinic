@@ -1,24 +1,21 @@
 import React, {useState} from "react";
 
-import "../styles/auth.css";
+import "../styles/login.css";
 import Helmet from "../components/Helmet/Helmet";
-import {useDispatch, useSelector} from "react-redux";
-import {authActions} from "../slices/auth-slice";
+import {useDispatch} from "react-redux";
+import {signin} from "../actions/userActions";
 
-const Auth = () => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(authActions.login(undefined))
-    };
-    //
-    // const userSignin = useSelector((state) => state.userSignin);
-    // const { userInfo} = userSignin;
+    dispatch(signin(username,password));
+    }
 
     return (
-        <Helmet title="Login">
+        <Helmet title="Login">s
         <div className="auth__container">
             <h1 className={'auth__h1'}>Login</h1>{" "}
             <form className={'auth__form'} onSubmit={handleSubmit}>
@@ -36,4 +33,4 @@ const Auth = () => {
     );
 };
 
-export default Auth;
+export default Login;
