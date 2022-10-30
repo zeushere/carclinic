@@ -1,14 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import "../styles/login.css";
 import Helmet from "../components/Helmet/Helmet";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {signin} from "../actions/userActions";
-
-const Login = () => {
+import { useNavigate } from "react-router-dom";
+const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo} = userSignin;
+
+    let navigate = useNavigate();
+
+    const redirect = '/';
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate(redirect)
+            }
+    }, [navigate, userInfo]);
+
     const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(signin(username,password));
