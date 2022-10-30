@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, {useEffect, useRef} from "react";
 
-import { Container, Row, Col } from "reactstrap";
+import {Container, Row, Col, Button} from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/header.css";
+import {useDispatch, useSelector} from "react-redux";
+import {signout} from "../../actions/userActions";
 
 const navLinks = [
     {
@@ -32,6 +34,13 @@ const Header = () => {
     const menuRef = useRef(null);
 
     const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo} = userSignin;
+    const dispatch = useDispatch();
+
+    const signoutHandler = () => {
+        dispatch(signout());
+    }
 
     return (
         <header className="header">
@@ -50,13 +59,16 @@ const Header = () => {
 
                         <Col lg="6" md="6" sm="6">
                             <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                                <Link to="/login" className=" d-flex align-items-center gap-1">
-                                    <i class="ri-login-circle-line"></i> Logowanie
-                                </Link>
 
-                                <Link to="/register" className=" d-flex align-items-center gap-1">
-                                    <i class="ri-user-line"></i> Rejestracja
-                                </Link>
+                                {userInfo ? (<Link onClick={signoutHandler}  to="/#signout" className=" d-flex align-items-center gap-1">
+                                        <i className="ri-login-circle-line"></i> Wylogowanie
+                                    </Link>)
+                                : ( <><Link to="/login" className=" d-flex align-items-center gap-1">
+                                        <i className="ri-login-circle-line"></i> Logowanie
+                                    </Link>
+                                        <Link to="/register" className=" d-flex align-items-center gap-1">
+                                            <i className="ri-user-line"></i> Rejestracja
+                                        </Link></>)}
                             </div>
                         </Col>
                     </Row>
