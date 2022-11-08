@@ -1,41 +1,73 @@
-.auth__container {
-    width: 500px;
-    height: 500px;
+.login__section {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: rebeccapurple;
-    align-items: center;
-    margin-top: 10%;
-}
-auth__h1 {
-    padding: 30px;
-    color: white;
-    font-size: 50px;
-}
-auth__label {
-    color: white;
-}
-auth__form {
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    min-height: 70vh;
+    color: #000d6d;
 }
-auth__input {
-    width: 80%;
-    margin: 10px;
-    padding: 10px;
-    font-size: 20px;
+
+.login__title{
+    text-align: center;
 }
-.login-btn {
+
+.login__register{
+    margin-top: 2rem;
+}
+
+.login__form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.login__link, .login__link:visited, .login__link:hover {
+    color: #3e00ff;
+    text-decoration: none;
+    font-weight: bold;
+    margin: auto;
+}
+
+.login__hr{
+    border-width: 0.15rem;
+}
+
+.login__line{
+    text-align: left;
+}
+.login__button {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    padding: 0.25rem;
     border: none;
-    width: 80%;
-    padding: 10px;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 1.5rem;
+    background: #000d6b !important;
+    color: #ffffff;
+    transition: 0.3s;
 }
-.login-btn:hover {
-    color: white;
-    background: rgb(18, 20, 26);
+.login__input[type="text"],
+.login__input[type="email"],
+.login__input[type="password"],
+.login__textarea {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    padding: 0.25rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+}
+
+@media only screen and (max-width: 576px) {
+    .login__form {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 100%;
+    }
 }
