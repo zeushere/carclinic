@@ -60,7 +60,7 @@ const Header = () => {
                         <Col lg="6" md="6" sm="6">
                             <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
 
-                                {userInfo ? (<Link onClick={signoutHandler}  to="/#signout" className=" d-flex align-items-center gap-1">
+                                {userInfo ? (<Link className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
                                         <i className="ri-login-circle-line"></i> Wylogowanie
                                     </Link>)
                                 : ( <><Link to="/login" className=" d-flex align-items-center gap-1">
