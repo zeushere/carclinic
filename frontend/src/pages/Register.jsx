@@ -9,8 +9,8 @@ import registerImg from '../assets/all-images/register-img.png';
 import {register} from "../actions/userActions";
 
 const Register = (props) => {
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,7 +37,7 @@ const Register = (props) => {
         if (password !== confirmPassword) {
             alert('Wprowadzone hasła nie pasują do siebie!');
         } else {
-            dispatch(register(username, email, password));
+            dispatch(register(firstName, lastName, username, email, password));
         }
     };
 
@@ -60,7 +60,7 @@ const Register = (props) => {
                                         type="text"
                                         id="name"
                                         autoComplete="off"
-                                        onChange={(e) => setName(e.target.value)}
+                                        onChange={(e) => setFirstName(e.target.value)}
                                         placeholder={'Imię'}
                                         required
                                     />
@@ -70,7 +70,7 @@ const Register = (props) => {
                                         type="text"
                                         id="surname"
                                         autoComplete="off"
-                                        onChange={(e) => setSurname(e.target.value)}
+                                        onChange={(e) => setLastName(e.target.value)}
                                         placeholder={'Nazwisko'}
                                         required
                                     />

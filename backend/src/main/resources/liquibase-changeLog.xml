@@ -10,5 +10,6 @@
     <include file="database/03-create-relation-between-roles-and-user.sql"/>
     <include file="database/04-create-table-cars.sql"/>
     <include file="database/05-create-relation-between-cars-and-user.sql"/>
+    <include file="database/06-add-field-to-user-table-change-role-to-user.sql"/>
 
 </databaseChangeLog>

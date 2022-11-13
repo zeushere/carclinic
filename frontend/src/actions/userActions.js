@@ -8,10 +8,12 @@ import {
     USER_SIGNOUT
 } from "../constants/userConstants";
 
-export const register = (login, email, password) => async (dispatch) => {
+export const register = (firstName, lastName, login, email, password) => async (dispatch) => {
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
     try {
         await Axios.post('/register', {
+                firstName,
+                lastName,
                 email,
                 login,
                 password,

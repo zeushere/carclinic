@@ -20,6 +20,8 @@ public class User {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    private String firstName;
+    private String lastName;
     private String email;
     private String login;
     private char[] password;
@@ -35,9 +37,12 @@ public class User {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Car> cars;
 
-    public User(String email, String login, char[] password) {
+    public User(String firstName, String lastName, String email, String login, char[] password, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.password = password;
+        this.roles.add(role);
     }
 }
