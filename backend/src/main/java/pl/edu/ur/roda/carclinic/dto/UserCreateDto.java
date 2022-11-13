@@ -7,6 +7,13 @@ import javax.validation.constraints.Size;
 public record UserCreateDto(
 
         @Size(max = 255)
+        @NotBlank(message = "user.firstName.isBlank")
+        String firstName,
+
+        @Size(max = 255)
+        @NotBlank(message = "user.lastName.isBlank")
+        String lastName,
+        @Size(max = 255)
         @Email(message = "user.mail.notValid")
         @NotBlank(message = "user.mail.isBlank")
         String email,

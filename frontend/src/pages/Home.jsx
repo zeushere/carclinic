@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import HeroSlider from "../components/UI/HeroSlider";
 import Helmet from "../components/Helmet/Helmet";
@@ -13,8 +13,16 @@ import BecomeDriverSection from "../components/UI/BecomeDriverSection";
 import Testimonial from "../components/UI/Testimonial";
 
 import BlogList from "../components/UI/BlogList";
+import {useSelector} from "react-redux";
 
 const Home = () => {
+
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo} = userSignin;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [userInfo]);
     return (
         <Helmet title="Home">
             {/* ============= hero section =========== */}
