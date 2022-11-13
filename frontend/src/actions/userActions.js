@@ -11,14 +11,15 @@ import {
 export const register = (login, email, password) => async (dispatch) => {
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
     try {
-        const {data} = await Axios.post('/register', {
+        await Axios.post('/register', {
                 email,
                 login,
                 password,
-            });
-        dispatch({type: USER_REGISTER_SUCCESS, payload: data});
-        dispatch({type: USER_SIGNIN_SUCCESS, payload: data});
-        localStorage.setItem('userInfo', JSON.stringify(data));
+            },
+            {params: {'g-recaptcha': 'test'}});
+        const successfulRegister = true;
+        dispatch({type: USER_REGISTER_SUCCESS, payload: {successfulRegister}});
+        localStorage.setItem('successfulRegister', JSON.stringify(successfulRegister))
     } catch (error) {
         dispatch({
             type: USER_REGISTER_FAIL,
@@ -50,5 +51,6 @@ export const signin = (username, password) => async (dispatch) => {
 
 export const signout = () => (dispatch) => {
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('successfulRegister');
     dispatch({type: USER_SIGNOUT});
 }

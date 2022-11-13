@@ -18,16 +18,19 @@ const Register = (props) => {
     const dispatch = useDispatch();
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo} = userSignin;
+    const userRegister = useSelector((state) => state.userRegister);
+    const { successfulRegister} = userRegister;
+
 
     let navigate = useNavigate();
 
-    const redirect = '/';
+    const redirect = '/login';
 
     useEffect(() => {
-        if (userInfo) {
+        if (userInfo || successfulRegister) {
             navigate(redirect)
         }
-    }, [navigate, userInfo]);
+    }, [navigate, userInfo, successfulRegister]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
