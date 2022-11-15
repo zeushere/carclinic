@@ -5,9 +5,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
+import pl.edu.ur.roda.carclinic.dto.UserInfoDto;
 import pl.edu.ur.roda.carclinic.dto.UserReadDto;
 import pl.edu.ur.roda.carclinic.entity.Role;
 import pl.edu.ur.roda.carclinic.entity.User;
+import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
+import pl.edu.ur.roda.carclinic.mapper.UserInfoDtoUserMapper;
 import pl.edu.ur.roda.carclinic.repostiory.RoleRepository;
 import pl.edu.ur.roda.carclinic.repostiory.UserRepository;
 
@@ -21,6 +24,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final CaptchaValidator captchaValidator;
+    private final UserInfoDtoUserMapper userInfoDtoUserMapper;
 
     public UserReadDto createUser(UserCreateDto userCreateDto, String captcha) {
         captchaValidator.validate(captcha);
@@ -28,6 +32,11 @@ public class UserService {
         Role userRole = roleRepository.findByName("USER").orElseThrow();
         User registerUser = userRepository.save(new User(userCreateDto.firstName(), userCreateDto.lastName(), userCreateDto.email(), userCreateDto.login(), encodedPassword, userRole));
         return UserReadDto.of(registerUser);
+    }
+
+    public UserInfoDto getUser(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
+        return userInfoDtoUserMapper.userToUserInfoDto(user);
     }
 
 }
