@@ -61,7 +61,8 @@ const Header = () => {
                             <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
 
                                 {userInfo ? (<Link className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
-                                        <i className="ri-login-circle-line"></i> Wylogowanie
+                                        <i className="ri-login-circle-line"></i> Wylogowanieww
+                                        <i className="ri-login-circle-line"></i> Wylogowanieww
                                     </Link>)
                                 : ( <><Link to="/login" className=" d-flex align-items-center gap-1">
                                         <i className="ri-login-circle-line"></i> Logowanie
