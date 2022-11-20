@@ -1,0 +1,13 @@
+.profile__button {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    padding: 0.25rem;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 0.7rem;
+    margin-bottom: 0.7rem;
+    background: #000d6b !important;
+    color: #ffffff;
+    transition: 0.3s;
+}

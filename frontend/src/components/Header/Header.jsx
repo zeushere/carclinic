@@ -62,10 +62,19 @@ const Header = () => {
 
                                 {userInfo ? (
                                     <>
-                                        <Link to="/profile" className=" d-flex align-items-center gap-1">
-                                            <i className="ri-profile-fill"></i> Mój profil
-                                        </Link>
-                                    <Link className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
+
+                                            <button className="p-0 btn__profile dropdown-toggle d-flex align-items-center" type="button"
+                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <span className={'d-flex gap-1'}><i className="ri-profile-fill"></i>Mój profil</span>
+                                            </button>
+                                            <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
+                                                <Link className="dropdown-item dropdown-item__profile" to="/profile">Dane użytkownika</Link>
+                                                <Link className="dropdown-item dropdown-item__profile" href="/test">Samochody</Link>
+                                                <Link className="dropdown-item dropdown-item__profile" href="#">Statusy napraw</Link>
+                                            </div>
+
+                                    <Link to='/home' className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
                                         <i className="ri-login-circle-line"></i> Wylogowanie
                                     </Link>
                                     </>)

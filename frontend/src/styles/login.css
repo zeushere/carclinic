@@ -12,6 +12,8 @@
 
 .login__title{
     text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .login__register{
