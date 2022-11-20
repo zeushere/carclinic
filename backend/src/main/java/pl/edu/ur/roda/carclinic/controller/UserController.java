@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
 import pl.edu.ur.roda.carclinic.dto.UserInfoDto;
 import pl.edu.ur.roda.carclinic.dto.UserReadDto;
-import pl.edu.ur.roda.carclinic.entity.User;
+import pl.edu.ur.roda.carclinic.dto.UserEditDto;
 import pl.edu.ur.roda.carclinic.service.UserService;
 
 import javax.validation.Valid;
@@ -29,7 +29,14 @@ public class UserController {
 
     @GetMapping("profile")
     public ResponseEntity<UserInfoDto> getUser(@AuthenticationPrincipal String userId) {
-        return new ResponseEntity<>(userService.getUser(userId),HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
+    }
+
+    @PutMapping("profile")
+    public ResponseEntity<UserEditDto> editUser(
+            @AuthenticationPrincipal String userId,
+            @Valid @RequestBody UserEditDto userEditDto) {
+        return new ResponseEntity<>(userService.editUser(userEditDto, userId), HttpStatus.OK);
     }
 
     @GetMapping("/hello")
@@ -37,5 +44,4 @@ public class UserController {
     public ResponseEntity<String> hello() {
         return new ResponseEntity<>("Kocham Ksenie Frumosu", HttpStatus.OK);
     }
-
 }
