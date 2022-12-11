@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useReducer, useRef, useState} from "react";
 import Helmet from "../components/Helmet/Helmet";
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,8 +7,11 @@ import '../styles/profile.css'
 import {USER_UPDATE_PROFILE_RESET} from "../constants/userConstants";
 import LoadingBox from "../components/LoadingBox/LoadingBox";
 import MessageBox from "../components/MessageBox/MessageBox";
+import Snackbar from "../components/Snackbar/Snackbar";
+import SnackbarType from "../components/Snackbar/SnackbarType";
 
 const Profile = () => {
+    const snackbarRef = useRef(null);
     const userDetails = useSelector((state) => state.userDetails);
     const {loading, error, user} = userDetails;
 
@@ -19,7 +22,6 @@ const Profile = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-
     let {
         success: successUpdate,
         error: errorUpdate,
@@ -51,6 +53,7 @@ const Profile = () => {
             setPassword('');
             setConfirmPassword('');
             dispatch(detailsUser());
+            snackbarRef.current.show();
         }
     }
 
@@ -67,6 +70,7 @@ const Profile = () => {
             setLogin(user.login)
         }
     }
+
     return (
         <Helmet title="Profile">
             <MDBContainer fluid>
@@ -76,23 +80,6 @@ const Profile = () => {
                             <MDBCol xs={'12'}
                                     className=' d-flex flex-column align-items-center justify-content-md-start'>
                                 <span className={'login__title'}><h1>Witaj {user ? user.firstName : null}</h1></span>
-                                {loading ? (
-                                    <LoadingBox></LoadingBox>
-                                ) : error ? (
-                                    <MessageBox variant="danger">{error}</MessageBox>
-                                ) : (
-                                    <>
-                                        {loadingUpdate && <LoadingBox></LoadingBox>}
-                                        {errorUpdate && (
-                                            <MessageBox variant="danger">{errorUpdate}</MessageBox>
-                                        )}
-                                        {successUpdate && (
-                                            <MessageBox variant="success">
-                                                Profile Updated Successfully
-                                            </MessageBox>
-                                        )}</>
-                                )
-                                }
                                 <form className={'login__form'} autoComplete="off" onSubmit={handleSubmit}>
                                     <label htmlFor="firstName">Imię:</label>
                                     <input
@@ -105,7 +92,6 @@ const Profile = () => {
                                         placeholder={'Imię'}
                                         required
                                     />
-
                                     <label htmlFor="lastName">Nazwisko:</label>
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}
@@ -171,6 +157,11 @@ const Profile = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
+            <Snackbar
+                ref={snackbarRef}
+                message="Profil został pomyślnie zaktualizowany!"
+                type={SnackbarType.success}
+            />
         </Helmet>
     );
 };
