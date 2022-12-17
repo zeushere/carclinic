@@ -11,6 +11,7 @@ import Contact from "../pages/Contact";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Profile from "../pages/Profile";
+import ClientCars from "../pages/ClientCars";
 
 const Routers = () => {
     return (
@@ -25,6 +26,7 @@ const Routers = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login/>}/>
             <Route path="/profile" element={<Profile/>}/>
+            <Route path="/client-cars" element={<ClientCars/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="*" element={<NotFound />} />
         </Routes>
