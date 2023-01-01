@@ -1,41 +1,43 @@
-import React, { useEffect } from "react";
+import React  from "react";
 import {Col} from "reactstrap";
+import unknownCar from "../assets/all-images/cars-img/unknown-car.png"
 import {Link} from "react-router-dom";
 
 const ClientCar = (props) => {
-    const {car} = props;
+    const {id, brand, model, yearProduction, engineType, engineCapacity, description, imagePath} = props.car;
 
     return (
         <Col lg="4" md="4" sm="6" className="mb-5">
             <div className="car__item">
                 <div className="car__img">
-                    {/*<img src={imagePath} alt="" className="w-100" />*/}
+                    <img className={'w-100'} src={imagePath ? imagePath : unknownCar}/>
                 </div>
 
                 <div className="car__item-content mt-4">
-                    {/*<h4 className="section__title text-center">{brand} {model}</h4>*/}
-                    <h6 className="rent__price text-center mt-">
-                        {/*${price}.00 <span>/ Day</span>*/}
-                    </h6>
+                    <h4 className="section__title text-center"><span>{brand} {model}</span></h4>
+
 
                     <div className="car__item-info d-flex align-items-center justify-content-between mt-3 mb-4">
             <span className=" d-flex align-items-center gap-1">
-              {/*<i class="ri-car-line"></i> {yearProduction}*/}
+              <i className="ri-time-line"></i>
+                {yearProduction ? yearProduction : 'Nie podano'}
             </span>
                         <span className=" d-flex align-items-center gap-1">
-              {/*<i class="ri-settings-2-line"></i> {engineType}*/}
+              <i className="ri-settings-2-line"></i> {engineType ? engineType : 'Nie podano'}
             </span>
                         <span className=" d-flex align-items-center gap-1">
-              {/*<i class="ri-timer-flash-line"></i> {engineCapacity}*/}
+              <i className="ri-timer-flash-line"></i> {engineCapacity ? engineCapacity : 'Nie podano'}
             </span>
                     </div>
 
                     <button className=" w-50 car__item-btn car__btn-rent">
-                        {/*<Link to={`/cars/${carName}`}>Szczegóły</Link>*/}
+                        {<Link to={`/cars/${id}`}>Szczegóły</Link>
+                        }
                     </button>
 
                     <button className=" w-50 car__item-btn car__btn-details">
-                        {/*<Link to={`/cars/${carName}`}>Usuń</Link>*/}
+                        {<Link to={`/cars/${id}`}>Usuń</Link>
+                        }
                     </button>
                 </div>
             </div>

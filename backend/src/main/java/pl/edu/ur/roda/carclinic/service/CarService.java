@@ -8,6 +8,7 @@ import pl.edu.ur.roda.carclinic.dto.CarInfoDto;
 import pl.edu.ur.roda.carclinic.dto.CarRequest;
 import pl.edu.ur.roda.carclinic.entity.Car;
 import pl.edu.ur.roda.carclinic.entity.User;
+import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
 import pl.edu.ur.roda.carclinic.mapper.CarInfoDtoCarMapper;
 import pl.edu.ur.roda.carclinic.repostiory.CarRepository;
@@ -52,6 +53,11 @@ public class CarService {
                 .stream()
                 .map(carInfoDtoCarMapper::carToCarInfoDto)
                 .toList();
+    }
+
+    public CarInfoDto getCar(String carId, String ownerId){
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
+        return carInfoDtoCarMapper.carToCarInfoDto(car);
     }
 
     public record AddedCarId(String id) {
