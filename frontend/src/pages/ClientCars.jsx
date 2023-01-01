@@ -11,9 +11,10 @@ const ClientCars = () => {
     const carList = useSelector(state => state.carList);
     const { loading, error, cars } = carList;
 
+
     useEffect(() => {
         dispatch(listCars());
-    }, [dispatch]);
+        }, [dispatch]);
 
     return(
           <section>
@@ -22,14 +23,9 @@ const ClientCars = () => {
                       <Col lg="12" className="text-center mb-5">
                           <h2 className="section__title">Twoje samochody</h2>
                       </Col>
-
-                      <Col>
-                      <div className="row mt-3">
-                          {cars.map((car) => (
-                              <ClientCar car={car}/>
-                          ))}
-                      </div>
-                      </Col>
+                      {cars?.map((car) => (
+                          <ClientCar car={car} key={car.id} />
+                      ))}
                       </Row>
               </Container>
           </section>

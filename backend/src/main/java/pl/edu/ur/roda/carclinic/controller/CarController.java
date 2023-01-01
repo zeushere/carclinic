@@ -36,5 +36,13 @@ public class CarController {
         return carService.getCars(ownerId);
     }
 
-    //test
+    @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    CarInfoDto getUserCar(
+            @PathVariable String id,
+            @AuthenticationPrincipal String ownerId
+    ) {
+        return carService.getCar(id, ownerId);
+    }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import pl.edu.ur.roda.carclinic.dto.ErrorMessageDto;
 import pl.edu.ur.roda.carclinic.exception.CaptchaValidationException;
+import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
 import pl.edu.ur.roda.carclinic.exception.UnauthorizedProcessException;
 
@@ -77,7 +78,12 @@ public class ControllerHandler {
     }
 
     @ExceptionHandler(CouldNotFindUserException.class)
-    public ResponseEntity<ErrorMessageDto> handlePlayerNotFoundException(CouldNotFindUserException exception) {
+    public ResponseEntity<ErrorMessageDto> handleUserNotFoundException(CouldNotFindUserException exception) {
+        return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CouldNotFindCarException.class)
+    public ResponseEntity<ErrorMessageDto> handleCarNotFoundException(CouldNotFindCarException exception) {
         return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
