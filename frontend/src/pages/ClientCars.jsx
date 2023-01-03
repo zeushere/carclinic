@@ -28,13 +28,13 @@ const ClientCars = (props) => {
         return <div className="car__form" >
             <Container>
                 <Row className="form__row">
-                    <Col lg="5" md="4">
+                    <Col lg="5" md="12">
                         <div className="find__cars-left">
                             <h2 className={'text-center'}>Wstaw zdjęcie</h2>
                         </div>
                     </Col>
 
-                    <Col lg="7" md="8" sm="12">
+                    <Col lg="7" md="12" sm="12">
                         <AddCarForm />
                     </Col>
                 </Row>
