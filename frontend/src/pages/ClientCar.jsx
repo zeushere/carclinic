@@ -2,9 +2,19 @@ import React  from "react";
 import {Col} from "reactstrap";
 import unknownCar from "../assets/all-images/cars-img/unknown-car.png"
 import {Link} from "react-router-dom";
+import '../styles/client-car.css'
+import {deleteCar} from "../actions/carActions";
+import {useDispatch} from "react-redux";
 
 const ClientCar = (props) => {
     const {id, brand, model, yearProduction, engineType, engineCapacity, description, imagePath} = props.car;
+    const dispatch = useDispatch();
+
+    const deleteHandler = (id) => {
+        if (window.confirm('Czy na pewno chcesz usunąć ten samochód?')) {
+            dispatch(deleteCar(id));
+        }
+    };
 
     return (
         <Col lg="4" md="4" sm="6" className="mb-5">
@@ -35,8 +45,8 @@ const ClientCar = (props) => {
                         }
                     </button>
 
-                    <button className=" w-50 car__item-btn car__btn-details">
-                        {<Link to={`/cars/${id}`}>Usuń</Link>
+                    <button className=" w-50 car__item-btn car__btn-details" onClick={() => {deleteHandler(id)}}>
+                        {<Link className='delete__car__button' to='#'>Usuń</Link>
                         }
                     </button>
                 </div>
