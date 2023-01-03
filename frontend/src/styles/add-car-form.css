@@ -9,6 +9,11 @@
     border: none;
     outline: none;
 }
+
+.add__car-btn:hover {
+    color: rgb(249, 168, 38, 0.9) !important;
+}
+
 @media only screen and (max-width: 992px) {
     .find__cars-left {
         padding: 103px 22px;
