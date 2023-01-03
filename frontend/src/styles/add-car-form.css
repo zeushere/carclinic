@@ -1,0 +1,50 @@
+.textarea__add__car__form {
+    width: 65%;
+}
+.add__car-btn {
+    display: inline;
+    background: #000d6b !important;
+    color: #fff !important;
+    padding: 8px 15px;
+    border: none;
+    outline: none;
+}
+@media only screen and (max-width: 992px) {
+    .find__cars-left {
+        padding: 103px 22px;
+    }
+
+    .find__cars-left h2 {
+        font-size: 1.5rem;
+    }
+
+    .form {
+        padding: 30px 10px;
+    }
+
+    .form__group input,
+    .select__group select {
+        padding: 7px 10px;
+        font-size: 0.8rem;
+    }
+
+    .hero__form {
+        bottom: -100px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .find__cars-left {
+        padding-top: 20px;
+        padding-bottom: 0;
+        background: #fff;
+        text-align: center;
+    }
+    .find__cars-left h2 {
+        font-size: 1.5rem;
+    }
+
+    .form {
+        padding: 20px 10px;
+    }
+}
