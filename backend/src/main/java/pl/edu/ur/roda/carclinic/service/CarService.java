@@ -60,6 +60,11 @@ public class CarService {
         return carInfoDtoCarMapper.carToCarInfoDto(car);
     }
 
+    public void deleteCar(String carId, String ownerId) {
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
+        carRepository.delete(car);
+    }
+
     public record AddedCarId(String id) {
     }
 }

@@ -45,4 +45,12 @@ public class CarController {
         return carService.getCar(id, ownerId);
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteCar(
+            @PathVariable String id,
+            @AuthenticationPrincipal String ownerId
+    ) {
+        carService.deleteCar(id, ownerId);
+    }
 }
