@@ -25,3 +25,9 @@ rest:
   connection:
     connectionRequestTimeout: 5s
     readTimeout: 10s
+
+files-storage:
+  path: 'backend/src/main/resources/files'
+
+errorreports:
+  images-path: 'report'
