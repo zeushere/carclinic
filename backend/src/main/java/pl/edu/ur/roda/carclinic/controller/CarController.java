@@ -2,6 +2,7 @@ package pl.edu.ur.roda.carclinic.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,13 +20,23 @@ public class CarController {
 
     private final CarService carService;
 
+    @PostMapping("{carId}")
+    @ResponseStatus(HttpStatus.OK)
+    void addImageToCar(
+            @RequestPart("image") MultipartFile image,
+            @PathVariable String carId,
+            @AuthenticationPrincipal String ownerId
+    ) {
+        carService.addImageToCar(image, carId, ownerId);
+    }
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CarService.AddedCarId addCar(
-            @RequestPart("carRequest") @Valid CarRequest carRequest,
-            @RequestPart(name = "image", required = false) MultipartFile image,
+            @RequestBody @Valid CarRequest carRequest,
             @AuthenticationPrincipal String userId) {
-        return carService.addCar(carRequest, image, userId);
+        return carService.addCar(carRequest, userId);
     }
 
     @GetMapping

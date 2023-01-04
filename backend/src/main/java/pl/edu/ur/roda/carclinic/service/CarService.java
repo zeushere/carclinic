@@ -17,6 +17,7 @@ import pl.edu.ur.roda.carclinic.repostiory.UserRepository;
 import pl.edu.ur.roda.carclinic.util.filestorage.FileStorage;
 import pl.edu.ur.roda.carclinic.util.filestorage.ImageEncoder;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -33,18 +34,23 @@ public class CarService {
     @Value("${errorreports.images-path}")
     private String directoryPath;
 
+    @Transactional
+    public void addImageToCar(MultipartFile image, String carId, String ownerId) {
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
+        String imagePath = fileStorage.saveImage(image, directoryPath);
+        car.setImagePath(imagePath);
+    }
+
     public AddedCarId addCar(
             CarRequest carRequest,
-            MultipartFile image,
             String ownerId
     ) {
 
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new CouldNotFindUserException(ownerId));
 
-        String imagePath = fileStorage.saveImage(image, directoryPath);
 
-        CarAddDto carAddDto = CarAddDto.of(carRequest, imagePath, ownerId);
+        CarAddDto carAddDto = CarAddDto.of(carRequest, null, ownerId);
 
         Car car = CarAddDto.prepareCar(carAddDto, owner);
 

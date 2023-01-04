@@ -10,8 +10,10 @@ import useWindowDimensions from "../components/WindowDimension/WindowDimension";
 import {Link} from "react-router-dom";
 import '../styles/client-cars.css'
 import AddCarForm from "../components/UI/AddCarForm";
+import Axios from "axios";
 
 const ClientCars = (props) => {
+    const inputFile = useRef(null)
     const dispatch = useDispatch();
     const carList = useSelector(state => state.carList);
     const snackbarRef = useRef(null);
@@ -20,15 +22,31 @@ const ClientCars = (props) => {
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = carDelete;
     const {width} = useWindowDimensions();
     const [addCarViewFlag, setAddCarViewFlag] = useState(false);
+    const userSignin = useSelector(state => state.userSignin);
+    const {userInfo} = userSignin;
+    const formData = new FormData();
 
+    const addImageToCar = (id, formData) => async (e) => {
+        try {
+            const {data} = await Axios.post(`/cars/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            });
+
+        } catch (error) {
+        }
+    };
     function addCar() {
         return <div className="car__form">
             <Container>
                 <Row className="form__row">
                     <Col lg="5" md="12">
                         <div className="find__cars-left">
-                            <h2 className={'text-center'}><Link className={'insert__photo__button'} to="#">Wstaw
-                                zdjęcie</Link></h2>
+                            <input type='file' id='file' onChange={addImageToCar} ref={inputFile} style={{display: 'none'}}/>
+                            <h2 className={'text-center'}><button onClick={() => {inputFile.current.click();}} className={'insert__photo__button'} to="#">Wstaw
+                                zdjęcie</button></h2>
                         </div>
                     </Col>
 

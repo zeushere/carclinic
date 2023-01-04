@@ -3,6 +3,7 @@ package pl.edu.ur.roda.carclinic.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "cars")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Car {

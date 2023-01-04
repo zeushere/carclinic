@@ -70,7 +70,7 @@ const ClientCarDetails = (props) => {
                         class="ri-settings-2-line"
                         style={{ color: "#f9a826" }}
                     ></i>{" "}
-                                        {car?.engineType != null ? car?.engineType : 'Nie podano' }
+                                        {car?.engineType ? car?.engineType : 'Nie podano' }
                   </span>
 
                                     <span className=" d-flex align-items-center gap-1 section__description">
