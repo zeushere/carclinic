@@ -22,6 +22,8 @@
 .insert__photo__button{
     text-decoration: none;
     color: #000d6b;
+    background: transparent;
+    border: none;
 }
 
 .insert__photo__button:hover {

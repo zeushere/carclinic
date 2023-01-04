@@ -1,4 +1,6 @@
 import {
+    CAR_ADD_FAIL,
+    CAR_ADD_REQUEST, CAR_ADD_SUCCESS,
     CAR_DELETE_FAIL,
     CAR_DELETE_REQUEST, CAR_DELETE_SUCCESS,
     CAR_DETAILS_FAIL,
@@ -9,6 +11,7 @@ import {
     CAR_LIST_SUCCESS
 } from "../constants/carConstants";
 import Axios from "axios";
+import {USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS} from "../constants/userConstants";
 
 export const listCars = () => async (dispatch, getState) => {
     dispatch({type: CAR_LIST_REQUEST});
@@ -64,5 +67,33 @@ export const deleteCar = (id, history) => async (dispatch, getState) => {
             ? error.response.data.message
             : error.message;
         dispatch({ type: CAR_DELETE_FAIL, payload: message });
+    }
+};
+
+export const addCar = (brand, model, yearProduction, engineType, engineCapacity, description) => async (dispatch, getState) => {
+    dispatch({type: CAR_ADD_REQUEST});
+    const { userSignin: { userInfo } } = getState();
+
+    try {
+        await Axios.post(`/cars`, {
+                brand,
+                model,
+                yearProduction,
+                engineType,
+                engineCapacity,
+                description
+            },
+            {
+                headers: { Authorization: `Bearer ${userInfo.token}` }});
+        const success = true;
+        dispatch({ type: CAR_ADD_SUCCESS });
+    } catch (error) {
+        dispatch({
+            type: CAR_ADD_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
     }
 };
