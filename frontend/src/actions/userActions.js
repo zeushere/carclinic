@@ -101,11 +101,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         const password = data.password;
         const {loginData} = await Axios.post('/login', {username, password},
             {headers: {'g-recaptcha': 'test'}});
-        console.log(username)
-        console.log(password)
         dispatch({type: USER_UPDATE_PROFILE_SUCCESS, payload: data});
-        // dispatch({type: USER_SIGNIN_SUCCESS, payload: loginData});
-        // localStorage.setItem('userInfo', JSON.stringify(loginData));
 
     } catch (error) {
         const message =
