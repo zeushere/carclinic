@@ -6,7 +6,13 @@ import {
     userSigninReducer,
     userUpdateProfileReducer
 } from "../reducers/userReducers";
-import {carAddReducer, carDeleteReducer, carDetailsReducer, carListReducer} from "../reducers/carReducers";
+import {
+    carAddImageReducer,
+    carAddReducer,
+    carDeleteReducer,
+    carDetailsReducer,
+    carListReducer
+} from "../reducers/carReducers";
 
 const initialState = {
     userSignin: {
@@ -16,8 +22,8 @@ const initialState = {
     },
     userRegister: {
         successfulRegister: localStorage.getItem('userInfo')
-        ? JSON.parse(localStorage.getItem('successfulRegister'))
-        : null,
+            ? JSON.parse(localStorage.getItem('successfulRegister'))
+            : null,
     },
 
     userDetails: {

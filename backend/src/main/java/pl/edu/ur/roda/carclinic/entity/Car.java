@@ -23,19 +23,19 @@ public class Car {
     private String model;
     private String yearProduction;
     private String engineType;
-    private String engineCapacity;
+    private String carType;
     private String description;
     private String imagePath;
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    public Car(String brand, String model, String yearProduction, String engineType, String engineCapacity, String description, String imagePath, User owner) {
+    public Car(String brand, String model, String yearProduction, String engineType, String carType, String description, String imagePath, User owner) {
         this.brand = brand;
         this.model = model;
         this.yearProduction = yearProduction;
         this.engineType = engineType;
-        this.engineCapacity = engineCapacity;
+        this.carType = carType;
         this.description = description;
         this.imagePath = imagePath;
         this.owner = owner;

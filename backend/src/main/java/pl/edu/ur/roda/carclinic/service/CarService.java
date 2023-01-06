@@ -25,6 +25,7 @@ import java.util.List;
 
 public class CarService {
 
+    public static AddedCarId carIdToAddImage = null;
     private final CarRepository carRepository;
     private final UserRepository userRepository;
     private final CarInfoDtoCarMapper carInfoDtoCarMapper;
@@ -36,9 +37,11 @@ public class CarService {
 
     @Transactional
     public void addImageToCar(MultipartFile image, String carId, String ownerId) {
-        Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
-        String imagePath = fileStorage.saveImage(image, directoryPath);
-        car.setImagePath(imagePath);
+        if(carIdToAddImage != null) {
+            Car car = carRepository.findById(carIdToAddImage.id()).orElseThrow(() -> new CouldNotFindCarException(carIdToAddImage.id()));
+            String imagePath = fileStorage.saveImage(image, directoryPath);
+            car.setImagePath(imagePath);
+        }
     }
 
     public AddedCarId addCar(
@@ -56,7 +59,10 @@ public class CarService {
 
         Car savedCar = carRepository.save(car);
 
-        return new AddedCarId(savedCar.getId());
+        AddedCarId addedCarId = new AddedCarId(savedCar.getId());
+        carIdToAddImage = addedCarId;
+
+        return addedCarId;
     }
 
     public List<CarInfoDto> getCars(String ownerId) {

@@ -53,3 +53,20 @@
         padding: 20px 10px;
     }
 }
+
+.hide_car__add__button {
+    margin-top: -3rem;
+    color: black;
+    background: white !important;
+}
+
+.hide_car__add__button:hover {
+    color: red!important;
+}
+
+.hide_car__add__button:focus {
+    color: red !important;
+    border: none !important;
+    text-decoration: none !important;
+    outline: none !important;
+}
