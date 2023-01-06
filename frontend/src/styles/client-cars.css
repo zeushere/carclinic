@@ -1,0 +1,35 @@
+.car__add__button {
+    background: green !important;
+}
+
+.add__car__btn:hover {
+    color: black !important;
+}
+
+.car__form {
+    position: absolute;
+    top: 25em;
+    left: 0em;
+    z-index: 11;
+    width: 100%;
+}
+
+.form__row {
+    background: #fff;
+    box-shadow: 5px 5px 15px -5px #7c8a97;
+}
+
+.insert__photo__button{
+    text-decoration: none;
+    color: #000d6b;
+    background: transparent;
+    border: none;
+}
+
+.insert__photo__button:hover {
+    color: darkolivegreen !important;
+}
+
+.client__cars__img {
+    height: 250px;
+}

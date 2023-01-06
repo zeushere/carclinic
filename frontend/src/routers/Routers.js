@@ -10,6 +10,9 @@ import NotFound from "../pages/NotFound";
 import Contact from "../pages/Contact";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Profile from "../pages/Profile";
+import ClientCars from "../pages/ClientCars";
+import ClientCarDetails from "../pages/ClientCarDetails";
 
 const Routers = () => {
     return (
@@ -18,11 +21,13 @@ const Routers = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/cars" element={<CarListing />} />
-            <Route path="/cars/:slug" element={<CarDetails />} />
+            <Route path="/cars/:id" element={<ClientCarDetails />} exact/>
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/client-cars" element={<ClientCars/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="*" element={<NotFound />} />
         </Routes>

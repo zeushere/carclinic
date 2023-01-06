@@ -18,8 +18,8 @@ public record CarRequest(
         @Size(max = 255, message = "car.engineType.tooManyCharacters")
         String engineType,
 
-        @Size(max = 20, message = "car.engineCapacity.tooManyCharacters")
-        String engineCapacity,
+        @Size(max = 20, message = "car.carType.tooManyCharacters")
+        String carType,
 
         @Size(max = 1200, message = "car.yearProduction.tooManyCharacters")
         String description

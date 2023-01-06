@@ -67,6 +67,16 @@ section {
   padding: 50px 0px;
 }
 
+
+
+button:hover{
+  color: rgb(249, 168, 38, 0.9) !important;
+}
+
+a:hover{
+  color: rgb(249, 168, 38, 0.9) !important;
+}
+
 .btn {
   padding: 7px 15px;
   background: #000d6b;

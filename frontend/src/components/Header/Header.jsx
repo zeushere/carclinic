@@ -60,10 +60,24 @@ const Header = () => {
                         <Col lg="6" md="6" sm="6">
                             <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
 
-                                {userInfo ? (<Link className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
-                                        <i className="ri-login-circle-line"></i> Wylogowanieww
-                                        <i className="ri-login-circle-line"></i> Wylogowanieww
-                                    </Link>)
+                                {userInfo ? (
+                                    <>
+
+                                            <button className="p-0 btn__profile dropdown-toggle d-flex align-items-center" type="button"
+                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <span className={'d-flex gap-1'}><i className="ri-profile-fill"></i>Mój profil</span>
+                                            </button>
+                                            <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
+                                                <Link className="dropdown-item dropdown-item__profile" to="/profile">Dane użytkownika</Link>
+                                                <Link className="dropdown-item dropdown-item__profile" to="/client-cars">Samochody</Link>
+                                                <Link className="dropdown-item dropdown-item__profile" href="#">Statusy napraw</Link>
+                                            </div>
+
+                                    <Link to='/home' className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
+                                        <i className="ri-login-circle-line"></i> Wylogowanie
+                                    </Link>
+                                    </>)
                                 : ( <><Link to="/login" className=" d-flex align-items-center gap-1">
                                         <i className="ri-login-circle-line"></i> Logowanie
                                     </Link>

@@ -244,6 +244,27 @@
     color: #fff;
 }
 
+.btn__profile{
+    text-decoration: none !important;
+    color: #fff !important;
+    font-size: 0.9rem !important;
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+
+}
+
+.dropdown__profile{
+    background: #000d6b !important;
+}
+
+.dropdown-item__profile:hover{
+    background: none !important;
+    color: rgb(249, 168, 38, 0.9) !important;
+
+}
+
+
 /* ============ header middle style =========== */
 
 .header__middle {

@@ -9,7 +9,7 @@ public record CarAddDto(
         String model,
         String yearProduction,
         String engineType,
-        String engineCapacity,
+        String carType,
         String description,
         String imagePath,
         String ownerId
@@ -20,7 +20,7 @@ public record CarAddDto(
                 carRequest.model(),
                 carRequest.yearProduction(),
                 carRequest.engineType(),
-                carRequest.engineCapacity(),
+                carRequest.carType(),
                 carRequest.description(),
                 imagePath,
                 ownerId
@@ -33,7 +33,7 @@ public record CarAddDto(
                 carAddDto.model(),
                 carAddDto.yearProduction(),
                 carAddDto.engineType(),
-                carAddDto.engineCapacity(),
+                carAddDto.carType(),
                 carAddDto.description(),
                 carAddDto.imagePath(),
                 owner
