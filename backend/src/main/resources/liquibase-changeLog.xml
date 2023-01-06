@@ -14,6 +14,6 @@
     <include file="database/07-fill-db-with-users.sql"/>
     <include file="database/08-change-column-to-car-type-in-table-cars.sql"/>
     <include file="database/09-create-table-mechanical-services.sql"/>
-<!--    <include file="database/10-add-mechanical-services.sql"/>-->
+    <include file="database/10-add-mechanical-services.sql"/>
 
 </databaseChangeLog>
