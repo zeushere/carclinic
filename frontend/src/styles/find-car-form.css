@@ -3,7 +3,7 @@
     url("../assets/all-images/cars-img/unknown-car.png");
     background-repeat: no-repeat;
     background-position: center;
-    background-position-y: 0px;
+    background-position-y: 25px;
     background-size: cover;
     padding: 120px 35px;
 }

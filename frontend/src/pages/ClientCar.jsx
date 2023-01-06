@@ -7,7 +7,7 @@ import {deleteCar} from "../actions/carActions";
 import {useDispatch} from "react-redux";
 
 const ClientCar = (props) => {
-    const {id, brand, model, yearProduction, engineType, engineCapacity, description, imagePath} = props.car;
+    const {id, brand, model, yearProduction, engineType, carType, description, image} = props.car;
     const dispatch = useDispatch();
 
     const deleteHandler = (id) => {
@@ -20,7 +20,7 @@ const ClientCar = (props) => {
         <Col lg="4" md="4" sm="6" className="mb-5">
             <div className="car__item">
                 <div className="car__img">
-                    <img className={'w-100'} src={imagePath ? imagePath : unknownCar}/>
+                    <img className={'w-100 client__cars__img'} src={image ? image : unknownCar}/>
                 </div>
 
                 <div className="car__item-content mt-4">
@@ -36,7 +36,7 @@ const ClientCar = (props) => {
               <i className="ri-settings-2-line"></i> {engineType ? engineType : 'Nie podano'}
             </span>
                         <span className=" d-flex align-items-center gap-1">
-              <i className="ri-timer-flash-line"></i> {engineCapacity ? engineCapacity : 'Nie podano'}
+              <i className="ri-shape-2-fill"></i> {carType ? carType : 'Nie podano'}
             </span>
                     </div>
 

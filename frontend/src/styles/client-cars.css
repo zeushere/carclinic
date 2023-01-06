@@ -27,5 +27,9 @@
 }
 
 .insert__photo__button:hover {
-    color: white !important;
+    color: darkolivegreen !important;
+}
+
+.client__cars__img {
+    height: 250px;
 }

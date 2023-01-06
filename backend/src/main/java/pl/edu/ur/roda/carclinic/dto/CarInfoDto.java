@@ -15,7 +15,7 @@ public class CarInfoDto{
     String model;
     String yearProduction;
     String engineType;
-    String engineCapacity;
+    String carType;
     String description;
     String image;
 }

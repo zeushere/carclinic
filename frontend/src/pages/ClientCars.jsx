@@ -10,48 +10,51 @@ import useWindowDimensions from "../components/WindowDimension/WindowDimension";
 import {Link} from "react-router-dom";
 import '../styles/client-cars.css'
 import AddCarForm from "../components/UI/AddCarForm";
-import Axios from "axios";
 
 const ClientCars = (props) => {
     const inputFile = useRef(null)
     const dispatch = useDispatch();
     const carList = useSelector(state => state.carList);
-    const snackbarRef = useRef(null);
+    const snackbarRefDeleteCar = useRef(null);
+    const snackbarRefAddImage = useRef(null);
     const {loading, error, cars} = carList;
     const carDelete = useSelector((state) => state.carDelete);
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = carDelete;
     const {width} = useWindowDimensions();
     const [addCarViewFlag, setAddCarViewFlag] = useState(false);
-    const userSignin = useSelector(state => state.userSignin);
-    const {userInfo} = userSignin;
-    const formData = new FormData();
+    const carAdd = useSelector((state) => state.carAdd);
+    const {addedCarId} = carAdd;
+    const bodyFormData = new FormData();
+    const addCarFormDiv = useRef(null);
 
-    const addImageToCar = (id, formData) => async (e) => {
-        try {
-            const {data} = await Axios.post(`/cars/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${userInfo.token}`,
-                },
-            });
-
-        } catch (error) {
-        }
+    const uploadImage = (e) => {
+        const invoke = 'invoke';
+        const file = e.target.files[0];
+        bodyFormData.append('image', file);
+        localStorage.setItem('invoke', invoke);
+        snackbarRefAddImage.current.show();
     };
+
     function addCar() {
-        return <div className="car__form">
+        return <div id='add__car__form__display' ref={addCarFormDiv} className="car__form">
             <Container>
                 <Row className="form__row">
                     <Col lg="5" md="12">
                         <div className="find__cars-left">
-                            <input type='file' id='file' onChange={addImageToCar} ref={inputFile} style={{display: 'none'}}/>
-                            <h2 className={'text-center'}><button onClick={() => {inputFile.current.click();}} className={'insert__photo__button'} to="#">Wstaw
-                                zdjęcie</button></h2>
+                            <input type='file' id='file' onChange={(e) => uploadImage(e)} ref={inputFile}
+                                   style={{display: 'none'}}/>
+                            <h2 className={'text-center'}>
+                                <button onClick={() => {
+                                    inputFile.current.click();
+                                }} className={'insert__photo__button'} to="#">{'Wstaw zdjęcie'}
+                                </button>
+                            </h2>
                         </div>
                     </Col>
 
                     <Col lg="7" md="12" sm="12">
-                        <AddCarForm/>
+                        <AddCarForm addCarViewFlag={addCarViewFlag} setAddCarViewFlag={setAddCarViewFlag}
+                                    addCarFormDiv={addCarFormDiv} formdata={bodyFormData}/>
                     </Col>
                 </Row>
             </Container>
@@ -61,10 +64,10 @@ const ClientCars = (props) => {
     useEffect(() => {
         dispatch(listCars());
         if (successDelete === true) {
-            snackbarRef.current.show();
+            snackbarRefDeleteCar.current.show();
             dispatch({type: CAR_DELETE_RESET});
         }
-    }, [dispatch, successDelete]);
+    }, [dispatch, successDelete, addedCarId, localStorage]);
 
     return (
         <section>
@@ -75,7 +78,9 @@ const ClientCars = (props) => {
                     </Col>
                     <Col lg="5" md='12' className={width >= 992 ? 'text-end mb-5' : 'text-center mb-5'}>
                         <button className="header__btn btn car__add__button"
-                                onClick={() => setAddCarViewFlag(!addCarViewFlag)}>
+                                onClick={() => {
+                                    setAddCarViewFlag(!addCarViewFlag)
+                                }}>
                             <Link to="#">
                                 <i className="ri-car-line"></i> Dodaj samochód
                             </Link>
@@ -87,8 +92,12 @@ const ClientCars = (props) => {
                     ))}
                 </Row>
                 <Snackbar
-                    ref={snackbarRef}
+                    ref={snackbarRefDeleteCar}
                     message="Pomyślnie usunięto samochód!"
+                    type={SnackbarType.success}
+                /><Snackbar
+                    ref={snackbarRefAddImage}
+                    message="Pomyślnie dodano zdjęcie!"
                     type={SnackbarType.success}
                 />
             </Container>
