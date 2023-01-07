@@ -6,7 +6,7 @@ CREATE TABLE mechanical_service
     id                      BIGINT DEFAULT NULL,
     name                    VARCHAR(255) DEFAULT null,
     expected_execution_time TIME WITHOUT TIME ZONE DEFAULT null,
-    service_cost            DOUBLE PRECISION DEFAULT null,
+    service_cost            NUMERIC(15,2) DEFAULT null,
     PRIMARY KEY (id)
 );
 

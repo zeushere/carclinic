@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class MechanicalService {
     private Long id;
     private String name;
     private LocalTime expectedExecutionTime;
-    private double expectedServiceCost;
+    private BigDecimal expectedServiceCost;
 
     @OneToMany(mappedBy = "mechanicalService", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Appointment> appointments;
