@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.LocalTime;
 import java.util.Set;
 
 @Entity
@@ -33,7 +34,7 @@ public class MechanicalService {
     )
     private Long id;
     private String name;
-    private double expectedExecutionTime;
+    private LocalTime expectedExecutionTime;
     private double expectedServiceCost;
 
     @OneToMany(mappedBy = "mechanicalService", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

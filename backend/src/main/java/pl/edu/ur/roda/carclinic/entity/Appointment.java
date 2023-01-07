@@ -6,14 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "appointment")
@@ -27,13 +32,13 @@ public class Appointment {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private LocalDate date;
-    private LocalDateTime fromTime;
-    private LocalDateTime toTime;
+    private LocalTime fromTime;
     private String description;
     private String imagePath;
-    private String repairStatus;
-    private String paymentStatus;
     private String repairType;
+    private String repairStatus;
+    private String paymentType;
+    private String paymentStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -46,4 +51,18 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
+
+    @OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<WorkingPeriod> workingPeriods;
+
+    public Appointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, User user, MechanicalService mechanicalService, Car car) {
+        this.date = date;
+        this.fromTime = fromTime;
+        this.description = description;
+        this.repairType = repairType;
+        this.paymentType = paymentType;
+        this.user = user;
+        this.mechanicalService = mechanicalService;
+        this.car = car;
+    }
 }
