@@ -7,7 +7,6 @@ import pl.edu.ur.roda.carclinic.entity.User;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public record AppointmentAddDto(
@@ -30,16 +29,16 @@ public record AppointmentAddDto(
 
         String carId
 ) {
-        public static Appointment prepareAppointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, MechanicalService mechanicalService, User user, Car car) {
-                return new Appointment(
-                        date,
-                        fromTime,
-                        description,
-                        repairType,
-                        paymentType,
-                        user,
-                        mechanicalService,
-                        car
-                );
-        }
+    public static Appointment prepareAppointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, MechanicalService mechanicalService, User user, Car car) {
+        return new Appointment(
+                date,
+                fromTime,
+                description,
+                repairType,
+                paymentType,
+                user,
+                mechanicalService,
+                car
+        );
+    }
 }
