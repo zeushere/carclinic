@@ -47,9 +47,6 @@ public class UserService {
     public UserEditDto editUser(UserEditDto userEditDto, String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
 
-        System.out.println(user.getLogin());
-        System.out.println(userEditDto.login());
-
         if (userRepository.existsByEmail(userEditDto.email()) && !userEditDto.email().equals(user.getEmail())) {
             throw new UpdateEmailOrLoginException("email");
         }
