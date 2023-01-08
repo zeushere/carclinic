@@ -14,10 +14,13 @@ import java.util.List;
 @Repository
 public interface WorkingPeriodRepository extends JpaRepository<WorkingPeriod, Long> {
 
+    @Query(value = "SELECT w.* FROM working_period w WHERE DATE(date) =:date", nativeQuery = true)
+    List<WorkingPeriod> findByDate(LocalDate date);
+
     @Query(nativeQuery = true, value = "select w.* from working_period w WHERE w.date = :date AND w.available = :availableStatus")
     WorkingPeriod findByDateAndAvailable(LocalDateTime date, String availableStatus);
 
-    @Query("select w from WorkingPeriod w where w.date >= :dateFrom and w.date < :dateTo")
+    @Query("select w from WorkingPeriod w where w.date >= :dateFrom and w.date <= :dateTo")
     List<WorkingPeriod> findByDateBetween(@Param("dateFrom") LocalDateTime dateFrom,
                                           @Param("dateTo") LocalDateTime dateTo);
 

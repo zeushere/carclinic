@@ -1,0 +1,6 @@
+<h3> Witaj, %s </h3>
+<p>Zarejestrowalismy Twoje zgloszenie dla uslugi: <b> %s </b></p>
+<p>Zapraszamy w dniu <b>%s</b> o godzinie <b>%s</b></p>
+<p>Wybrales typ platnosci: <b>%s</b></p>
+<p>Pozdrawiamy,</p>
+<p>CarClinic</p>

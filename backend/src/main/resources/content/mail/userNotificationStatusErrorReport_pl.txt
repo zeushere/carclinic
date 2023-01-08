@@ -1,0 +1,11 @@
+<p>Drogi uzytkowniku,</p>
+
+<p>Status Twojego zgloszenia bledu o tytule: <b>%s</b> ulegl zmianie na <b>%s</b>.</p>
+
+%s
+
+<p>W razie watpliwosci prosimy o kontakt.</p>
+
+<p>Pozdrawiamy,</p>
+
+<p>Administracja Bajkowni</p>

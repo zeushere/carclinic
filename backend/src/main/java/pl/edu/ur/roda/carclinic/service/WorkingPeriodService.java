@@ -1,5 +1,6 @@
 package pl.edu.ur.roda.carclinic.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.ur.roda.carclinic.dto.AvailableWorkingPeriodDto;
@@ -26,16 +27,26 @@ public class WorkingPeriodService {
     private final MechanicalServiceRepository mechanicalServiceRepository;
     private final WorkingPeriodInfoDtoWorkingPeriodMapper workingPeriodInfoDtoWorkingPeriodMapper;
 
-    public List<WorkingPeriodInfoDto> getAvailableWorkingPeriods(Long mechanicalServiceId, AvailableWorkingPeriodDto availableWorkingPeriodDto) {
+    public List<WorkingPeriodInfoDto> getAvailableWorkingPeriods(Long mechanicalServiceId, AvailableWorkingPeriodDto availableWorkingPeriodDto, String typeOfWork) {
         MechanicalService mechanicalService = mechanicalServiceRepository.findById(mechanicalServiceId).orElseThrow(() -> new CouldNotFindMechanicalServiceException(mechanicalServiceId));
+        if(mechanicalService.getName().equals("Diagnostyka samochodowa")){
+            return workingPeriodRepository.findByDate(availableWorkingPeriodDto.dayOfWork())
+                    .stream().map(workingPeriodInfoDtoWorkingPeriodMapper::workingPeriodToWorkingPeriodInfoDto)
+                    .collect(Collectors.toList());
+        }
         LocalTime expectedExecutionTime = mechanicalService.getExpectedExecutionTime();
+
+        if(typeOfWork.equals("ZDALNA")){
+           expectedExecutionTime = expectedExecutionTime.plusHours(1);
+        }
 
         List<WorkingPeriod> byDateAndAvailableWithoutTime = workingPeriodRepository.findAvailableDateInDay(availableWorkingPeriodDto.dayOfWork(), AppointmentAvailableStatus.WOLNE.name());
         List<LocalDateTime> listOfLocalDateTimesOfPeriods = getListOfLocalDateTimesOfPeriods(byDateAndAvailableWithoutTime);
         List<WorkingPeriod> listOfAvailableDateWithMechanicalService = new ArrayList<>();
+        LocalTime finalExpectedExecutionTime = expectedExecutionTime;
         byDateAndAvailableWithoutTime
                 .forEach(workingPeriod -> {
-                    LocalDateTime expectedDateTo = workingPeriod.getDate().plusHours(expectedExecutionTime.getHour()).plusMinutes(expectedExecutionTime.getMinute());
+                    LocalDateTime expectedDateTo = workingPeriod.getDate().plusHours(finalExpectedExecutionTime.getHour()).plusMinutes(finalExpectedExecutionTime.getMinute());
                     if(listOfLocalDateTimesOfPeriods.contains(expectedDateTo.minusMinutes(MINUTES_PERIOD))){
                         LocalDateTime localDateTimeToCheckAvailability = workingPeriod.getDate().plusMinutes(MINUTES_PERIOD);
                         while (!localDateTimeToCheckAvailability.equals(expectedDateTo.minusMinutes(MINUTES_PERIOD))) {

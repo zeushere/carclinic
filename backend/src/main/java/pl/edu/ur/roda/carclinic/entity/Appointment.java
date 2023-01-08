@@ -52,7 +52,10 @@ public class Appointment {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     private Set<WorkingPeriod> workingPeriods;
 
     public Appointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, User user, MechanicalService mechanicalService, Car car) {
@@ -60,7 +63,9 @@ public class Appointment {
         this.fromTime = fromTime;
         this.description = description;
         this.repairType = repairType;
+        this.repairStatus = "ZGŁOSZONE";
         this.paymentType = paymentType;
+        this.paymentStatus = "OCZEKUJĄCE";
         this.user = user;
         this.mechanicalService = mechanicalService;
         this.car = car;

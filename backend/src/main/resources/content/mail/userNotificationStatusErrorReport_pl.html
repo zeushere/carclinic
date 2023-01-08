@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all" th:text="${htmlTitle}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<p>Drogi użytkowniku,</p>
+
+<p>Status Twojego zgłoszenia błędu o tytule: <b th:text="${titleError}"></b> uległ zmianie na <b th:text="${statusError}"></b>.</p>
+
+<p><span th:text="${messageError}"></span></p>
+
+<p>W razie wątpliwości prosimy o kontakt.</p>
+
+<p>Pozdrawiamy,</p>
+
+<p>Administracja Bajkowni</p>
+</body>
+</html>

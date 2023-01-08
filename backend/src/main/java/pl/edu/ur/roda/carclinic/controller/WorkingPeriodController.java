@@ -29,8 +29,9 @@ public class WorkingPeriodController {
     @RequestMapping("{mechanicalServiceId}")
     List<WorkingPeriodInfoDto> getAvailableWorkingPeriods(
             @PathVariable Long mechanicalServiceId,
+            @RequestParam String typeOfWork,
             @RequestBody AvailableWorkingPeriodDto dayOfWork
             ) {
-        return workingPeriodService.getAvailableWorkingPeriods(mechanicalServiceId, dayOfWork);
+        return workingPeriodService.getAvailableWorkingPeriods(mechanicalServiceId, dayOfWork, typeOfWork);
     }
 }
