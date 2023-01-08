@@ -90,7 +90,7 @@ public class AppointmentService {
         List<User> usersWithRoleEmployeeOrAdmin = getUsersWithRoleEmployeeOrAdmin();
         usersWithRoleEmployeeOrAdmin
                 .forEach(u -> {
-                    EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(appointment, u, car, mechanicalService, null);
+                    EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(user, appointment, u, car, mechanicalService, null);
                     emailAddAppointmentToEmployeeService.sendConfirmationEmail(emailAddAppointmentRequestToEmployee);
                 });
 

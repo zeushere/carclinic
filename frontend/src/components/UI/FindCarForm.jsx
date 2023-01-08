@@ -11,7 +11,7 @@ const FindCarForm = () => {
 
     const mechanicalServices = useSelector(state => state.mechanicalServicesList);
     const {cars} = mechanicalServices;
-    const [options,setOptions] = useState(cars);
+    const [options,setOptions] = useState([]);
     const dispatch = useDispatch();
 
     function fillData() {

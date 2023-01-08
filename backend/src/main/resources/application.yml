@@ -65,3 +65,6 @@ mail:
   notification-status-errorreport:
     subject: 'Zmiana statusu zgłoszenia błędu'
     pathToMessage: '/content/mail/userNotificationStatusErrorReport_pl.txt'
+  send-notification:
+    subject: 'Czy wymieniłeś już olej i filtry w swoim samochodzie?'
+    pathToMessage: '/content/mail/sendNotificationToUsersWithCars.txt'

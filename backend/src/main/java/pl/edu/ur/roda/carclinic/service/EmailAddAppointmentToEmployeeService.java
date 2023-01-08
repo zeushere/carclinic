@@ -11,24 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.edu.ur.roda.carclinic.entity.Appointment;
 import pl.edu.ur.roda.carclinic.entity.Car;
 import pl.edu.ur.roda.carclinic.entity.MechanicalService;
-import pl.edu.ur.roda.carclinic.entity.Role;
 import pl.edu.ur.roda.carclinic.entity.User;
 import pl.edu.ur.roda.carclinic.exception.FileNoExistException;
-import pl.edu.ur.roda.carclinic.properties.EmailAddAppointmentProperties;
 import pl.edu.ur.roda.carclinic.properties.EmailAddAppointmentToEmployeeProperties;
-import pl.edu.ur.roda.carclinic.repostiory.RoleRepository;
-import pl.edu.ur.roda.carclinic.repostiory.UserRepository;
 
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
-import java.util.Set;
 
 @Service
 @EnableConfigurationProperties(EmailAddAppointmentToEmployeeProperties.class)
@@ -40,10 +32,10 @@ public class EmailAddAppointmentToEmployeeService {
     private final EmailAddAppointmentToEmployeeProperties emailAddAppointmentToEmployeeProperties;
     private final JavaMailSender javaMailSender;
 
-
+    @Async
     public void sendConfirmationEmail(EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee) {
         javaMailSender.send((mimeMessage -> {
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             message.setTo(emailAddAppointmentRequestToEmployee.user.getEmail());
             message.setSubject(emailAddAppointmentToEmployeeProperties.getSubject());
             log.info("Sending confirmation email add appointment to {} with subject {}", emailAddAppointmentRequestToEmployee.user().getEmail(), emailAddAppointmentToEmployeeProperties.getSubject());
@@ -64,12 +56,13 @@ public class EmailAddAppointmentToEmployeeService {
 //            return getMessageFromFile(emailErrorReportRequest.emailReporter(), emailErrorReportRequest.errorReportTitle(), emailErrorReportRequest.errorReportDescription() + IMG_HTML, emailErrorReportRequest.errorReportId());
             return null;
         } else {
-            return getMessageFromFile(emailAddAppointmentRequestToEmployee.user.getFirstName(), emailAddAppointmentRequestToEmployee.mechanicalService.getName(), emailAddAppointmentRequestToEmployee.appointment.getDate(), emailAddAppointmentRequestToEmployee.appointment.getFromTime(), emailAddAppointmentRequestToEmployee.appointment.getPaymentType());
+            return getMessageFromFile(emailAddAppointmentRequestToEmployee.user().getFirstName(),emailAddAppointmentRequestToEmployee.sendingUser().getEmail(), emailAddAppointmentRequestToEmployee.mechanicalService().getName(), emailAddAppointmentRequestToEmployee.appointment().getDate(), emailAddAppointmentRequestToEmployee.appointment().getFromTime(), emailAddAppointmentRequestToEmployee.appointment().getPaymentType());
         }
     }
 
     private String getMessageFromFile(
             String userName,
+            String sendingUserEmail,
             String mechanicalService,
             LocalDate appointmentDate,
             LocalTime appointmentTime,
@@ -77,11 +70,11 @@ public class EmailAddAppointmentToEmployeeService {
         StringBuilder stringBuilder = new StringBuilder();
         try (Scanner scanner = new Scanner(getFile())) {
             while (scanner.hasNextLine()) {
-                stringBuilder.append(scanner.nextLine() + "\n");
+                stringBuilder.append(scanner.nextLine()).append("\n");
             }
         }
         String message = stringBuilder.toString();
-        return String.format(message, userName, mechanicalService, appointmentDate, appointmentTime, paymentType);
+        return String.format(message, userName, sendingUserEmail, mechanicalService, appointmentDate, appointmentTime, paymentType);
     }
 
     private InputStream getFile() {
@@ -92,15 +85,16 @@ public class EmailAddAppointmentToEmployeeService {
         return resource;
     }
 
-    record EmailAddAppointmentRequestToEmployee(Appointment appointment,
+    record EmailAddAppointmentRequestToEmployee(User sendingUser, Appointment appointment,
                                                 User user,
                                                 Car car,
                                                 pl.edu.ur.roda.carclinic.entity.MechanicalService mechanicalService,
                                                 MultipartFile image) {
 
 
-        static EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee of(Appointment appointment, User user, Car car, MechanicalService mechanicalService, MultipartFile image) {
+        static EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee of(User sendingUser, Appointment appointment, User user, Car car, MechanicalService mechanicalService, MultipartFile image) {
             return new EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee(
+                    sendingUser,
                     appointment,
                     user,
                     car,

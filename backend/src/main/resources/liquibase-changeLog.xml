@@ -18,6 +18,6 @@
     <include file="database/11-add-appointment-table.sql"/>
     <include file="database/12-create-table-working-period.sql"/>
     <include file="database/13-add-relation-appointment-to-working-period.sql"/>
-
+    <include file="database/14-add-notification-send-date-to-car.sql"/>
 
 </databaseChangeLog>
