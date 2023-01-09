@@ -10,7 +10,7 @@ import {
     carAddImageReducer,
     carAddReducer,
     carDeleteReducer,
-    carDetailsReducer,
+    carDetailsReducer, carFaultsReducer,
     carListReducer
 } from "../reducers/carReducers";
 import {mechanicalServicesListReducer} from "../reducers/mechanicalServicesReducers";
@@ -42,6 +42,7 @@ const reducer = combineReducers({
     carDelete: carDeleteReducer,
     carAdd: carAddReducer,
     mechanicalServicesList: mechanicalServicesListReducer,
+    carFaults: carFaultsReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

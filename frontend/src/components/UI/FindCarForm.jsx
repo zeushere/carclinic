@@ -2,16 +2,13 @@ import React, {useEffect, useState} from "react";
 import "../../styles/find-car-form.css";
 import '../../styles/select-component.css'
 import {Form, FormGroup} from "reactstrap";
-import SelectComponent from "../SelectBoxWithSearch/SelectComponent";
 import {useDispatch, useSelector} from "react-redux";
-import {listCars} from "../../actions/carActions";
 import {listMechanicalServices} from "../../actions/mechanicalServicesActions";
 
 const FindCarForm = () => {
 
     const mechanicalServices = useSelector(state => state.mechanicalServicesList);
     const {cars} = mechanicalServices;
-    const [options,setOptions] = useState([]);
     const dispatch = useDispatch();
 
     function fillData() {
@@ -19,7 +16,15 @@ const FindCarForm = () => {
     }
 
     useEffect(() => {
-
+        // options = []
+        // cars.forEach(data => {
+        //     options.push({
+        //             key: data.id, value: data.name
+        //         }
+        //     )
+        // })
+        // options = [...options]
+        // console.log(options)
     }, [cars]);
 
     const [selectedMechanicalService, setSelectedMechanicalService] = useState("");
@@ -44,12 +49,6 @@ const FindCarForm = () => {
                     fillData();
                 }}>
 
-                    <SelectComponent
-                        options={options}
-                        onChange={(item) => setSelectedMechanicalService(item)}
-                        selectedKey={selectedMechanicalService}
-                        placeholder={"Wyszukaj usługę"}
-                    />
 
                 </FormGroup>
                 <FormGroup className="select__group">

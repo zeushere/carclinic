@@ -71,7 +71,7 @@ const Header = () => {
                                             <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
                                                 <Link className="dropdown-item dropdown-item__profile" to="/profile">Dane użytkownika</Link>
                                                 <Link className="dropdown-item dropdown-item__profile" to="/client-cars">Samochody</Link>
-                                                <Link className="dropdown-item dropdown-item__profile" href="#">Statusy napraw</Link>
+                                                <Link className="dropdown-item dropdown-item__profile" href="#">Statusy zgłoszeń</Link>
                                             </div>
 
                                     <Link to='/home' className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
@@ -126,7 +126,7 @@ const Header = () => {
                 </span>
                                 <div className="header__location-content">
                                     <h4>Poniedziałek - Piątek</h4>
-                                    <h6>7:00 - 17:00</h6>
+                                    <h6>07:00 - 17:00</h6>
                                 </div>
                             </div>
                         </Col>

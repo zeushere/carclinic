@@ -8,6 +8,5 @@ import pl.edu.ur.roda.carclinic.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface TypicalFaultDtoMapper {
-    @Mapping(target = "possiblity", ignore = true)
     TypicalFaultDto typicalFaultsToTypicalFaultDto(TypicalFaults typicalFaults);
 }

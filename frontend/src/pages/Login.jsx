@@ -69,11 +69,6 @@ const Login = (props) => {
                                         <Link className={'login__link'} href="#" to={'/#register'}>Zarejestruj
                                             się</Link>
                                     </p>
-                                    <hr className={'login__hr col-12'}/>
-                                    <p className={'login__password'}>
-                                        Nie pamiętasz hasła?<br/>
-                                        <Link className={'login__link'} href="#" to={'/#request'}>Odzyskaj hasło</Link>
-                                    </p>
                                 </form>
 
                             </MDBCol>

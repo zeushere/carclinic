@@ -7,7 +7,7 @@ import {
     CAR_DELETE_SUCCESS,
     CAR_DETAILS_FAIL,
     CAR_DETAILS_REQUEST,
-    CAR_DETAILS_SUCCESS,
+    CAR_DETAILS_SUCCESS, CAR_FAULTS_FAIL, CAR_FAULTS_REQUEST, CAR_FAULTS_SUCCESS,
     CAR_LIST_FAIL,
     CAR_LIST_REQUEST,
     CAR_LIST_SUCCESS
@@ -54,6 +54,26 @@ export const detailsCar = (id) => async (dispatch, getState) => {
     }
 };
 
+export const carFaults = (id) => async (dispatch, getState) => {
+    dispatch({type: CAR_FAULTS_REQUEST, payload: id});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/typical-faults/user/${id}`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: CAR_FAULTS_SUCCESS, payload: data});
+    } catch (error) {
+        dispatch({
+            type: CAR_FAULTS_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
 export const deleteCar = (id, history) => async (dispatch, getState) => {
     dispatch({type: CAR_DELETE_REQUEST, payload: id});
     const {userSignin: {userInfo}} = getState();

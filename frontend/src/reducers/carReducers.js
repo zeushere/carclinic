@@ -8,7 +8,7 @@ import {
     CAR_DELETE_SUCCESS,
     CAR_DETAILS_FAIL,
     CAR_DETAILS_REQUEST,
-    CAR_DETAILS_SUCCESS,
+    CAR_DETAILS_SUCCESS, CAR_FAULTS_FAIL, CAR_FAULTS_REQUEST, CAR_FAULTS_SUCCESS,
     CAR_LIST_FAIL,
     CAR_LIST_REQUEST,
     CAR_LIST_SUCCESS
@@ -41,6 +41,22 @@ export const carDetailsReducer = (
         case CAR_DETAILS_SUCCESS:
             return {loading: false, car: action.payload};
         case CAR_DETAILS_FAIL:
+            return {loading: false, error: action.payload};
+        default:
+            return state;
+    }
+};
+
+export const carFaultsReducer = (
+    state = {loading: true},
+    action
+) => {
+    switch (action.type) {
+        case CAR_FAULTS_REQUEST:
+            return {loading: true};
+        case CAR_FAULTS_SUCCESS:
+            return {loading: false, carFaults: action.payload};
+        case CAR_FAULTS_FAIL:
             return {loading: false, error: action.payload};
         default:
             return state;
