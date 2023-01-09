@@ -35,11 +35,9 @@ public class WorkingPeriodService {
                     .collect(Collectors.toList());
         }
         LocalTime expectedExecutionTime = mechanicalService.getExpectedExecutionTime();
-
         if(typeOfWork.equals("ZDALNA")){
            expectedExecutionTime = expectedExecutionTime.plusHours(1);
         }
-
         List<WorkingPeriod> byDateAndAvailableWithoutTime = workingPeriodRepository.findAvailableDateInDay(availableWorkingPeriodDto.dayOfWork(), AppointmentAvailableStatus.WOLNE.name());
         List<LocalDateTime> listOfLocalDateTimesOfPeriods = getListOfLocalDateTimesOfPeriods(byDateAndAvailableWithoutTime);
         List<WorkingPeriod> listOfAvailableDateWithMechanicalService = new ArrayList<>();
@@ -51,11 +49,12 @@ public class WorkingPeriodService {
                         LocalDateTime localDateTimeToCheckAvailability = workingPeriod.getDate().plusMinutes(MINUTES_PERIOD);
                         while (!localDateTimeToCheckAvailability.equals(expectedDateTo.minusMinutes(MINUTES_PERIOD))) {
                             if(listOfLocalDateTimesOfPeriods.contains(localDateTimeToCheckAvailability)){
-                               localDateTimeToCheckAvailability = localDateTimeToCheckAvailability.plusMinutes(MINUTES_PERIOD); 
+                               localDateTimeToCheckAvailability = localDateTimeToCheckAvailability.plusMinutes(MINUTES_PERIOD);
                             } else{
                                 return;
                             }
                         }
+                        System.out.println(workingPeriod);
                         listOfAvailableDateWithMechanicalService.add(workingPeriod);
                     }
                 });

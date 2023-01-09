@@ -7,8 +7,8 @@ CREATE TABLE typical_faults
     name                    VARCHAR(255) DEFAULT NULL,
     brand                   VARCHAR(255) DEFAULT null,
     model                   VARCHAR(255) DEFAULT null,
-    year_production_from    BIGINT DEFAULT NULL,
-    year_production_to      BIGINT DEFAULT NULL,
+    year_production_from    INTEGER DEFAULT NULL,
+    year_production_to      INTEGER DEFAULT NULL,
     engine_type             VARCHAR(255) DEFAULT null,
     PRIMARY KEY (id)
 );

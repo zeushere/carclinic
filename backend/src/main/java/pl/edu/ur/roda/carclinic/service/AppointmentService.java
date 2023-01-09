@@ -79,10 +79,9 @@ public class AppointmentService {
 
         WorkingPeriod workingPeriodDateFrom = workingPeriodRepository.findByDateAndAvailable(appointmentDateTimeFrom, AppointmentAvailableStatus.WOLNE.name());
 
-        WorkingPeriod workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo, AppointmentAvailableStatus.WOLNE.name());
+        WorkingPeriod workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
         if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
             setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
-
         }
         EmailAddAppointmentToUserService.EmailAddAppointmentRequest emailAddAppointmentRequest = EmailAddAppointmentToUserService.EmailAddAppointmentRequest.of(appointment, user, car, mechanicalService, null);
         emailAddAppointmentToUserService.sendConfirmationEmail(emailAddAppointmentRequest);
@@ -114,7 +113,7 @@ public class AppointmentService {
     }
 
     public void setToReservedWorkingPeriodByAppointment(Appointment appointment, WorkingPeriod workingPeriodDateFrom, WorkingPeriod workingPeriodDateTo) {
-        List<WorkingPeriod> byDateBetween = workingPeriodRepository.findByDateBetween(workingPeriodDateFrom.getDate(), workingPeriodDateTo.getDate().minusMinutes(MINUTES_PERIOD));
+        List<WorkingPeriod> byDateBetween = workingPeriodRepository.findByDateBetween(workingPeriodDateFrom.getDate(), workingPeriodDateTo.getDate());
         byDateBetween.forEach(workingPeriod -> System.out.println(workingPeriod.getDate()));
         byDateBetween
                 .forEach(workingPeriod -> {
