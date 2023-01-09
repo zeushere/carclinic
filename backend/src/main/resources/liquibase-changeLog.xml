@@ -20,5 +20,6 @@
     <include file="database/13-add-relation-appointment-to-working-period.sql"/>
     <include file="database/14-add-notification-send-date-to-car.sql"/>
     <include file="database/15-add-typical-faults-table.sql"/>
+    <include file="database/16-add-typical-faults.sql"/>
 
 </databaseChangeLog>
