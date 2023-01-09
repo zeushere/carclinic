@@ -1,17 +1,20 @@
 package pl.edu.ur.roda.carclinic.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
+import pl.edu.ur.roda.carclinic.dto.UserDto;
 import pl.edu.ur.roda.carclinic.dto.UserInfoDto;
 import pl.edu.ur.roda.carclinic.dto.UserReadDto;
 import pl.edu.ur.roda.carclinic.dto.UserEditDto;
 import pl.edu.ur.roda.carclinic.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -39,9 +42,26 @@ public class UserController {
         return new ResponseEntity<>(userService.editUser(userEditDto, userId), HttpStatus.OK);
     }
 
-    @GetMapping("/hello")
-    @ResponseBody
-    public ResponseEntity<String> hello() {
-        return new ResponseEntity<>("Kocham Ksenie Frumosu", HttpStatus.OK);
+    @PostMapping("users/{id}")
+    public boolean setRegularCustomer(
+            @PathVariable String id
+    ) {
+        return userService.setRegularCustomer(id);
+    }
+
+    @GetMapping("users")
+    public List<UserDto> getUsers(
+            @AuthenticationPrincipal String userId
+    ) {
+        return userService.getUsers();
+    }
+
+    @PutMapping("/user-role/{id}")
+    void setRoleToUser(
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId,
+            @RequestParam("role") String role
+    ) {
+        userService.setRole(id, role);
     }
 }

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -39,6 +40,7 @@ public class Appointment {
     private String repairStatus;
     private String paymentType;
     private String paymentStatus;
+    private BigDecimal cost;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -58,14 +60,15 @@ public class Appointment {
     })
     private Set<WorkingPeriod> workingPeriods;
 
-    public Appointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, User user, MechanicalService mechanicalService, Car car) {
+    public Appointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, BigDecimal cost, User user, MechanicalService mechanicalService, Car car) {
         this.date = date;
         this.fromTime = fromTime;
         this.description = description;
         this.repairType = repairType;
-        this.repairStatus = "ZGŁOSZONE";
+        this.repairStatus = "Zgłoszone";
         this.paymentType = paymentType;
-        this.paymentStatus = "OCZEKUJĄCE";
+        this.paymentStatus = "Oczekujące";
+        this.cost = cost;
         this.user = user;
         this.mechanicalService = mechanicalService;
         this.car = car;

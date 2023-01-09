@@ -34,6 +34,7 @@ public class User {
     private String email;
     private String login;
     private char[] password;
+    private boolean regularCustomer;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -29,7 +29,6 @@ import java.util.Scanner;
 @Slf4j
 public class EmailAddAppointmentToUserService {
 
-    private static final String IMG_HTML = "<p><img src='cid:image'></p>";
     private final EmailAddAppointmentProperties emailAddAppointmentProperties;
     private final JavaMailSender javaMailSender;
 

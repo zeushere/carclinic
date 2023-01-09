@@ -1,36 +1,25 @@
 package pl.edu.ur.roda.carclinic.service;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pl.edu.ur.roda.carclinic.dto.TypicalFaultDto;
 import pl.edu.ur.roda.carclinic.entity.Car;
 import pl.edu.ur.roda.carclinic.entity.TypicalFaults;
-import pl.edu.ur.roda.carclinic.entity.User;
 import pl.edu.ur.roda.carclinic.enums.TypicalFaultsPossibility;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
-import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
-import pl.edu.ur.roda.carclinic.mapper.TypicalFaultDtoMapper;
 import pl.edu.ur.roda.carclinic.repostiory.CarRepository;
 import pl.edu.ur.roda.carclinic.repostiory.TypicalFaultsRepository;
-import pl.edu.ur.roda.carclinic.repostiory.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.lowerCase;
-import static org.apache.commons.lang3.StringUtils.toCodePoints;
 
 @Service
 @RequiredArgsConstructor
 public class TypicalFaultsService {
-
-    private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final TypicalFaultsRepository typicalFaultsRepository;
-    private final TypicalFaultDtoMapper typicalFaultDtoMapper;
 
     public List<TypicalFaults> getTypicalFaults() {
         return typicalFaultsRepository
@@ -39,7 +28,6 @@ public class TypicalFaultsService {
 
     public List<TypicalFaultDto> getUserCarsTypicalFaults(String userId, String carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
-
         return getTypicalFaultToCar(car);
     }
 
@@ -64,7 +52,7 @@ public class TypicalFaultsService {
                         TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.HIGH_PROBABLE, typicalFaults1);
                         typicalFaultDtoList.add(typicalFault);
                     }
-                    if (probability == 2){
+                    if (probability == 2) {
                         TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.LIKELY, typicalFaults1);
                         typicalFaultDtoList.add(typicalFault);
                     }

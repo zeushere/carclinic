@@ -36,8 +36,8 @@ public class AppointmentController {
     @PostMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     void cancelAppointment(
-         @PathVariable String id,
-         @AuthenticationPrincipal String userId
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId
     ) {
         appointmentService.cancelAppointment(id, userId);
     }
@@ -46,7 +46,23 @@ public class AppointmentController {
     @ResponseStatus(HttpStatus.OK)
     List<AppointmentInfoDtoForUser> getUserAppointments(
             @AuthenticationPrincipal String userId) {
-        return  appointmentService.getUserAppointments(userId);
+        return appointmentService.getUserAppointments(userId);
     }
 
+    @PostMapping("/complete/{id}")
+    void completeAppointment(
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId
+    ) {
+        appointmentService.completeAppointment(id, userId);
+    }
+
+    @PostMapping("/paid/{id}")
+    void payAppointment(
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId
+    ) {
+        appointmentService.payAppointment(id, userId);
+    }
 }
+

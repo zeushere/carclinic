@@ -1,0 +1,5 @@
+<h3> Witaj, %s </h3>
+<p>Twoje zgłoszenie dla usługi: <b> %s </b> z dnia <b>%s %s </b> zostało <b>zakończone</b>.</p>
+<p>Zapraszamy po odbiór samochodu!</p>
+<p>Pozdrawiamy,</p>
+<p>CarClinic</p>

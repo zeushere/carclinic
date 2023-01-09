@@ -27,6 +27,7 @@ import pl.edu.ur.roda.carclinic.repostiory.UserRepository;
 import pl.edu.ur.roda.carclinic.repostiory.WorkingPeriodRepository;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class AppointmentService {
     private final UserRepository userRepository;
     private final MechanicalServiceRepository mechanicalServiceRepository;
     private final EmailAddAppointmentToUserService emailAddAppointmentToUserService;
+    private final EmailCompleteAppointmentService emailCompleteAppointmentService;
     private final EmailAddAppointmentToEmployeeService emailAddAppointmentToEmployeeService;
     private final RoleRepository roleRepository;
 
@@ -54,22 +56,34 @@ public class AppointmentService {
     @Transactional
     public void addAppointment(AppointmentAddDto appointmentAddDto, String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
-        MechanicalService mechanicalService = mechanicalServiceRepository.findById(appointmentAddDto.mechanicalServiceId()).orElseThrow(() -> new CouldNotFindMechanicalServiceException(appointmentAddDto.mechanicalServiceId()));
-        Car car = getCar(appointmentAddDto.carId());
+        MechanicalService mechanicalService = mechanicalServiceRepository.findById(appointmentAddDto.getMechanicalServiceId()).orElseThrow(() -> new CouldNotFindMechanicalServiceException(appointmentAddDto.getMechanicalServiceId()));
+        Car car = getCar(appointmentAddDto.getCarId());
         LocalDateTime appointmentDateTimeFrom = createDateTimeFrom(appointmentAddDto);
         LocalDateTime expectedTimeTo = null;
         if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
             expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
-
         }
 
+        if (appointmentAddDto.getRepairType().equals("Zdalna")) {
+            appointmentAddDto.setCost(appointmentAddDto.getCost().add(BigDecimal.valueOf(70L)));
+        }
+
+        if (user.isRegularCustomer()) {
+            BigDecimal expectedServiceCost = appointmentAddDto.getCost();
+            double aDouble = expectedServiceCost.doubleValue();
+            double finalPrice = (aDouble * 10) / 100;
+            long round = Math.round(aDouble - finalPrice);
+
+            appointmentAddDto.setCost(BigDecimal.valueOf(round));
+        }
 
         Appointment appointment = AppointmentAddDto.prepareAppointment(
-                appointmentAddDto.date(),
-                appointmentAddDto.fromTime(),
-                appointmentAddDto.description(),
-                appointmentAddDto.repairType(),
-                appointmentAddDto.paymentType(),
+                appointmentAddDto.getDate(),
+                appointmentAddDto.getFromTime(),
+                appointmentAddDto.getDescription(),
+                appointmentAddDto.getRepairType(),
+                appointmentAddDto.getPaymentType(),
+                appointmentAddDto.getCost(),
                 mechanicalService,
                 user,
                 car
@@ -104,11 +118,11 @@ public class AppointmentService {
 
     private LocalDateTime createDateTimeFrom(AppointmentAddDto appointmentAddDto) {
         return LocalDateTime.of(
-                appointmentAddDto.date().getYear(),
-                appointmentAddDto.date().getMonth(),
-                appointmentAddDto.date().getDayOfMonth(),
-                appointmentAddDto.fromTime().getHour(),
-                appointmentAddDto.fromTime().getMinute()
+                appointmentAddDto.getDate().getYear(),
+                appointmentAddDto.getDate().getMonth(),
+                appointmentAddDto.getDate().getDayOfMonth(),
+                appointmentAddDto.getFromTime().getHour(),
+                appointmentAddDto.getFromTime().getMinute()
         );
     }
 
@@ -140,6 +154,22 @@ public class AppointmentService {
     }
 
     @Transactional
+    public void completeAppointment(String id, String userId) {
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        MechanicalService mechanicalService = appointment.getMechanicalService();
+        User user = appointment.getUser();
+
+        appointment.setRepairStatus("Zakończone");
+        EmailCompleteAppointmentService.EmailCompleteAppointmentRequest emailCompleteAppointmentRequest = new EmailCompleteAppointmentService.EmailCompleteAppointmentRequest(appointment, user, mechanicalService, null);
+
+        if (!appointment.getRepairType().equals("Zdalna")) {
+            emailCompleteAppointmentService.sendConfirmationEmail(emailCompleteAppointmentRequest);
+        } else {
+            emailCompleteAppointmentService.sendConfirmationEmailRemote(emailCompleteAppointmentRequest);
+        }
+    }
+
+    @Transactional
     public List<AppointmentInfoDtoForUser> getUserAppointments(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
         Set<Appointment> appointments = user.getAppointments();
@@ -160,6 +190,7 @@ public class AppointmentService {
         });
         return appointmentInfoDtoForUsers;
     }
+
     public List<User> getUsersWithRoleEmployeeOrAdmin() {
         Role employeeRole = roleRepository.findByName("EMPLOYEE").get();
         Role adminRole = roleRepository.findByName("ADMIN").get();
@@ -168,11 +199,17 @@ public class AppointmentService {
 
         userRepository.findAll()
                 .forEach(user -> {
-                    if(user.getRoles().contains(employeeRole) || user.getRoles().contains(adminRole)){
+                    if (user.getRoles().contains(employeeRole) || user.getRoles().contains(adminRole)) {
                         usersWithSuperRole.add(user);
                     }
                 });
 
         return usersWithSuperRole;
+    }
+
+    @Transactional
+    public void payAppointment(String id, String userId) {
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        appointment.setPaymentStatus("Opłacone");
     }
 }

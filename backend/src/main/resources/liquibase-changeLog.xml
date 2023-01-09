@@ -21,5 +21,8 @@
     <include file="database/14-add-notification-send-date-to-car.sql"/>
     <include file="database/15-add-typical-faults-table.sql"/>
     <include file="database/16-add-typical-faults.sql"/>
+    <include file="database/17-add-cost-to-appointment.sql"/>
+    <include file="database/18-add-rabat-code-table.sql"/>
+    <include file="database/19-add-regular-customer-field-to-user.sql"/>
 
 </databaseChangeLog>

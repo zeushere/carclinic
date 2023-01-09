@@ -68,3 +68,9 @@ mail:
   send-notification:
     subject: 'Czy wymieniłeś już olej i filtry w swoim samochodzie?'
     pathToMessage: '/content/mail/sendNotificationToUsersWithCars.txt'
+  complete-appointment:
+    subject: 'Twoje zgłoszenie zostało zakończone'
+    pathToMessage: '/content/mail/completeAppointment.txt'
+  complete-appointment-remote:
+    subject: 'Twoje zgłoszenie zostało zakończone'
+    pathToMessage: '/content/mail/completeAppointmentRemote.txt'
