@@ -35,3 +35,42 @@ files-storage:
 
 errorreports:
   images-path: 'report'
+
+mail:
+  admin: carclinic.superuser@gmail.com
+  sender:
+    password: zjtsbysytukmajli
+    debug: false
+    user: carclinic.superuser@gmail.com
+    host: smtp.gmail.com
+    port: 587
+  registration:
+    subject: 'Rejestracja konta Bajkownia.org/Gry'
+    pathToMessage: '/content/mail/userRegistration_pl.txt'
+  password-reset:
+    subject: 'Resetowanie hasła'
+    pathToMessage: '/content/mail/userResetPassword_pl.txt'
+  add-appointment:
+    subject: 'Dodano rezerwację usługi'
+    pathToMessage: '/content/mail/addAppointment_pl.txt'
+  add-appointment-to-employee:
+    subject: 'Dodano rezerwację usługi'
+    pathToMessage: '/content/mail/addAppointment_Message_To_Employee_pl.txt'
+  confirm-email-change:
+    subject: 'Potwierdzenie zmiany adresu E-Mail | Bajkownia.org'
+    pathToMessage: '/content/mail/confirmEmailChange_pl.txt'
+  confirm-remove-account:
+    subject: 'Potwierdzenie usunięcia konta | Bajkownia.org'
+    pathToMessage: '/content/mail/confirmPlayerRemove_pl.txt'
+  notification-status-errorreport:
+    subject: 'Zmiana statusu zgłoszenia błędu'
+    pathToMessage: '/content/mail/userNotificationStatusErrorReport_pl.txt'
+  send-notification:
+    subject: 'Czy wymieniłeś już olej i filtry w swoim samochodzie?'
+    pathToMessage: '/content/mail/sendNotificationToUsersWithCars.txt'
+  complete-appointment:
+    subject: 'Twoje zgłoszenie zostało zakończone'
+    pathToMessage: '/content/mail/completeAppointment.txt'
+  complete-appointment-remote:
+    subject: 'Twoje zgłoszenie zostało zakończone'
+    pathToMessage: '/content/mail/completeAppointmentRemote.txt'

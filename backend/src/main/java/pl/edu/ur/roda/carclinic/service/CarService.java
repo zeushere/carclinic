@@ -22,7 +22,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class CarService {
 
     public static AddedCarId carIdToAddImage = null;

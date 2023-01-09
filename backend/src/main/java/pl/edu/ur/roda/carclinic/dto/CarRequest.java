@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 public record CarRequest(
 
         @Size(max = 255, message = "car.brand.tooManyCharacters")
+        @NotBlank(message = "car.brand.isBlank")
         String brand,
 
         @Size(max = 255, message = "car.model.tooManyCharacters")
@@ -13,15 +14,17 @@ public record CarRequest(
         String model,
 
         @Size(max = 4, message = "car.yearProduction.tooManyCharacters")
+        @NotBlank(message = "car.yearProduction.isBlank")
         String yearProduction,
 
         @Size(max = 255, message = "car.engineType.tooManyCharacters")
+        @NotBlank(message = "car.engineType.isBlank")
         String engineType,
 
         @Size(max = 20, message = "car.carType.tooManyCharacters")
         String carType,
 
-        @Size(max = 1200, message = "car.yearProduction.tooManyCharacters")
+        @Size(max = 1200, message = "car.description.tooManyCharacters")
         String description
 ) {
 }

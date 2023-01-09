@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 
 import HeroSlider from "../components/UI/HeroSlider";
 import Helmet from "../components/Helmet/Helmet";
 
-import { Container, Row, Col } from "reactstrap";
+import {Col, Container, Row} from "reactstrap";
 import FindCarForm from "../components/UI/FindCarForm";
 import AboutSection from "../components/UI/AboutSection";
 import ServicesList from "../components/UI/ServicesList";
@@ -18,7 +18,8 @@ import {useSelector} from "react-redux";
 const Home = () => {
 
     const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo} = userSignin;
+    const {userInfo} = userSignin;
+    const [selectedOption, setSelectedOption] = useState("");
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -27,26 +28,23 @@ const Home = () => {
         <Helmet title="Home">
             {/* ============= hero section =========== */}
             <section className="p-0 hero__slider-section">
-                <HeroSlider />
+                <HeroSlider/>
 
                 <div className="hero__form">
                     <Container>
                         <Row className="form__row">
-                            <Col lg="4" md="4">
-                                <div className="find__cars-left">
-                                    <h2>Find your best car here</h2>
-                                </div>
-                            </Col>
-
-                            <Col lg="8" md="8" sm="12">
-                                <FindCarForm />
+                            <Row className={'text-center p-2'}>
+                                <h2 className={'mt-2'}>Zarezerwuj wizytę</h2>
+                            </Row>
+                            <Col lg="12" md="12" sm="12">
+                                <FindCarForm/>
                             </Col>
                         </Row>
                     </Container>
                 </div>
             </section>
             {/* =========== about section ================ */}
-            <AboutSection />
+            <AboutSection/>
             {/* ========== services section ============ */}
             <section>
                 <Container>
@@ -56,7 +54,7 @@ const Home = () => {
                             <h2 className="section__title">Popular Services</h2>
                         </Col>
 
-                        <ServicesList />
+                        <ServicesList/>
                     </Row>
                 </Container>
             </section>
@@ -70,13 +68,13 @@ const Home = () => {
                         </Col>
 
                         {carData.slice(0, 6).map((item) => (
-                            <CarItem item={item} key={item.id} />
+                            <CarItem item={item} key={item.id}/>
                         ))}
                     </Row>
                 </Container>
             </section>
             {/* =========== become a driver section ============ */}
-            <BecomeDriverSection />
+            <BecomeDriverSection/>
 
             {/* =========== testimonial section =========== */}
             <section>
@@ -87,7 +85,7 @@ const Home = () => {
                             <h2 className="section__title">Testimonials</h2>
                         </Col>
 
-                        <Testimonial />
+                        <Testimonial/>
                     </Row>
                 </Container>
             </section>
@@ -101,7 +99,7 @@ const Home = () => {
                             <h2 className="section__title">Latest Blogs</h2>
                         </Col>
 
-                        <BlogList />
+                        <BlogList/>
                     </Row>
                 </Container>
             </section>

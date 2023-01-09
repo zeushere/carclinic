@@ -64,7 +64,7 @@ const AddCarForm = (props) => {
             <div className=" d-flex justify-content-around flex-wrap">
                 <FormGroup className="form__group">
                     <input type="text"
-                           placeholder="Marka"
+                           placeholder="Marka" required
                            value={brand}
                            onChange={(e) => setBrand(e.target.value)}/>
                 </FormGroup>
@@ -76,13 +76,13 @@ const AddCarForm = (props) => {
                 </FormGroup>
 
                 <FormGroup className="form__group">
-                    <input type="text" placeholder="Rok produkcji"
+                    <input type="text" placeholder="Rok produkcji" required
                            value={yearProduction}
                            onChange={(e) => setYearProduction(e.target.value)}/>
                 </FormGroup>
 
                 <FormGroup className="form__group">
-                    <input type="text" placeholder="Typ silnika"
+                    <input type="text" placeholder="Typ silnika" required
                            value={engineType}
                            onChange={(e) => setEngineType(e.target.value)}/>
                 </FormGroup>

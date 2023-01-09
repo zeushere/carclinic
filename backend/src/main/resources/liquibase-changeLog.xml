@@ -15,5 +15,14 @@
     <include file="database/08-change-column-to-car-type-in-table-cars.sql"/>
     <include file="database/09-create-table-mechanical-services.sql"/>
     <include file="database/10-add-mechanical-services.sql"/>
+    <include file="database/11-add-appointment-table.sql"/>
+    <include file="database/12-create-table-working-period.sql"/>
+    <include file="database/13-add-relation-appointment-to-working-period.sql"/>
+    <include file="database/14-add-notification-send-date-to-car.sql"/>
+    <include file="database/15-add-typical-faults-table.sql"/>
+    <include file="database/16-add-typical-faults.sql"/>
+    <include file="database/17-add-cost-to-appointment.sql"/>
+    <include file="database/18-add-rabat-code-table.sql"/>
+    <include file="database/19-add-regular-customer-field-to-user.sql"/>
 
 </databaseChangeLog>

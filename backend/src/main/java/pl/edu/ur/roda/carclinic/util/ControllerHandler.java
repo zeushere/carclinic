@@ -13,6 +13,7 @@ import pl.edu.ur.roda.carclinic.dto.ErrorMessageDto;
 import pl.edu.ur.roda.carclinic.exception.CaptchaValidationException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
+import pl.edu.ur.roda.carclinic.exception.FileNoExistException;
 import pl.edu.ur.roda.carclinic.exception.UnauthorizedProcessException;
 
 import javax.validation.ConstraintViolation;
@@ -44,6 +45,11 @@ public class ControllerHandler {
     @ExceptionHandler(CaptchaValidationException.class)
     public ResponseEntity<ErrorMessageDto> handleCaptchaValidation(CaptchaValidationException exception) {
         return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileNoExistException.class)
+    public ResponseEntity<?> handleFileNoExist() {
+        return ResponseEntity.internalServerError().build();
     }
 
     @ExceptionHandler(UnauthorizedProcessException.class)

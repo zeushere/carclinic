@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Bajkownia.org - Mail</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <p>Uzytkownik <span th:text="${reporterEmail}"></span> zglosil nastepujacy blad:</p>
+
+  <p><b th:text="${titleError}"></b></p>
+
+  <p th:text="${descriptionError}"></p>
+
+  <p th:if="${imageError != null}">
+    <img src='cid:image' alt="Image's Error">
+  </p>
+
+  <p>Link do zgloszenia w systemie: <a th:href="${linkToError}" th:text="${linkToError}"></a></p>
+</body>
+</html>

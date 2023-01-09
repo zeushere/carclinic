@@ -13,6 +13,7 @@ import {
     carDetailsReducer,
     carListReducer
 } from "../reducers/carReducers";
+import {mechanicalServicesListReducer} from "../reducers/mechanicalServicesReducers";
 
 const initialState = {
     userSignin: {
@@ -40,6 +41,7 @@ const reducer = combineReducers({
     carDetails: carDetailsReducer,
     carDelete: carDeleteReducer,
     carAdd: carAddReducer,
+    mechanicalServicesList: mechanicalServicesListReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

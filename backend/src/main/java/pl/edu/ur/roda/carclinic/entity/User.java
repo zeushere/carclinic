@@ -5,7 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +34,7 @@ public class User {
     private String email;
     private String login;
     private char[] password;
+    private boolean regularCustomer;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -36,6 +46,9 @@ public class User {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Car> cars;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Appointment> appointments;
 
     public User(String firstName, String lastName, String email, String login, char[] password, Role role) {
         this.firstName = firstName;
