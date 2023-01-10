@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import ava01 from "../../assets/all-images/ava-1.jpg";
 import ava02 from "../../assets/all-images/ava-2.jpg";
 import ava03 from "../../assets/all-images/ava-3.jpg";
+import ava04 from "../../assets/all-images/ava-4.jpg";
 
 const OUR__MEMBERS = [
     {
-        name: "Jhon Doe",
-        experience: "5 years of experience",
+        name: "Jan Kowalski",
+        experience: "15 lat doświadczenia",
         fbUrl: "#",
         instUrl: "#",
         twitUrl: "#",
@@ -18,8 +19,8 @@ const OUR__MEMBERS = [
     },
 
     {
-        name: "David Lisa",
-        experience: "5 years of experience",
+        name: "Daria Bartosiewicz",
+        experience: "10 lat doświadczenia",
         fbUrl: "#",
         instUrl: "#",
         twitUrl: "#",
@@ -28,8 +29,8 @@ const OUR__MEMBERS = [
     },
 
     {
-        name: "Hilton King",
-        experience: "5 years of experience",
+        name: "Michał Nowak",
+        experience: "7 lata doświadczenia",
         fbUrl: "#",
         instUrl: "#",
         twitUrl: "#",
@@ -38,13 +39,13 @@ const OUR__MEMBERS = [
     },
 
     {
-        name: "Jhon Doe",
-        experience: "5 years of experience",
+        name: "Karolina Nowak",
+        experience: "5 lat doświadczenia",
         fbUrl: "#",
         instUrl: "#",
         twitUrl: "#",
         linkedinUrl: "#",
-        imgUrl: ava01,
+        imgUrl: ava04,
     },
 ];
 

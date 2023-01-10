@@ -2,64 +2,122 @@ import React, {useEffect, useState} from "react";
 import "../../styles/find-car-form.css";
 import '../../styles/select-component.css'
 import {Form, FormGroup} from "reactstrap";
-import {useDispatch, useSelector} from "react-redux";
-import {listMechanicalServices} from "../../actions/mechanicalServicesActions";
+import {Link} from "react-router-dom";
+import 'jquery/dist/jquery'
+// import {DatePicker, DesktopDatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import * as PropTypes from "prop-types";
+import date from "moment";
+import moment from "moment";
+import * as dayjs from 'dayjs'
+import {Dayjs} from 'dayjs'
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DesktopDatePicker, LocalizationProvider, plPL} from "@mui/x-date-pickers";
+import {TextField} from "@mui/material";
+import {deDE} from "@mui/material/locale";
+import 'dayjs/locale/pl';
 
+function StaticDateRangePicker(props) {
+    return null;
+}
+
+StaticDateRangePicker.propTypes = {
+    disablePast: PropTypes.bool,
+    disableCloseOnSelect: PropTypes.bool,
+    onChange: PropTypes.any,
+    onOpen: PropTypes.func,
+    calendars: PropTypes.number,
+    onMonthChange: PropTypes.func,
+    open: PropTypes.func,
+    displayStaticWrapperAs: PropTypes.string
+};
 const FindCarForm = () => {
 
-    const mechanicalServices = useSelector(state => state.mechanicalServicesList);
-    const {cars} = mechanicalServices;
-    const dispatch = useDispatch();
+    useEffect(() => {
+        console.log('elo')
+    }, [])
+    const [value, setValue] = useState(
+        dayjs(date.now())
+    );
 
-    function fillData() {
+    const theme = createTheme(
+        {
+            palette: {
+                primary: {main: '#1976d2'},
+            },
+        },
+        plPL, // use 'de' locale for UI texts (start, next month, ...)
+    );
+
+    function changeHandler(e) {
 
     }
 
-    useEffect(() => {
-        // options = []
-        // cars.forEach(data => {
-        //     options.push({
-        //             key: data.id, value: data.name
-        //         }
-        //     )
-        // })
-        // options = [...options]
-        // console.log(options)
-    }, [cars]);
+    const handleChange = (newValue: Dayjs | null) => {
+        setValue(newValue);
+    };
 
-    const [selectedMechanicalService, setSelectedMechanicalService] = useState("");
+    const isWeekend = (date: Dayjs) => {
+        const day = date.day();
+
+        return day === 0 || day === 6;
+    };
+
 
     return (
         <Form className="form">
             <div className=" d-flex align-items-center justify-content-between flex-wrap">
                 <FormGroup className="form__group">
-                    <input type="text" placeholder="From address" required/>
+                    <ThemeProvider theme={theme}>
+                        <LocalizationProvider
+                            dateAdapter={AdapterDayjs} adapterLocale="pl"
+                            localeText={plPL.components.MuiLocalizationProvider.defaultProps.localeText}>
+                            <DesktopDatePicker
+                                shouldDisableDate={isWeekend}
+                                label="Wybierz datę"
+                                minDate={Date.now()}
+                                maxDate={moment('12/31/2023').toDate()}
+                                inputFormat="YYYY-MM-DD"
+                                value={value}
+                                onChange={handleChange}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </ThemeProvider>
                 </FormGroup>
 
                 <FormGroup className="form__group">
-                    <input type="text" placeholder="To address" required/>
-                </FormGroup>
+                    <select className="form-select" aria-label="Default select example"
+                    >
+                        <option value="" disabled selected hidden>Typ płatności</option>
+                        <option value="Online">Online</option>
+                        <option value="Pobranie">Przy odbiorze</option>
 
-                <FormGroup className="form__group">
-                    <input type="date" placeholder="Journey date" required/>
-                </FormGroup>
-
-                <FormGroup className="form__group" onClick={() => {
-                    dispatch(listMechanicalServices())
-                    fillData();
-                }}>
-
-
-                </FormGroup>
-                <FormGroup className="select__group">
-                    <select>
-                        <option value="ac">AC Car</option>
-                        <option value="non-ac">Non AC Car</option>
                     </select>
                 </FormGroup>
 
                 <FormGroup className="form__group">
-                    <button className="btn find__car-btn">Find Car</button>
+
+                    <input type="text" placeholder="Godzina"/>
+                </FormGroup>
+
+                <FormGroup className="form__group">
+                    <Link className={'find__service-btn'} to={'/mechanical-services'}>Wybierz typ usługi</Link>
+
+                </FormGroup>
+                <FormGroup className="form__group">
+                    <select className="form-select" aria-label="Default select example"
+
+                    >
+                        <option value="" disabled selected hidden>Typ naprawy</option>
+                        <option value="Tradycyjna">Tradycyjna</option>
+                        <option value="Zdalna">Zdalna</option>
+
+                    </select>
+                </FormGroup>
+
+                <FormGroup className="form__group">
+                    <button className="btn find__car-btn">Zarezerwuj wizytę</button>
                 </FormGroup>
             </div>
         </Form>

@@ -27,12 +27,11 @@ const BlogItem = ({ item }) => {
                     </Link>
                     <p className="section__description mt-3">
                         {description.length > 100
-                            ? description.substr(0, 100)
+                            ? description.substr(0, 99)
                             : description}
                     </p>
-
                     <Link to={`/blogs/${title}`} className="read__more">
-                        Read More
+                        Czytaj więcej
                     </Link>
 
                     <div className="blog__time pt-3 mt-3 d-flex align-items-center justify-content-between">

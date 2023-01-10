@@ -13,7 +13,7 @@ import "../styles/about.css";
 const About = () => {
     return (
         <Helmet title="About">
-            <CommonSection title="About Us" />
+            <CommonSection title="O nas" />
             <AboutSection aboutClass="aboutPage" />
 
             <section className="about__page-section">
@@ -28,31 +28,25 @@ const About = () => {
                         <Col lg="6" md="6" sm="12">
                             <div className="about__page-content">
                                 <h2 className="section__title">
-                                    We Are Committed To Provide Safe Ride Solutions
+                                    Jesteśmy po to, abyś Ty jeździł bezpiecznie
                                 </h2>
-
+<br/>
                                 <p className="section__description">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Eveniet veniam assumenda aperiam accusantium ex autem
-                                    perferendis repellendus nostrum delectus. Nemo et dolore est
-                                    tempore rem minima adipisci magni dolorum ipsam.
+                                    Świadczymy usługi na najwyższym poziomie. Motoryzacja to nasza pasja i z każdym uczymy się jeszcze więcej, aby być jak najlepszą wersją samych siebie. Każdy z nas ma pełną głowę pomysłów i żadna usterka nam nie umknie.
                                 </p>
-
+<br/>
                                 <p className="section__description">
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                    Eveniet veniam assumenda aperiam accusantium ex autem
-                                    perferendis repellendus nostrum delectus. Nemo et dolore est
-                                    tempore rem minima adipisci magni dolorum ipsam.
+                                    Przyjedź i się przekonaj, a już zawsze będziesz do nas wracać. Cenimy sobie dobre relacje z klientem, dlatego czekamy właśnie na Ciebie.
                                 </p>
-
+<br/>
                                 <div className=" d-flex align-items-center gap-3 mt-4">
                   <span className="fs-4">
                     <i class="ri-phone-line"></i>
                   </span>
 
                                     <div>
-                                        <h6 className="section__subtitle">Need Any Help?</h6>
-                                        <h4>+00123456789</h4>
+                                        <h6 className="section__subtitle">Potrzebujesz pomocy?</h6>
+                                        <h4>+48 532 167 665</h4>
                                     </div>
                                 </div>
                             </div>
@@ -67,8 +61,8 @@ const About = () => {
                 <Container>
                     <Row>
                         <Col lg="12" className="mb-5 text-center">
-                            <h6 className="section__subtitle">Experts</h6>
-                            <h2 className="section__title">Our Members</h2>
+                            <h6 className="section__subtitle">Eksperci</h6>
+                            <h2 className="section__title">Nasi pracownicy</h2>
                         </Col>
                         <OurMembers />
                     </Row>

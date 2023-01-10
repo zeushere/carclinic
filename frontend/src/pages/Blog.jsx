@@ -6,14 +6,13 @@ import BlogList from "../components/UI/BlogList";
 
 const Blog = () => {
     return (
-        <Helmet title="Blogs">
-            <CommonSection title="Blogs" />
+        <Helmet title="Blog">
+            <CommonSection title="Blog" />
             <section>
                 <Container>
                     <Row>
                         <BlogList />
-                        <BlogList />
-                    </Row>
+                   </Row>
                 </Container>
             </section>
         </Helmet>

@@ -13,6 +13,12 @@
     font-weight: 600;
 }
 
+.become__driver button:hover {
+    background: #fff!important;
+    color: #000d6b!important;
+    font-weight: 600;
+}
+
 .become__driver-title {
     font-size: 2.8rem;
     color: #fff;

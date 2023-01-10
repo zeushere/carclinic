@@ -9,15 +9,15 @@ import {signout} from "../../actions/userActions";
 const navLinks = [
     {
         path: "/home",
-        display: "Home",
+        display: "Strona główna",
     },
     {
         path: "/about",
-        display: "About",
+        display: "O nas",
     },
     {
-        path: "/cars",
-        display: "Cars",
+        path: "/mechanical-services",
+        display: "Usługi mechaniczne",
     },
 
     {
@@ -26,7 +26,7 @@ const navLinks = [
     },
     {
         path: "/contact",
-        display: "Contact",
+        display: "Kontakt",
     },
 ];
 

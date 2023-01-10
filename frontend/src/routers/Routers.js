@@ -13,6 +13,7 @@ import Register from "../pages/Register";
 import Profile from "../pages/Profile";
 import ClientCars from "../pages/ClientCars";
 import ClientCarDetails from "../pages/ClientCarDetails";
+import MechanicalServices from "../components/UI/MechanicalServices";
 
 const Routers = () => {
     return (
@@ -20,7 +21,7 @@ const Routers = () => {
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/cars" element={<CarListing />} />
+            <Route path="/mechanical-services" element={<MechanicalServices />} />
             <Route path="/cars/:id" element={<ClientCarDetails />} exact/>
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetails />} />

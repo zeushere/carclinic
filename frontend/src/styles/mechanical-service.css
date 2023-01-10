@@ -1,0 +1,9 @@
+.paginate_button{
+    color: black;
+    margin: 5px;
+    text-decoration: none;
+}
+
+#dtBasicExample_wrapper label{
+    display: inline!important;
+}

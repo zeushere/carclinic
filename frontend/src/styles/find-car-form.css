@@ -83,6 +83,25 @@
     outline: none;
 }
 
+.find__service-btn {
+    background: #0f74c2!important;
+    color: #fff !important;
+    padding: 8px 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+.find__car-btn-a{
+    background: #0f74c2!important;
+    color: #fff !important;
+    padding: 8px 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+
 @media only screen and (max-width: 992px) {
     .find__cars-left {
         padding-top: 20px !important;

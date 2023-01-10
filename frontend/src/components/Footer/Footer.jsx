@@ -16,7 +16,7 @@ const quickLinks = [
     },
 
     {
-        path: "/cars",
+        path: "/mechanical-services",
         display: "Usługi mechaniczne",
     },
     {
@@ -48,11 +48,13 @@ const Footer = () => {
                                 </Link>
                             </h1>
                         </div>
+                        <div className={'justify-content-center'}>
                         <p className="footer__logo-content">
                             <br/>
                             Jesteśmy warsztatem samochodowym, który wychodzi naprzeciw oczekiwaniom klientów i umożliwia rezerwację wizyty online z możliwością zdalnej naprawy.
                             Załóż konto i zarezerwuj wizytę w naszym warsztacie! Czekamy na Ciebie!
                         </p>
+                        </div>
                     </Col>
 
                     <Col lg="2" md="4" sm="6">
@@ -71,7 +73,7 @@ const Footer = () => {
                     <Col lg="3" md="4" sm="6">
                         <div className="mb-4">
                             <h5 className="footer__link-title mb-4">Siedziba warsztatu</h5>
-                            <p className="office__info">Pigonia 1 Rzeszów, Polska</p>
+                            <p className="office__info">Pigonia 1, 35-310 Rzeszów, Polska</p>
                             <p className="office__info">Telefon: +48 532 167 665</p>
 
                             <p className="office__info">Email: carclinic.superuser@gmail.com</p>
