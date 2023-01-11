@@ -26,39 +26,39 @@ const HeroSlider = () => {
 
     return (
         <Slider {...settings} className="hero__slider">
-            <div className="slider__item slider__item-01 mt0">
+            <div className="slider__item slider__item-01">
                 <Container>
                     <div className="slider__content ">
                         <h4 className="text-light mb-3">Zarezerwuj wizytę w warsztacie</h4>
                         <h1 className="text-light mb-4">Zapłać online za usługę!</h1>
 
-                        <button className="btn reserve__btn mt-4"  onClick={() => setClick(!click)}>
+                        <button className="btn reserve__btn mt-0"  onClick={() => setClick(!click)}>
                             <Link to="#">Zarezerwuj wizytę</Link>
                         </button>
                     </div>
                 </Container>
             </div>
 
-            <div className="slider__item slider__item-02 mt0">
+            <div className="slider__item slider__item-02">
                 <Container>
                     <div className="slider__content ">
                         <h4 className="text-light mb-3">Zarezerwuj wizytę w warsztacie </h4>
                         <h1 className="text-light mb-4">Zapłać online za usługę!</h1>
 
-                        <button className="btn reserve__btn mt-4" onClick={() => setClick(!click)}>
+                        <button className="btn reserve__btn mt-0" onClick={() => setClick(!click)}>
                             <Link to="#">Zarezerwuj wizytę</Link>
                         </button>
                     </div>
                 </Container>
             </div>
 
-            <div className="slider__item slider__item-03 mt0">
+            <div className="slider__item slider__item-03">
                 <Container>
                     <div className="slider__content ">
                         <h4 className="text-light mb-3">Zarezerwuj wizytę w warsztacie </h4>
                         <h1 className="text-light mb-4">Zapłać online za usługę!</h1>
 
-                        <button className="btn reserve__btn mt-4" onClick={() => setClick(!click)}>
+                        <button className="btn reserve__btn mt-0" onClick={() => setClick(!click)}>
                             <Link to="#">Zarezerwuj wizytę</Link>
                         </button>
                     </div>

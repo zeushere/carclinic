@@ -60,7 +60,7 @@ const Profile = () => {
     useEffect(() => {
         loadUserDetails()
         fillVariablesOfUserDetails()
-    }, [user]);
+    }, [user, dispatch]);
 
     const fillVariablesOfUserDetails = () => {
         if (user) {
@@ -79,7 +79,7 @@ const Profile = () => {
                         <MDBRow>
                             <MDBCol
                                     className='d-flex flex-column align-items-center justify-content-md-start'>
-                                <span className={'login__title'}><h1>Witaj {user ? user.firstName : null}</h1></span>
+                                <span className={'login__title'}><h1>Witaj {firstName}</h1></span>
                                 <form className={'login__form'} autoComplete="off" onSubmit={handleSubmit}>
                                     <label htmlFor="firstName">Imię:</label>
                                     <input

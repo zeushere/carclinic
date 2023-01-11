@@ -14,6 +14,9 @@ import {
     carListReducer
 } from "../reducers/carReducers";
 import {mechanicalServicesListReducer} from "../reducers/mechanicalServicesReducers";
+import {rabatCodeDiscountReducer} from "../reducers/rabatCodesReducer";
+import {availableWorkingPeriodListReducer} from "../reducers/workingPeriodReducers";
+import {appointmentAddReducer} from "../reducers/appointmentReduces";
 
 const initialState = {
     userSignin: {
@@ -43,6 +46,9 @@ const reducer = combineReducers({
     carAdd: carAddReducer,
     mechanicalServicesList: mechanicalServicesListReducer,
     carFaults: carFaultsReducer,
+    rabatDiscount: rabatCodeDiscountReducer,
+    availableWorkingPeriods: availableWorkingPeriodListReducer,
+    addedAppointment: appointmentAddReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

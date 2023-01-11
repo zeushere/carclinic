@@ -10,7 +10,7 @@ import {
     CAR_DETAILS_REQUEST,
     CAR_DETAILS_SUCCESS, CAR_FAULTS_FAIL, CAR_FAULTS_REQUEST, CAR_FAULTS_SUCCESS,
     CAR_LIST_FAIL,
-    CAR_LIST_REQUEST,
+    CAR_LIST_REQUEST, CAR_LIST_RESET,
     CAR_LIST_SUCCESS
 } from "../constants/carConstants";
 import {USER_SIGNOUT} from "../constants/userConstants";
@@ -26,6 +26,8 @@ export const carListReducer = (
             return {loading: false, cars: action.payload};
         case CAR_LIST_FAIL:
             return {loading: false, error: action.payload};
+        case CAR_LIST_RESET:
+            return {}
         default:
             return state;
     }

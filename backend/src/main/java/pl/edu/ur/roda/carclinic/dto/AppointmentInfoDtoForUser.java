@@ -12,7 +12,8 @@ public record AppointmentInfoDtoForUser(
         String repairStatus,
         String paymentType,
         String paymentStatus,
-        BigDecimal appointmentCost
+        BigDecimal appointmentCost,
+        String description
 ) {
 
 }

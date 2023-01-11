@@ -16,6 +16,7 @@ import {
     USER_UPDATE_PROFILE_RESET,
     USER_UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
+import {CAR_LIST_RESET} from "../constants/carConstants";
 
 export const register = (firstName, lastName, login, email, password) => async (dispatch) => {
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
@@ -66,6 +67,7 @@ export const signout = () => (dispatch) => {
     localStorage.removeItem('userDetails')
     dispatch({type: USER_DETAILS_RESET});
     dispatch({type: USER_SIGNOUT});
+    dispatch({type: CAR_LIST_RESET})
 };
 
 export const detailsUser = () => async (dispatch, getState) => {

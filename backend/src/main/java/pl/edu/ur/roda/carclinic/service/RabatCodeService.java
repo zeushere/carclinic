@@ -11,6 +11,7 @@ import pl.edu.ur.roda.carclinic.repostiory.RabatCodeRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,8 @@ public class RabatCodeService {
     }
 
     public RabatCodeDiscount getRabatCodeDiscount(String code) {
-        RabatCode byCode = rabatCodeRepository.getByCode(code);
-        return RabatCodeDiscount.of(byCode.getDiscountSize());
+        Optional<RabatCode> optionalByCode = rabatCodeRepository.getByCode(code);
+        return RabatCodeDiscount.of(optionalByCode.map(RabatCode::getDiscountSize).orElse(null));
     }
 
     public void addRabatCode(RabatCodeDto rabatCodeDto) {

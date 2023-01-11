@@ -40,6 +40,7 @@ const Header = () => {
 
     const signoutHandler = () => {
         dispatch(signout());
+
     }
 
     return (

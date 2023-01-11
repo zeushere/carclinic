@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 import pl.edu.ur.roda.carclinic.entity.MechanicalService;
 import pl.edu.ur.roda.carclinic.entity.RabatCode;
 
+import java.util.Optional;
+
 @Repository
 public interface RabatCodeRepository extends JpaRepository<RabatCode, Long> {
 
-    RabatCode getByCode(String code);
+    Optional<RabatCode> getByCode(String code);
 }

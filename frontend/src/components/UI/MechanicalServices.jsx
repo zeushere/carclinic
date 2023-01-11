@@ -5,6 +5,7 @@ import Helmet from "../Helmet/Helmet";
 import {useDispatch, useSelector} from "react-redux";
 import {MdClose} from "react-icons/md";
 import {listMechanicalServices} from "../../actions/mechanicalServicesActions";
+import {Link} from "react-router-dom";
 
 export const MechanicalServices = () => {
 
@@ -12,6 +13,12 @@ export const MechanicalServices = () => {
     const {mechanicalServices} = mechanicalServicesList;
     const dispatch = useDispatch();
 
+    function getMechanicalServiceId (mechanicalServiceId) {
+        localStorage.setItem('mechanicalServiceId', mechanicalServiceId.id);
+        localStorage.setItem('mechanicalServiceName', mechanicalServiceId.name);
+        localStorage.setItem('mechanicalServiceExpectedServiceCost', mechanicalServiceId.expectedServiceCost)
+        localStorage.setItem('mechanicalServiceExpectedExecutionTime', mechanicalServiceId.expectedExecutionTime.substr(0, 5))
+    }
 
     useEffect(() => {
         dispatch(listMechanicalServices())
@@ -35,8 +42,9 @@ export const MechanicalServices = () => {
                             <td>{mechanicalService?.name} </td>
                             <td>{mechanicalService.expectedExecutionTime?.substr(0, 5)}{mechanicalService.expectedExecutionTime ? ' h' : 'Zależny od usterki'} </td>
                             <td>{mechanicalService?.expectedServiceCost} {mechanicalService?.expectedServiceCost ? ' zł' : 'Do uzgodnienia'}</td>
-                            <td>
-                                <button type="button" className="btn btn-primary btn-lg">Wybierz</button>
+                            <td className={'mechanical__service__link'}>
+                                <button type="button" className="btn btn-primary btn-lg setMechanicalService__button "
+                                onClick={() => getMechanicalServiceId(mechanicalService)}><Link to={'/home'} className= "">Wybierz</Link></button>
                             </td>
                         </tr>
                         </tbody>

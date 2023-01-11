@@ -4,11 +4,9 @@ import HeroSlider from "../components/UI/HeroSlider";
 import Helmet from "../components/Helmet/Helmet";
 
 import {Col, Container, Row} from "reactstrap";
-import FindCarForm from "../components/UI/FindCarForm";
+import AddAppointmentForm from "../components/UI/AddAppointmentForm";
 import AboutSection from "../components/UI/AboutSection";
 import ServicesList from "../components/UI/ServicesList";
-import carData from "../assets/data/carData";
-import CarItem from "../components/UI/CarItem";
 import BecomeDriverSection from "../components/UI/BecomeDriverSection";
 import Testimonial from "../components/UI/Testimonial";
 
@@ -22,10 +20,9 @@ const Home = () => {
     const [selectedOption, setSelectedOption] = useState("");
 
 
-
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [userInfo]);
+    }, [userInfo, localStorage]);
     return (
         <Helmet title="Home">
             {/* ============= hero section =========== */}
@@ -39,7 +36,7 @@ const Home = () => {
                                 <h2 className={'mt-2'}>Zarezerwuj wizytę</h2>
                             </Row>
                             <Col lg="12" md="12" sm="12">
-                                <FindCarForm/>
+                                <AddAppointmentForm/>
                             </Col>
                         </Row>
                     </Container>

@@ -62,10 +62,9 @@ public class AppointmentService {
         LocalDateTime expectedTimeTo = null;
         if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
             expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
-        }
-
-        if (appointmentAddDto.getRepairType().equals("Zdalna")) {
-            appointmentAddDto.setCost(appointmentAddDto.getCost().add(BigDecimal.valueOf(70L)));
+            if (appointmentAddDto.getRepairType().equals("Zdalna")) {
+                expectedTimeTo = expectedTimeTo.plusHours(1);
+            }
         }
 
         if (user.isRegularCustomer()) {
@@ -93,8 +92,9 @@ public class AppointmentService {
 
         WorkingPeriod workingPeriodDateFrom = workingPeriodRepository.findByDateAndAvailable(appointmentDateTimeFrom, AppointmentAvailableStatus.WOLNE.name());
 
-        WorkingPeriod workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
+        WorkingPeriod workingPeriodDateTo;
         if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
+            workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
             setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
         }
         EmailAddAppointmentToUserService.EmailAddAppointmentRequest emailAddAppointmentRequest = EmailAddAppointmentToUserService.EmailAddAppointmentRequest.of(appointment, user, car, mechanicalService, null);
@@ -184,7 +184,8 @@ public class AppointmentService {
                             appointment.getPaymentStatus(),
                             appointment.getPaymentType(),
                             appointment.getPaymentStatus(),
-                            appointment.getMechanicalService().getExpectedServiceCost()
+                            appointment.getMechanicalService().getExpectedServiceCost(),
+                            appointment.getDescription()
                     )
             );
         });

@@ -32,7 +32,7 @@
 
 .form {
     background: #fff;
-    padding-top: 55px;
+    padding-top: 50px;
     padding-bottom: 50px;
     padding-left: 15px;
     padding-right: 15px;
@@ -58,7 +58,7 @@
 
 .hero__form {
     position: absolute;
-    bottom: -150px;
+    bottom: -300px;
     z-index: 11;
     width: 100%;
 }
@@ -92,6 +92,21 @@
     outline: none;
     text-decoration: none;
 }
+.appointment__cost__span {
+    font-size: 1.2em;
+    width:100%;
+    text-align:center;
+}
+.find__rabat__code-btn {
+    background: steelblue!important;
+    color: #fff !important;
+    padding: 8px 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
 .find__car-btn-a{
     background: #0f74c2!important;
     color: #fff !important;
@@ -145,6 +160,13 @@
         margin-bottom: 15px;
     }
 
+    .appointment__description{
+        width: 100%!important;
+    }
+
+    .input-group__rabat__code {
+        width: 100% !important;
+    }
     .form__group input {
         font-size: 0.7rem !important;
     }
