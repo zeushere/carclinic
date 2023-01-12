@@ -43,7 +43,7 @@ export const MechanicalServices = () => {
                             <td>{mechanicalService.expectedExecutionTime?.substr(0, 5)}{mechanicalService.expectedExecutionTime ? ' h' : 'Zależny od usterki'} </td>
                             <td>{mechanicalService?.expectedServiceCost} {mechanicalService?.expectedServiceCost ? ' zł' : 'Do uzgodnienia'}</td>
                             <td className={'mechanical__service__link'}>
-                                <button type="button" className="btn btn-primary btn-lg setMechanicalService__button "
+                                <button type="button" className="btn btn-primary btn-lg mechanicalService__button "
                                 onClick={() => getMechanicalServiceId(mechanicalService)}><Link to={'/home'} className= "">Wybierz</Link></button>
                             </td>
                         </tr>

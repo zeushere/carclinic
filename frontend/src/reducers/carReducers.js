@@ -1,7 +1,7 @@
 import {
     CAR_ADD_FAIL, CAR_ADD_IMAGE_REQUEST, CAR_ADD_IMAGE_SUCCESS,
     CAR_ADD_REQUEST, CAR_ADD_RESET,
-    CAR_ADD_SUCCESS,
+    CAR_ADD_SUCCESS, CAR_APPOINTMENT_FAIL, CAR_APPOINTMENT_REQUEST, CAR_APPOINTMENT_SUCCESS,
     CAR_DELETE_FAIL,
     CAR_DELETE_REQUEST,
     CAR_DELETE_RESET,
@@ -59,6 +59,22 @@ export const carFaultsReducer = (
         case CAR_FAULTS_SUCCESS:
             return {loading: false, carFaults: action.payload};
         case CAR_FAULTS_FAIL:
+            return {loading: false, error: action.payload};
+        default:
+            return state;
+    }
+};
+
+export const carAppointmentsReducer = (
+    state = {loading: true},
+    action
+) => {
+    switch (action.type) {
+        case CAR_APPOINTMENT_REQUEST:
+            return {loading: true};
+        case CAR_APPOINTMENT_SUCCESS:
+            return {loading: false, carAppointments: action.payload};
+        case CAR_APPOINTMENT_FAIL:
             return {loading: false, error: action.payload};
         default:
             return state;

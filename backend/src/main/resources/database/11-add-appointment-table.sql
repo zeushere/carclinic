@@ -6,6 +6,7 @@ CREATE TABLE appointment
     id       VARCHAR(255),
     date     DATE DEFAULT null,
     from_time TIME WITHOUT TIME ZONE DEFAULT null,
+    to_time TIME WITHOUT TIME ZONE DEFAULT null,
     description VARCHAR(1200) DEFAULT null,
     image_path VARCHAR(255) DEFAULT null,
     repair_type VARCHAR(255) DEFAULT null,

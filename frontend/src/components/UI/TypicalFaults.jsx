@@ -27,6 +27,14 @@ const TypicalFaults = (props) => {
                     </tr>
                     </tbody>
                 ))}
+
+                {carFaults.length === 0 && <tbody className="align-middle text-center">
+                <tr  className={'table-th'}>
+                    <td>Brak</td>
+                    <td>Brak</td>
+                </tr>
+                </tbody>
+                }
             </table>
 
             </div>

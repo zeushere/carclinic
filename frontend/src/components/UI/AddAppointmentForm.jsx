@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import "../../styles/find-car-form.css";
 import '../../styles/select-component.css'
 import {Form, FormGroup} from "reactstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import 'jquery/dist/jquery'
 import * as PropTypes from "prop-types";
 import date from "moment";
@@ -21,6 +21,7 @@ import Snackbar from "../Snackbar/Snackbar";
 import SnackbarType from "../Snackbar/SnackbarType";
 import {availableWorkingPeriodList} from "../../actions/workingPeriodActions";
 import {addAppointment} from "../../actions/appointmentActions";
+import PayPalCheckoutButton from "../PayPal/PayPalCheckoutButton";
 
 function StaticDateRangePicker(props) {
     return null;
@@ -38,10 +39,7 @@ StaticDateRangePicker.propTypes = {
 };
 
 const AddAppointmentForm = () => {
-    const product = {
-        description: "Design+Code React Hooks Course",
-        price : 19
-    }
+
     const [mechanicalServiceId, setMechanicalServiceId] = useState(null);
     const [mechanicalServiceName, setMechanicalServiceName] = useState(null);
     const [mechanicalServiceExpectedServiceCost, setMechanicalServiceExpectedServiceCost] = useState(null);
@@ -55,8 +53,7 @@ const AddAppointmentForm = () => {
     const [cost, setCost] = useState(0);
     const [isRemote, setIsRemote] = useState(false);
     const rabatDiscount = useSelector(state => state.rabatDiscount)
-    const {discount, loading} = rabatDiscount;
-    const {invokeCheckRabatCode, setInvokeCheckRabatCode} = useState(false);
+    const {discount} = rabatDiscount;
     const [rabatActivated, setRabatActivated] = useState(false);
     const formRef = useRef(null);
     const fromTimeRef = useRef(null);
@@ -70,12 +67,16 @@ const AddAppointmentForm = () => {
     const snackBarRefAddRabatCodeSuccess = useRef(null);
     const snackBarRefAddRabatCodeFail = useRef(null);
     const snackBarRefAddRabatCodeWarning = useRef(null);
-    const snackBarRefAddAppointment = useRef(null);
+    const snackBarRefAddAppointmentSuccess = useRef(null);
+    const snackBarRefAddAppointmentSuccessOnline = useRef(null);
+    const snackBarRefAddAppointmentFail = useRef(null);
+    let navigate = useNavigate();
     const [value, setValue] = useState(
         dayjs(date.now())
     );
     const addedAppointment = useSelector(state => state.addedAppointment);
-    const {appointment} = addedAppointment;
+    const {appointment, loading, error} = addedAppointment;
+    const [userAddedAppointment, setUserAddedAppointment] = useState(null);
 
     useEffect(() => {
         fillMechanicalService();
@@ -83,13 +84,14 @@ const AddAppointmentForm = () => {
     }, [typeOfWork, fromTime, carId, typeOfPayment, rabatCode, rabatActivated, description, dispatch])
 
     useEffect(() => {
+        console.log(value)
         if (mechanicalServiceId && typeOfWork && value) {
             getAvailableWorkingPeriods(mechanicalServiceId, typeOfWork, value)
         }
     }, [typeOfWork, value])
 
     function getAvailableWorkingPeriods(mechanicalServiceId, typeOfWork, value) {
-        let formattedDate = moment(value).format('YYYY-MM-DD');
+        let formattedDate = value.format('YYYY-MM-DD');
 
         dispatch(availableWorkingPeriodList(mechanicalServiceId, typeOfWork, formattedDate))
     }
@@ -118,12 +120,25 @@ const AddAppointmentForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addAppointment(value, fromTime, description, typeOfWork, typeOfPayment, cost, mechanicalServiceId, carId));
+        if(typeOfPayment === 'Przy odbiorze'){
+            dispatch(addAppointment(value, fromTime, description, typeOfWork, typeOfPayment, cost, mechanicalServiceId, carId));
+        } else if (typeOfPayment === 'Online'){
+            localStorage.setItem('fromTime', fromTime);
+            localStorage.setItem('date',value.format('YYYY-MM-DD'))
+            localStorage.setItem('repairType', typeOfWork);
+            localStorage.setItem('paymentType', typeOfPayment);
+            localStorage.setItem("cost", cost);
+            localStorage.setItem("carId", carId);
+            localStorage.setItem("description", description);
+
+            navigate('/payment-screen')
+        }
     }
 
-    useEffect(() =>{
-        snackBarRefAddRabatCodeSuccess.current.show()
-    },[appointment])
+    useEffect(() => {
+        setUserAddedAppointment(addedAppointment.appointment)
+        }
+    ,[addedAppointment.appointment])
 
     const theme = createTheme(
         {
@@ -224,6 +239,11 @@ const AddAppointmentForm = () => {
 
     return (
         <div>
+            {userAddedAppointment && typeOfPayment === 'Online' ?
+                snackBarRefAddAppointmentSuccessOnline.current.show()
+                : ''
+            }
+
             <Form id={'addAppointmentForm'} className="form" ref={formRef} onSubmit={handleSubmit}>
                 <div className=" d-flex align-items-center justify-content-between flex-wrap">
                     <FormGroup className="form__group text-center">
@@ -364,6 +384,9 @@ const AddAppointmentForm = () => {
                 <FormGroup className="form__group mt-3 text-center w-100">
                     <button type={'submit'} className="btn find__car-btn" style={{width: "35%"}}>Zarezerwuj wizytę</button>
                 </FormGroup>
+                <div className={'paypal-button-container'}>
+
+                </div>
             </Form>
             <Snackbar
                 ref={snackBarRefAddRabatCodeSuccess}
@@ -381,11 +404,25 @@ const AddAppointmentForm = () => {
                 type={SnackbarType.success}
             />
             <Snackbar
-                ref={snackBarRefAddAppointment}
-                message="Pomyślnie dodano zgłoszenie!
+                ref={snackBarRefAddAppointmentSuccess}
+                message="Pomyślnie dodano rezerwację wizyty!
                 Sprawdź skrzynkę pocztową"
                 type={SnackbarType.success}
             />
+            <Snackbar
+                ref={snackBarRefAddAppointmentFail}
+                message="Nie udalo się dodać rezerwacji!
+                Spróbuj ponownie"
+                type={SnackbarType.fail}
+            />
+            <Snackbar
+                ref={snackBarRefAddAppointmentSuccessOnline}
+                message="Pomyślnie dodano rezerwację wizyty!
+                Za chwilę nastąpi przekierowanie do płatności"
+                type={SnackbarType.success}
+            />
+
+
         </div>
     );
 };

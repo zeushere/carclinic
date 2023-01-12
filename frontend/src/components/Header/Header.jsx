@@ -72,7 +72,7 @@ const Header = () => {
                                             <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
                                                 <Link className="dropdown-item dropdown-item__profile" to="/profile">Dane użytkownika</Link>
                                                 <Link className="dropdown-item dropdown-item__profile" to="/client-cars">Samochody</Link>
-                                                <Link className="dropdown-item dropdown-item__profile" href="#">Statusy zgłoszeń</Link>
+                                                <Link className="dropdown-item dropdown-item__profile" to="/user-appointments">Statusy zgłoszeń</Link>
                                             </div>
 
                                     <Link to='/home' className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
@@ -150,7 +150,7 @@ const Header = () => {
 
             {/* ========== main navigation =========== */}
 
-            <div className="main__navbar">
+            <div className="main__navbar p-4">
                 <Container>
                     <div className="navigation__wrapper d-flex align-items-center justify-content-between">
             <span className="mobile__menu">
@@ -173,14 +173,14 @@ const Header = () => {
                             </div>
                         </div>
 
-                        <div className="nav__right">
-                            <div className="search__box">
-                                <input type="text" placeholder="Search" />
-                                <span>
-                  <i class="ri-search-line"></i>
-                </span>
-                            </div>
-                        </div>
+                {/*        <div className="nav__right">*/}
+                {/*            <div className="search__box">*/}
+                {/*                <input type="text" placeholder="Search" />*/}
+                {/*                <span>*/}
+                {/*  <i class="ri-search-line"></i>*/}
+                {/*</span>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
                     </div>
                 </Container>
             </div>

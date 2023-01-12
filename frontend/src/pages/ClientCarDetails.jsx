@@ -4,11 +4,12 @@ import Helmet from "../components/Helmet/Helmet";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
 import {useDispatch, useSelector} from "react-redux";
-import {carFaults, deleteCar, detailsCar} from "../actions/carActions";
+import {carAppointments, carFaults, deleteCar, detailsCar} from "../actions/carActions";
 import unknownCar from "../assets/all-images/cars-img/unknown-car.png"
 import '../styles/client-car-details.css'
 import TypicalFaults from "../components/UI/TypicalFaults"
 import '../styles/car-faults.css'
+import AppointmentsCarHistory from "../components/UI/AppointmentsCarHistory";
 
 
 const ClientCarDetails = (props) => {
@@ -17,6 +18,7 @@ const ClientCarDetails = (props) => {
     const {id} = useParams();
     const carDetails = useSelector(state => state.carDetails);
     const [typicalFaultsCarViewFlag, setTypicalFaultsCarViewFlag] = useState(false);
+    const [carAppointmentsViewFlag, setCarAppointmentsViewFlag] = useState(false);
     const {car} = carDetails;
     const deleteHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz usunąć ten samochód?')) {
@@ -31,19 +33,35 @@ const ClientCarDetails = (props) => {
         window.scrollTo(0, 0);
         dispatch(detailsCar(id));
         dispatch(carFaults(id));
+        dispatch(carAppointments(id))
 
     }, [dispatch]);
 
     function typicalFaultsCar() {
-        return <div>
+        return <div  className={'mt-5'}>
             <Container>
+                <h1 className={' text-center'}> Typowe usterki </h1>
                 <Row>
                     <Col lg="12" md="12">
-                        <TypicalFaults typicalFaultsCarViewFlag={typicalFaultsCarViewFlag} setTypicalFaultsCarViewFlag={setTypicalFaultsCarViewFlag}/>
+                        <TypicalFaults typicalFaultsCarViewFlag={typicalFaultsCarViewFlag}
+                                       setTypicalFaultsCarViewFlag={setTypicalFaultsCarViewFlag}/>
                     </Col>
                 </Row>
             </Container>
         </div>
+    }
+        function appointmentsCar() {
+            return <div className={'mt-5'}>
+                <Container>
+                    <h1 className={' text-center'}> Historia zgłoszeń </h1>
+
+                    <Row>
+                        <Col lg="12" md="12">
+                            <AppointmentsCarHistory carAppointmentsViewFlag={carAppointmentsViewFlag} setCarAppointmentsViewFlag={setCarAppointmentsViewFlag}/>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
     }
         return (
             <Helmet title='Szczegóły samochodu'>
@@ -51,7 +69,7 @@ const ClientCarDetails = (props) => {
                     <Container>
                         <Row>
                             <Col lg="6">
-                                <img src={car?.image ? car?.image : unknownCar} alt="" className="w-100"/>
+                                <img src={car?.image ? car?.image : unknownCar} alt="" className="w-100" style={{height: "500px"}}/>
                             </Col>
 
                             <Col lg="6">
@@ -110,12 +128,19 @@ const ClientCarDetails = (props) => {
                                         ><Link to="#">
                                             Wyświetl typowe usterki
                                         </Link></button>
-
                                     </div>
+                                    <div className={'mt-3'}> <button className="client__car__details__btn__appointments" onClick={() => {
+                                        setCarAppointmentsViewFlag(!carAppointmentsViewFlag)
+                                    }}
+                                    ><Link to="#">
+                                        Wyświetl historię zgłoszeń
+                                    </Link></button></div>
                                 </div>
 
                             </Col>
-                            {typicalFaultsCarViewFlag ? typicalFaultsCar() : null}
+                            {typicalFaultsCarViewFlag ?  typicalFaultsCar() : null}
+                            <br/>
+                            {carAppointmentsViewFlag ? appointmentsCar() : null}
                         </Row>
                     </Container>
                 </section>

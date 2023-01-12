@@ -34,6 +34,7 @@ public class Appointment {
     private String id;
     private LocalDate date;
     private LocalTime fromTime;
+    private LocalTime toTime;
     private String description;
     private String imagePath;
     private String repairType;
@@ -60,9 +61,10 @@ public class Appointment {
     })
     private Set<WorkingPeriod> workingPeriods;
 
-    public Appointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, BigDecimal cost, User user, MechanicalService mechanicalService, Car car) {
+    public Appointment(LocalDate date, LocalTime fromTime, LocalTime toTime, String description, String repairType, String paymentType, BigDecimal cost, User user, MechanicalService mechanicalService, Car car) {
         this.date = date;
         this.fromTime = fromTime;
+        this.toTime = toTime;
         this.description = description;
         this.repairType = repairType;
         this.repairStatus = "Zgłoszone";

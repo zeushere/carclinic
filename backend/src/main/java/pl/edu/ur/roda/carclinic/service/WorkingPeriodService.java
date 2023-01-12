@@ -11,6 +11,9 @@ import pl.edu.ur.roda.carclinic.exception.CouldNotFindMechanicalServiceException
 import pl.edu.ur.roda.carclinic.repostiory.MechanicalServiceRepository;
 import pl.edu.ur.roda.carclinic.repostiory.WorkingPeriodRepository;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -54,7 +57,9 @@ public class WorkingPeriodService {
                         listOfAvailableDateWithMechanicalService.add(workingPeriod);
                     }
                 });
-        return listOfAvailableDateWithMechanicalService.stream()
+        List<WorkingPeriod> availableHoursAtDay = getAvailableHoursAtDay(listOfAvailableDateWithMechanicalService);
+
+        return availableHoursAtDay.stream()
                 .map(WorkingPeriodInfoDto::of)
                 .collect(Collectors.toList());
     }
@@ -64,5 +69,17 @@ public class WorkingPeriodService {
                 .stream()
                 .map(WorkingPeriod::getDate)
                 .collect(Collectors.toList());
+    }
+
+    private List<WorkingPeriod> getAvailableHoursAtDay(List<WorkingPeriod> workingPeriodList) {
+        List<WorkingPeriod> availableWorkingPeriod = new ArrayList<>();
+
+        workingPeriodList
+                .forEach(workingPeriod -> {
+                    if(workingPeriod.getDate().isAfter(LocalDateTime.now())){
+                        availableWorkingPeriod.add(workingPeriod);
+                    };
+                });
+        return availableWorkingPeriod;
     }
 }
