@@ -13,6 +13,9 @@ import Register from "../pages/Register";
 import Profile from "../pages/Profile";
 import ClientCars from "../pages/ClientCars";
 import ClientCarDetails from "../pages/ClientCarDetails";
+import MechanicalServices from "../components/UI/MechanicalServices";
+import PaymentScreen from "../pages/PaymentScreen";
+import UserAppointments from "../pages/UserAppointments";
 
 const Routers = () => {
     return (
@@ -20,14 +23,16 @@ const Routers = () => {
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/cars" element={<CarListing />} />
+            <Route path="/mechanical-services" element={<MechanicalServices />} />
             <Route path="/cars/:id" element={<ClientCarDetails />} exact/>
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetails />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/payment-screen" element={<PaymentScreen />} />
             <Route path="/login" element={<Login/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/client-cars" element={<ClientCars/>}/>
+            <Route path="/user-appointments" element={<UserAppointments/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="*" element={<NotFound />} />
         </Routes>

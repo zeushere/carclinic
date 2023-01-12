@@ -7,13 +7,22 @@ import {
     userUpdateProfileReducer
 } from "../reducers/userReducers";
 import {
-    carAddImageReducer,
-    carAddReducer,
+    carAddReducer, carAppointmentsReducer,
     carDeleteReducer,
     carDetailsReducer,
+    carFaultsReducer,
     carListReducer
 } from "../reducers/carReducers";
 import {mechanicalServicesListReducer} from "../reducers/mechanicalServicesReducers";
+import {rabatCodeDiscountReducer} from "../reducers/rabatCodesReducer";
+import {availableWorkingPeriodListReducer} from "../reducers/workingPeriodReducers";
+import {
+    appointmentAddReducer,
+    appointmentDeleteReducer,
+    payAppointmentReducer,
+    userAppointmentsListReducer
+} from "../reducers/appointmentReducers";
+import {sendEmailContactReducer} from "../reducers/contactReducers";
 
 const initialState = {
     userSignin: {
@@ -38,10 +47,19 @@ const reducer = combineReducers({
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
     carList: carListReducer,
+    appointmentList: userAppointmentsListReducer,
     carDetails: carDetailsReducer,
     carDelete: carDeleteReducer,
+    sendedContactEmail: sendEmailContactReducer,
+    appointmentDelete: appointmentDeleteReducer,
     carAdd: carAddReducer,
     mechanicalServicesList: mechanicalServicesListReducer,
+    carFaults: carFaultsReducer,
+    rabatDiscount: rabatCodeDiscountReducer,
+    availableWorkingPeriods: availableWorkingPeriodListReducer,
+    addedAppointment: appointmentAddReducer,
+    paidAppointment: payAppointmentReducer,
+    carAppointments: carAppointmentsReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

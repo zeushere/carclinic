@@ -1,0 +1,19 @@
+.car__faults {
+    position: absolute;
+    top: 30em;
+    left: 0em;
+    z-index: 11;
+    width: 20%;
+}
+
+.table-faults {
+    background: #000d6b;
+}
+
+.table-th:hover {
+    color: #f9a826!important;
+}
+
+.hide_faults__button:hover {
+    color: red!important;
+}

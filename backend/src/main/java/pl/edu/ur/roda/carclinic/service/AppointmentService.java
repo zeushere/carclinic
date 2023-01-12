@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 import pl.edu.ur.roda.carclinic.dto.AppointmentAddDto;
 import pl.edu.ur.roda.carclinic.dto.AppointmentInfoDtoForUser;
+import pl.edu.ur.roda.carclinic.dto.TypicalFaultDto;
 import pl.edu.ur.roda.carclinic.entity.Appointment;
 import pl.edu.ur.roda.carclinic.entity.Car;
 import pl.edu.ur.roda.carclinic.entity.MechanicalService;
@@ -30,8 +31,10 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -54,7 +57,7 @@ public class AppointmentService {
 
 
     @Transactional
-    public void addAppointment(AppointmentAddDto appointmentAddDto, String userId) {
+    public AppointmentId addAppointment(AppointmentAddDto appointmentAddDto, String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
         MechanicalService mechanicalService = mechanicalServiceRepository.findById(appointmentAddDto.getMechanicalServiceId()).orElseThrow(() -> new CouldNotFindMechanicalServiceException(appointmentAddDto.getMechanicalServiceId()));
         Car car = getCar(appointmentAddDto.getCarId());
@@ -62,10 +65,9 @@ public class AppointmentService {
         LocalDateTime expectedTimeTo = null;
         if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
             expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
-        }
-
-        if (appointmentAddDto.getRepairType().equals("Zdalna")) {
-            appointmentAddDto.setCost(appointmentAddDto.getCost().add(BigDecimal.valueOf(70L)));
+            if (appointmentAddDto.getRepairType().equals("Zdalna")) {
+                expectedTimeTo = expectedTimeTo.plusHours(1);
+            }
         }
 
         if (user.isRegularCustomer()) {
@@ -80,6 +82,7 @@ public class AppointmentService {
         Appointment appointment = AppointmentAddDto.prepareAppointment(
                 appointmentAddDto.getDate(),
                 appointmentAddDto.getFromTime(),
+                LocalTime.of(expectedTimeTo.getHour(), expectedTimeTo.getMinute()),
                 appointmentAddDto.getDescription(),
                 appointmentAddDto.getRepairType(),
                 appointmentAddDto.getPaymentType(),
@@ -93,8 +96,9 @@ public class AppointmentService {
 
         WorkingPeriod workingPeriodDateFrom = workingPeriodRepository.findByDateAndAvailable(appointmentDateTimeFrom, AppointmentAvailableStatus.WOLNE.name());
 
-        WorkingPeriod workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
+        WorkingPeriod workingPeriodDateTo;
         if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
+            workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
             setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
         }
         EmailAddAppointmentToUserService.EmailAddAppointmentRequest emailAddAppointmentRequest = EmailAddAppointmentToUserService.EmailAddAppointmentRequest.of(appointment, user, car, mechanicalService, null);
@@ -106,7 +110,14 @@ public class AppointmentService {
                     EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(user, appointment, u, car, mechanicalService, null);
                     emailAddAppointmentToEmployeeService.sendConfirmationEmail(emailAddAppointmentRequestToEmployee);
                 });
+        return AppointmentId.of(appointment);
+    }
 
+
+    public record AppointmentId(String id) {
+        public static AppointmentId of(Appointment appointment) {
+            return new AppointmentId(appointment.getId());
+        }
     }
 
     private Car getCar(String carId) {
@@ -177,14 +188,18 @@ public class AppointmentService {
         appointments.forEach(appointment -> {
             appointmentInfoDtoForUsers.add(
                     new AppointmentInfoDtoForUser(
+                            appointment.getId(),
                             appointment.getMechanicalService().getName(),
                             appointment.getDate(),
                             appointment.getFromTime(),
                             appointment.getRepairType(),
-                            appointment.getPaymentStatus(),
+                            appointment.getRepairStatus(),
                             appointment.getPaymentType(),
                             appointment.getPaymentStatus(),
-                            appointment.getMechanicalService().getExpectedServiceCost()
+                            appointment.getMechanicalService().getExpectedServiceCost(),
+                            appointment.getDescription(),
+                            appointment.getCar() != null ? appointment.getCar().getBrand() : null,
+                            appointment.getCar() != null ? appointment.getCar().getModel() : null
                     )
             );
         });
@@ -211,5 +226,36 @@ public class AppointmentService {
     public void payAppointment(String id, String userId) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();
         appointment.setPaymentStatus("Opłacone");
+    }
+
+    public List<AppointmentInfoDtoForUser> getUserCarAppointments(String userId, String carId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindCarException(userId));
+        Set<Appointment> userAppointments = user.getAppointments();
+
+        List<AppointmentInfoDtoForUser> appointmentInfoDtoForUsers = new ArrayList<>();
+        userAppointments
+                .forEach(appointment -> {
+                    if (appointment.getCar() != null) {
+                        if (carId.equals(appointment.getCar().getId())) {
+                            appointmentInfoDtoForUsers.add(
+                                    new AppointmentInfoDtoForUser(
+                                            appointment.getId(),
+                                            appointment.getMechanicalService().getName(),
+                                            appointment.getDate(),
+                                            appointment.getFromTime(),
+                                            appointment.getRepairType(),
+                                            appointment.getRepairStatus(),
+                                            appointment.getPaymentType(),
+                                            appointment.getPaymentStatus(),
+                                            appointment.getMechanicalService().getExpectedServiceCost(),
+                                            appointment.getDescription(),
+                                            appointment.getCar() != null ? appointment.getCar().getBrand() : null,
+                                            appointment.getCar() != null ? appointment.getCar().getModel() : null
+                                    ));
+                        }
+                    }
+                });
+
+        return appointmentInfoDtoForUsers;
     }
 }

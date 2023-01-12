@@ -24,6 +24,6 @@ public interface WorkingPeriodRepository extends JpaRepository<WorkingPeriod, Lo
     List<WorkingPeriod> findByDateBetween(@Param("dateFrom") LocalDateTime dateFrom,
                                           @Param("dateTo") LocalDateTime dateTo);
 
-    @Query(value = "SELECT w.* FROM working_period w WHERE DATE(date) =:date AND available = :available", nativeQuery = true)
+    @Query(value = "SELECT w.* FROM working_period w WHERE DATE(date) =:date AND available = :available ORDER BY date", nativeQuery = true)
     List<WorkingPeriod> findAvailableDateInDay(LocalDate date, String available);
 }

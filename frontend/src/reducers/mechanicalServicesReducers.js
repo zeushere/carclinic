@@ -12,7 +12,7 @@ export const mechanicalServicesListReducer = (
         case MECHANICAL_SERVICES_LIST_REQUEST:
             return {loading: true};
         case MECHANICAL_SERVICES_LIST_SUCCESS:
-            return {loading: false, cars: action.payload};
+            return {loading: false, mechanicalServices: action.payload};
         case MECHANICAL_SERVICES_FAIL:
             return {loading: false, error: action.payload};
         default:

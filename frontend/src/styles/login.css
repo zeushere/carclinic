@@ -52,6 +52,7 @@
     background: #000d6b !important;
     color: #ffffff;
     transition: 0.3s;
+    width: 100%;
 }
 .login__input[type="text"],
 .login__input[type="email"],
@@ -59,9 +60,16 @@
 .login__textarea {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
+
     padding: 0.25rem;
     margin-bottom: 1rem;
     border-radius: 0.5rem;
+}
+
+@media only screen and (min-width: 577px) {
+    .login__input{
+        width:300px
+    }
 }
 
 @media only screen and (max-width: 576px) {

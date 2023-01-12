@@ -27,7 +27,7 @@ import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
 @Configuration
 public class SecurityConfig {
     private static final String[] PERMITS_URLS = {
-            "/login", "/register","/hello", "/password-reset", "/request-password-reset", "/working-periods/{mechanicalServiceId}","/mechanical-services", "/swagger-ui/**", "/v2/api-docs", "/configuration/ui",
+            "/login", "/register", "/hello", "/password-reset", "/request-password-reset", "/working-periods/{mechanicalServiceId}", "/mechanical-services", "/contact", "/rabat-code/{code}", "/swagger-ui/**", "/v2/api-docs", "/configuration/ui",
             "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/mail-change-confirmation**"};
 
     private final JWTManager jwtManager;
@@ -40,8 +40,8 @@ public class SecurityConfig {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers(PERMITS_URLS).permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/gameinfo","/gameinfo/").permitAll();
-        http.authorizeRequests().antMatchers("/gameinfo","/gameinfo/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/gameinfo", "/gameinfo/").permitAll();
+        http.authorizeRequests().antMatchers("/gameinfo", "/gameinfo/**").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

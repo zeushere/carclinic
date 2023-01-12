@@ -11,6 +11,8 @@ import {MdClose} from "react-icons/md";
 
 
 const AddCarForm = (props) => {
+
+
     const {width} = useWindowDimensions();
     const dispatch = useDispatch();
     const [brand, setBrand] = useState('');
@@ -35,9 +37,12 @@ const AddCarForm = (props) => {
         if (localStorage.getItem('invoke') != null) {
             const bodyFormData = props.formdata;
             try {
+                 console.log(addedCarId)
                 const {data} = await Axios.post(`/cars/${addedCarId}`, bodyFormData, {
                     headers: {Authorization: `Bearer ${userInfo.token}`}
                 });
+                localStorage.removeItem('invoke')
+                localStorage.removeItem('addedCarId')
             } catch (error) {
                 const message = error.response && error.response.data.message
                     ? error.response.data.message
@@ -48,6 +53,7 @@ const AddCarForm = (props) => {
             }
         }
     };
+
 
     return (
         <Form className="form" onSubmit={handleSubmit}>
@@ -76,20 +82,36 @@ const AddCarForm = (props) => {
                 </FormGroup>
 
                 <FormGroup className="form__group">
-                    <input type="text" placeholder="Rok produkcji" required
+                    <input min={'1990'} max={'2023'} type="number" placeholder="Rok produkcji" required
                            value={yearProduction}
                            onChange={(e) => setYearProduction(e.target.value)}/>
                 </FormGroup>
 
                 <FormGroup className="form__group">
-                    <input type="text" placeholder="Typ silnika" required
+                    <select className="form-select" aria-label="Default select example" required
                            value={engineType}
-                           onChange={(e) => setEngineType(e.target.value)}/>
+                           onChange={(e) => setEngineType(e.target.value)}>
+                        <option value="" disabled selected hidden>Typ silnika</option>
+                        <option value="Benzyna">Benzyna</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Hybryda">Hybryda</option>
+
+                    </select>
                 </FormGroup>
                 <FormGroup className="justify-content-b form__group">
-                    <input type="text" placeholder="Typ samochodu"
-                           value={carType}
-                           onChange={(e) => setCarType(e.target.value)}/>
+                    <select required onChange={(e) => {
+                        setCarType(e.target.value)
+
+                    }} className="form-select" aria-label="Default select example">
+
+                        <option value="" disabled selected hidden>Typ samochodu</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Kombi">Kombi</option>
+                        <option value="Coupe">Coupe</option>
+                        <option value="SUV">SUV</option>
+
+                    </select>
                 </FormGroup>
             </div>
             <div className={'d-flex flex-wrap justify-content-around mt-2'}>

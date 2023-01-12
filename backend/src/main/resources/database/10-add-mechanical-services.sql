@@ -145,7 +145,7 @@ INSERT INTO mechanical_service (id, name, expected_execution_time, expected_serv
 VALUES (47, 'Wymiana sprężyn zawieszenia', '03:00', '300');
 
 INSERT INTO mechanical_service (id, name, expected_execution_time, expected_service_cost)
-VALUES (48, 'Diagnostyka samochodowa', null, null);
+VALUES (48, 'Diagnostyka samochodowa', null, 150);
 
 INSERT INTO mechanical_service (id, name, expected_execution_time, expected_service_cost)
 VALUES (49, 'Dojazd do klienta', '01:00', '70');

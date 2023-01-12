@@ -60,7 +60,7 @@ const Profile = () => {
     useEffect(() => {
         loadUserDetails()
         fillVariablesOfUserDetails()
-    }, [user]);
+    }, [user, dispatch]);
 
     const fillVariablesOfUserDetails = () => {
         if (user) {
@@ -77,9 +77,9 @@ const Profile = () => {
                 <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
-                            <MDBCol xs={'12'}
-                                    className=' d-flex flex-column align-items-center justify-content-md-start'>
-                                <span className={'login__title'}><h1>Witaj {user ? user.firstName : null}</h1></span>
+                            <MDBCol
+                                    className='d-flex flex-column align-items-center justify-content-md-start'>
+                                <span className={'login__title'}><h1>Witaj {firstName}</h1></span>
                                 <form className={'login__form'} autoComplete="off" onSubmit={handleSubmit}>
                                     <label htmlFor="firstName">Imię:</label>
                                     <input

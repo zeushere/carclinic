@@ -17,6 +17,47 @@
     color: white;
 }
 
+.client__car__details__btn__typical_faults{
+    padding: 10px 20px;
+    margin-top: 1em;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background: #3e00ff;
+    color: white;
+}
+
+.client__car__details__btn__typical_faults a {
+    display: flex;
+    align-items: center;
+    column-gap: 0.4rem;
+    text-decoration: none;
+    color: #fff;
+    justify-content: end;
+    font-size: 0.9rem;
+}
+
+.client__car__details__btn__appointments{
+    padding: 10px 20px;
+    margin-top: 1em;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background: blueviolet;
+    color: white;
+}
+
+.client__car__details__btn__appointments a {
+    display: flex;
+    align-items: center;
+    column-gap: 0.4rem;
+    text-decoration: none;
+    color: #fff;
+    justify-content: end;
+    font-size: 0.9rem;
+}
+
+
 .client__car__details__btn__back a {
     display: flex;
     align-items: center;

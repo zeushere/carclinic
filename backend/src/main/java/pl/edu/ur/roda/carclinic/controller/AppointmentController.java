@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.ur.roda.carclinic.dto.AppointmentAddDto;
 import pl.edu.ur.roda.carclinic.dto.AppointmentInfoDtoForUser;
+import pl.edu.ur.roda.carclinic.dto.TypicalFaultDto;
 import pl.edu.ur.roda.carclinic.service.AppointmentService;
 
 import javax.validation.Valid;
@@ -26,11 +27,11 @@ public class AppointmentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    void addAppointment(
+    AppointmentService.AppointmentId addAppointment(
             @RequestBody @Valid AppointmentAddDto appointmentAddDto,
             @AuthenticationPrincipal String userId
     ) {
-        appointmentService.addAppointment(appointmentAddDto, userId);
+        return appointmentService.addAppointment(appointmentAddDto, userId);
     }
 
     @PostMapping("{id}")
@@ -63,6 +64,14 @@ public class AppointmentController {
             @AuthenticationPrincipal String userId
     ) {
         appointmentService.payAppointment(id, userId);
+    }
+
+    @GetMapping("/user/{carId}")
+    @ResponseStatus(HttpStatus.OK)
+    List<AppointmentInfoDtoForUser> getUserCarAppointments(
+            @AuthenticationPrincipal String userId,
+            @PathVariable String carId) {
+        return appointmentService.getUserCarAppointments(userId, carId);
     }
 }
 

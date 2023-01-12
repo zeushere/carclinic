@@ -17,38 +17,32 @@ const AboutSection = ({ aboutClass }) => {
                 <Row>
                     <Col lg="6" md="6">
                         <div className="about__section-content">
-                            <h4 className="section__subtitle">About Us</h4>
-                            <h2 className="section__title">Welcome to car rent service</h2>
+                            <h4 className="section__subtitle">O nas</h4>
+                            <h2 className="section__title">Witaj w serwisie CarClinic</h2>
                             <p className="section__description">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                Voluptatum blanditiis esse accusantium dignissimos labore
-                                laborum. Veniam, corporis mollitia temporibus, in quaerat vero
-                                deleniti amet dolorem repudiandae, pariatur nam dolore! Impedit
-                                neque sit ad temporibus quam similique dolor ipsam praesentium
-                                sunt.
+                                Jesteśmy warsztatem samochodowym, który wychodzi naprzeciw oczekiwaniom klientów i umożliwia rezerwację wizyty online z możliwością zdalnej naprawy. Załóż konto i zarezerwuj wizytę w naszym warsztacie! Czekamy na Ciebie!
                             </p>
 
                             <div className="about__section-item d-flex align-items-center">
                                 <p className="section__description d-flex align-items-center gap-2">
-                                    <i class="ri-checkbox-circle-line"></i> Lorem ipsum dolor sit
-                                    amet.
+                                    <i class="ri-checkbox-circle-line"></i> Rezerwacja wizyty online
+
                                 </p>
 
                                 <p className="section__description d-flex align-items-center gap-2">
-                                    <i class="ri-checkbox-circle-line"></i> Lorem ipsum dolor sit
-                                    amet.
+
+                                    <i class="ri-checkbox-circle-line"></i> Przewidywanie typowych usterek
+
                                 </p>
                             </div>
 
                             <div className="about__section-item d-flex align-items-center">
                                 <p className="section__description d-flex align-items-center gap-2">
-                                    <i class="ri-checkbox-circle-line"></i> Lorem ipsum dolor sit
-                                    amet.
+                                    <i class="ri-checkbox-circle-line"></i> Płatność online
                                 </p>
 
                                 <p className="section__description d-flex align-items-center gap-2">
-                                    <i class="ri-checkbox-circle-line"></i> Lorem ipsum dolor sit
-                                    amet.
+                                    <i class="ri-checkbox-circle-line"></i> Zdalna naprawa
                                 </p>
                             </div>
                         </div>

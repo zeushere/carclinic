@@ -37,10 +37,11 @@ public class AppointmentAddDto{
         String carId;
 
 
-    public static Appointment prepareAppointment(LocalDate date, LocalTime fromTime, String description, String repairType, String paymentType, BigDecimal cost, MechanicalService mechanicalService, User user, Car car) {
+    public static Appointment prepareAppointment(LocalDate date, LocalTime fromTime,LocalTime toTime, String description, String repairType, String paymentType, BigDecimal cost, MechanicalService mechanicalService, User user, Car car) {
         return new Appointment(
                 date,
                 fromTime,
+                toTime,
                 description,
                 repairType,
                 paymentType,

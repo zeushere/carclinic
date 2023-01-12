@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 import '../styles/client-cars.css'
 import AddCarForm from "../components/UI/AddCarForm";
 
-const ClientCars = (props) => {
+const ClientCars = () => {
     const inputFile = useRef(null)
     const dispatch = useDispatch();
     const carList = useSelector(state => state.carList);
@@ -86,6 +86,7 @@ const ClientCars = (props) => {
                             </Link>
                         </button>
                     </Col>
+
                     {addCarViewFlag ? addCar() : null}
                     {cars?.map((car) => (
                         <ClientCar car={car} key={car.id}/>
