@@ -27,7 +27,7 @@ import {
     allAppointmentsOfDayReducer,
     appointmentAddReducer,
     appointmentDeleteReducer, appointmentOfDayDetailsReducer,
-    payAppointmentReducer,
+    payAppointmentReducer, setCompleteAppointmentReducer, setInProgressAppointmentReducer,
     userAppointmentsListReducer
 } from "../reducers/appointmentReducers";
 import {sendEmailContactReducer} from "../reducers/contactReducers";
@@ -82,6 +82,8 @@ const reducer = combineReducers({
     addedMechanicalServiceId: mechanicalServiceAddReducer,
     allAppointmentsOfDay: allAppointmentsOfDayReducer,
     appointmentOfDayDetails: appointmentOfDayDetailsReducer,
+    setProgressAppointment: setInProgressAppointmentReducer,
+    setCompletedAppointment: setCompleteAppointmentReducer,
 
 });
 

@@ -182,6 +182,12 @@ public class AppointmentService {
         }
     }
 
+    @Transactional
+    public void setInProgressAppointment(String id, String userId) {
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        appointment.setRepairStatus("W trakcie");
+    }
+
     public AppointmentInfoDtoForEmployee getUserAppointment(String appointmentId, String userId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
         User user = appointment.getUser();
@@ -191,6 +197,7 @@ public class AppointmentService {
                 new AppointmentInfoDtoForEmployee(
                         appointment.getId(),
                         mechanicalService.getName(),
+                        appointment.getDate(),
                         appointment.getFromTime(),
                         appointment.getToTime(),
                         appointment.getRepairType(),
@@ -225,6 +232,7 @@ public class AppointmentService {
                                         new AppointmentInfoDtoForEmployee(
                                                 appointment.getId(),
                                                 mechanicalService.getName(),
+                                                appointment.getDate(),
                                                 appointment.getFromTime(),
                                                 appointment.getToTime(),
                                                 appointment.getRepairType(),

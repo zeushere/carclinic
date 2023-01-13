@@ -1,11 +1,13 @@
 package pl.edu.ur.roda.carclinic.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record AppointmentInfoDtoForEmployee(
         String appointmentId,
         String mechanicalService,
+        LocalDate day,
         LocalTime fromTime,
         LocalTime toTime,
         String repairType,

@@ -26,6 +26,7 @@ img {
 .about-text h6 {
     font-weight: 600;
     margin-bottom: 15px;
+    font-size: 2em;
 }
 @media (max-width: 767px) {
     .about-text h6 {
@@ -33,8 +34,9 @@ img {
     }
 }
 .about-text p {
-
+text-align: center;
 }
+
 .about-text p mark {
     font-weight: 600;
     color: #20247b;
@@ -49,7 +51,7 @@ img {
 .about-list label {
     color: #20247b;
     font-weight: 600;
-    width: 88px;
+    width: 120px;
     margin: 0;
     position: relative;
 }

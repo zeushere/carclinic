@@ -1,6 +1,8 @@
 import {
     ALL_APPOINTMENT_OF_DAY_FAIL,
-    ALL_APPOINTMENT_OF_DAY_REQUEST, ALL_APPOINTMENT_OF_DAY_RESET, ALL_APPOINTMENT_OF_DAY_SUCCESS,
+    ALL_APPOINTMENT_OF_DAY_REQUEST,
+    ALL_APPOINTMENT_OF_DAY_RESET,
+    ALL_APPOINTMENT_OF_DAY_SUCCESS,
     APPOINTMENT_ADD_FAIL,
     APPOINTMENT_ADD_REQUEST,
     APPOINTMENT_ADD_RESET,
@@ -8,7 +10,16 @@ import {
     APPOINTMENT_DELETE_FAIL,
     APPOINTMENT_DELETE_REQUEST,
     APPOINTMENT_DELETE_RESET,
-    APPOINTMENT_DELETE_SUCCESS, APPOINTMENT_OF_DAY_FAIL, APPOINTMENT_OF_DAY_REQUEST, APPOINTMENT_OF_DAY_SUCCESS,
+    APPOINTMENT_DELETE_SUCCESS,
+    APPOINTMENT_OF_DAY_FAIL,
+    APPOINTMENT_OF_DAY_REQUEST,
+    APPOINTMENT_OF_DAY_SUCCESS, APPOINTMENT_SET_COMPLETE_FAIL,
+    APPOINTMENT_SET_COMPLETE_REQUEST, APPOINTMENT_SET_COMPLETE_RESET,
+    APPOINTMENT_SET_COMPLETE_SUCCESS,
+    APPOINTMENT_SET_IN_PROGRESS_FAIL,
+    APPOINTMENT_SET_IN_PROGRESS_REQUEST,
+    APPOINTMENT_SET_IN_PROGRESS_RESET,
+    APPOINTMENT_SET_IN_PROGRESS_SUCCESS,
     APPOINTMENT_UPDATE_PAYMENT_FAIL,
     APPOINTMENT_UPDATE_PAYMENT_REQUEST,
     APPOINTMENT_UPDATE_PAYMENT_RESET,
@@ -116,6 +127,36 @@ export const appointmentOfDayDetailsReducer = (
             return {loading: false, appointmentOfDay: action.payload};
         case APPOINTMENT_OF_DAY_FAIL:
             return {loading: false, error: action.payload};
+        default:
+            return state;
+    }
+};
+
+export const setInProgressAppointmentReducer = (state = {}, action) => {
+    switch (action.type) {
+        case APPOINTMENT_SET_IN_PROGRESS_REQUEST:
+            return {loading: true};
+        case APPOINTMENT_SET_IN_PROGRESS_SUCCESS:
+            return {loading: false, setInProgressAppointment: action.payload};
+        case APPOINTMENT_SET_IN_PROGRESS_FAIL:
+            return {loading: false, error: action.payload};
+        case APPOINTMENT_SET_IN_PROGRESS_RESET:
+            return {};
+        default:
+            return state;
+    }
+};
+
+export const setCompleteAppointmentReducer = (state = {}, action) => {
+    switch (action.type) {
+        case APPOINTMENT_SET_COMPLETE_REQUEST:
+            return {loading: true};
+        case APPOINTMENT_SET_COMPLETE_SUCCESS:
+            return {loading: false, setCompleteAppointment: action.payload};
+        case APPOINTMENT_SET_COMPLETE_FAIL:
+            return {loading: false, error: action.payload};
+        case APPOINTMENT_SET_COMPLETE_RESET:
+            return {};
         default:
             return state;
     }

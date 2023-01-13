@@ -68,6 +68,14 @@ public class AppointmentController {
         return appointmentService.getUserAppointments(userId);
     }
 
+    @PostMapping("/in-progress/{id}")
+    void setInProgressAppointment(
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId
+    ) {
+        appointmentService.setInProgressAppointment(id, userId);
+    }
+
     @PostMapping("/complete/{id}")
     void completeAppointment(
             @PathVariable String id,

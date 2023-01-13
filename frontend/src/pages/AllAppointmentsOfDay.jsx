@@ -49,8 +49,8 @@ const AllAppointmentsOfDay = () => {
     function connectCarVars(brand, model) {
         return brand + ' ' + model;
     }
-    function checkRepairStatusIsDone(appointment) {
-        if(appointment.repairStatus === 'Wykonane' && appointment.paymentStatus === 'Opłacone'){
+    function checkRepairStatusIsCompleted(appointment) {
+        if(appointment.repairStatus === 'Wykonane'){
             return true
         }
     }
@@ -122,7 +122,7 @@ const AllAppointmentsOfDay = () => {
                             </thead>
                             {allAppointmentsOfDay?.map((appointment) => (
                                 <tbody className="align-middle text-center">
-                                <tr style={checkRepairStatusIsDone(appointment) && {color : "lawngreen"}}
+                                <tr style={checkRepairStatusIsCompleted(appointment) && {color : "lawngreen"}}
 
 
                                     key={appointment?.appointmentId} className={'table-th'}>
