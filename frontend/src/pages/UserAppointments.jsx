@@ -108,6 +108,14 @@ const UserAppointments = () => {
                             <tr  className={'table-th'}>
                                 <td>Brak</td>
                                 <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
                             </tr>
                             </tbody>
                             }

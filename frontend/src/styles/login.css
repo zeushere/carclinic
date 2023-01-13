@@ -57,10 +57,11 @@
 .login__input[type="text"],
 .login__input[type="email"],
 .login__input[type="password"],
+.login__input[type="number"],
+.login__input[type="time"],
 .login__textarea {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
-
     padding: 0.25rem;
     margin-bottom: 1rem;
     border-radius: 0.5rem;

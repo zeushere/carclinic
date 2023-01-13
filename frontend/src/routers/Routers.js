@@ -16,6 +16,11 @@ import ClientCarDetails from "../pages/ClientCarDetails";
 import MechanicalServices from "../components/UI/MechanicalServices";
 import PaymentScreen from "../pages/PaymentScreen";
 import UserAppointments from "../pages/UserAppointments";
+import MechanicalServiceEmployee from "../pages/MechanicalServiceEmployee";
+import EditMechanicalService from "../pages/EditMechanicalService";
+import AddMechanicalService from "../pages/AddMechanicalService";
+import AllAppointmentsOfDay from "../pages/AllAppointmentsOfDay";
+import AppointmentView from "../pages/AppointmentView";
 
 const Routers = () => {
     return (
@@ -24,6 +29,11 @@ const Routers = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/mechanical-services" element={<MechanicalServices />} />
+            <Route path="/mechanical-services/employee" element={<MechanicalServiceEmployee />} />
+            <Route path="/mechanical-services/employee/edit/:id" element={<EditMechanicalService />} />
+            <Route path="/mechanical-services/employee/add/" element={<AddMechanicalService />} />
+            <Route path="/appointments/:id" element={<AppointmentView />} />
+            <Route path="/appointments" element={<AllAppointmentsOfDay />} />
             <Route path="/cars/:id" element={<ClientCarDetails />} exact/>
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetails />} />

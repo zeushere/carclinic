@@ -97,8 +97,8 @@ const Header = () => {
                                             <span className={'d-flex gap-1'}><i className="ri-user-settings-fill"></i>Panel pracownika</span>
                                         </button>
                                         <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
-                                            <Link className="dropdown-item dropdown-item__profile" to="/profile">Zgłoszenia</Link>
-                                            <Link className="dropdown-item dropdown-item__profile" to="/client-cars">Usługi mechaniczne</Link>
+                                            <Link className="dropdown-item dropdown-item__profile" to="/appointments">Zgłoszenia</Link>
+                                            <Link className="dropdown-item dropdown-item__profile" to="/mechanical-services/employee">Usługi mechaniczne</Link>
                                             <Link className="dropdown-item dropdown-item__profile" to="/user-appointments">Blog</Link>
                                         </div>
                                             </>
@@ -113,7 +113,9 @@ const Header = () => {
                                                 </button>
                                                 <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
                                                     <Link className="dropdown-item dropdown-item__profile" to="/profile">Użytkownicy</Link>
+                                                    <Link className="dropdown-item dropdown-item__profile" to="/profile">Pracownicy</Link>
                                                 </div>
+
                                             </>
                                         }
                                     <Link to='/home' className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
