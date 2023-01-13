@@ -1,11 +1,22 @@
 import Axios from "axios";
 import {
+    ALL_APPOINTMENT_OF_DAY_FAIL,
+    ALL_APPOINTMENT_OF_DAY_REQUEST,
+    ALL_APPOINTMENT_OF_DAY_SUCCESS,
     APPOINTMENT_ADD_FAIL,
     APPOINTMENT_ADD_REQUEST,
     APPOINTMENT_ADD_SUCCESS,
     APPOINTMENT_DELETE_FAIL,
     APPOINTMENT_DELETE_REQUEST,
     APPOINTMENT_DELETE_SUCCESS,
+    APPOINTMENT_OF_DAY_FAIL,
+    APPOINTMENT_OF_DAY_REQUEST,
+    APPOINTMENT_OF_DAY_SUCCESS, APPOINTMENT_SET_COMPLETE_FAIL,
+    APPOINTMENT_SET_COMPLETE_REQUEST,
+    APPOINTMENT_SET_COMPLETE_SUCCESS,
+    APPOINTMENT_SET_IN_PROGRESS_FAIL,
+    APPOINTMENT_SET_IN_PROGRESS_REQUEST,
+    APPOINTMENT_SET_IN_PROGRESS_SUCCESS,
     APPOINTMENT_UPDATE_PAYMENT_FAIL,
     APPOINTMENT_UPDATE_PAYMENT_REQUEST,
     APPOINTMENT_UPDATE_PAYMENT_SUCCESS,
@@ -64,7 +75,7 @@ export const payAppointment = (appointmentId) => async (dispatch, getState) => {
         userSignin: {userInfo},
     } = getState();
     try {
-            await Axios.post(`/appointments/paid/${appointmentId}`, {}, {
+        await Axios.post(`/appointments/paid/${appointmentId}`, {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`},
         });
         const paidAppointment = {
@@ -113,5 +124,81 @@ export const listUserAppointments = () => async (dispatch, getState) => {
                 ? error.response.data.message
                 : error.message;
         dispatch({type: USER_APPOINTMENT_LIST_FAIL, payload: message});
+    }
+};
+
+export const listAppointmentsOfDay = (dayOfWork) => async (dispatch, getState) => {
+    dispatch({type: ALL_APPOINTMENT_OF_DAY_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.post(`/appointments/day`, {'dayOfWork': dayOfWork}, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        },);
+        dispatch({type: ALL_APPOINTMENT_OF_DAY_SUCCESS, payload: data});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: ALL_APPOINTMENT_OF_DAY_FAIL, payload: message});
+    }
+};
+
+export const getDetailsAppointment = (id) => async (dispatch, getState) => {
+    dispatch({type: APPOINTMENT_OF_DAY_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/appointments/day/${id}`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        },);
+        dispatch({type: APPOINTMENT_OF_DAY_SUCCESS, payload: data});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: APPOINTMENT_OF_DAY_FAIL, payload: message});
+    }
+};
+
+export const setInProgressAppointment = (appointmentId) => async (dispatch, getState) => {
+    dispatch({type: APPOINTMENT_SET_IN_PROGRESS_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        await Axios.post(`/appointments/in-progress/${appointmentId}`, {}, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: APPOINTMENT_SET_IN_PROGRESS_SUCCESS, payload: true});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: APPOINTMENT_SET_IN_PROGRESS_FAIL, payload: message});
+    }
+};
+
+export const setCompleteAppointment = (appointmentId) => async (dispatch, getState) => {
+    dispatch({type: APPOINTMENT_SET_COMPLETE_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        await Axios.post(`/appointments/complete/${appointmentId}`, {}, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: APPOINTMENT_SET_COMPLETE_SUCCESS, payload: true});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: APPOINTMENT_SET_COMPLETE_FAIL, payload: message});
     }
 };

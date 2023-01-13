@@ -1,0 +1,24 @@
+.edit-mechanical-service-button{
+    background-color: goldenrod;
+}
+
+.add__mechanical__service__btn {
+    background: #0f74c2!important;
+    color: #fff !important;
+    padding: 8px 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
+.add__mechanical__service__btn a{
+    background: #0f74c2!important;
+    color: #fff !important;
+    padding: 8px 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+

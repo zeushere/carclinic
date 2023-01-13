@@ -12,7 +12,7 @@ CREATE TABLE mechanical_service
 
 CREATE SEQUENCE seq_mechanical_service
     INCREMENT 1
-    START 1
+    START 50
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1;

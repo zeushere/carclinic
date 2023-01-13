@@ -23,13 +23,16 @@ const AppointmentsCarHistory = (props) => {
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
 
-    function checkDate(date, time) {
+    function checkDate(date, time, repairStatus) {
         let dateToCheck = moment(date).format('YYYY-MM-DD');
         if (moment(dateToCheck).isBefore(formattedDate)) {
             return true;
         } else if (moment(dateToCheck).isSame(formattedDate) && (parseInt(time.substr(0, 2)) < parseInt(formattedTime.substr(0, 2)))) {
             return true;
         } else if (moment(dateToCheck).isSame(formattedDate) && (parseInt(time.substr(0, 2)) === parseInt(formattedTime.substr(0, 2)) && parseInt(formattedTime.substr(3, 2)) > parseInt(time.substr(3, 2)))) {
+            return true;
+        }
+        if(repairStatus === 'Wykonane') {
             return true;
         }
     }
@@ -40,6 +43,11 @@ const AppointmentsCarHistory = (props) => {
         }
     };
 
+    function checkRepairStatusIsCompleted(carAppointment) {
+        if(carAppointment.repairStatus === 'Wykonane'){
+            return true
+        }
+    }
 
     useEffect(() => {
         window.scrollTo(0, 700);
@@ -73,7 +81,9 @@ const AppointmentsCarHistory = (props) => {
                     </thead>
                     {carAppointments?.map((carAppointment) => (
                         <tbody className="align-middle text-center">
-                        <tr key={carAppointment?.appointmentId} className={'table-th'}>
+                        <tr
+                            style={checkRepairStatusIsCompleted(carAppointment) && {color : "lawngreen"}}
+                            key={carAppointment?.appointmentId} className={'table-th'}>
                             <td>{carAppointment?.mechanicalService} </td>
                             <td>{carAppointment?.date} </td>
                             <td>{carAppointment?.fromTime.substr(0, 5)} </td>
@@ -84,7 +94,7 @@ const AppointmentsCarHistory = (props) => {
                             <td>{carAppointment?.appointmentCost} zł</td>
                             <td>
                                 <button type="button" className="btn btn-danger btn-lg appointment_car__link "
-                                        disabled={checkDate(carAppointment?.date, carAppointment?.fromTime)}
+                                        disabled={checkDate(carAppointment?.date, carAppointment?.fromTime, carAppointment?.repairStatus)}
                                         onClick={() => deleteHandler(carAppointment?.appointmentId)}><Link to={'#'}
                                                                                                  className="appointment_car__link">Anuluj</Link>
                                 </button>

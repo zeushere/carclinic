@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import pl.edu.ur.roda.carclinic.dto.AllAppointmentsOfDayDto;
 import pl.edu.ur.roda.carclinic.dto.AppointmentAddDto;
+import pl.edu.ur.roda.carclinic.dto.AppointmentInfoDtoForEmployee;
 import pl.edu.ur.roda.carclinic.dto.AppointmentInfoDtoForUser;
-import pl.edu.ur.roda.carclinic.dto.TypicalFaultDto;
 import pl.edu.ur.roda.carclinic.service.AppointmentService;
 
 import javax.validation.Valid;
@@ -43,11 +45,35 @@ public class AppointmentController {
         appointmentService.cancelAppointment(id, userId);
     }
 
+    @GetMapping("day/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    AppointmentInfoDtoForEmployee getAppointmentsOfDay(
+            @AuthenticationPrincipal String userId,
+            @PathVariable String id) {
+        return appointmentService.getUserAppointment(id, userId);
+    }
+
+    @PostMapping("day")
+    @ResponseStatus(HttpStatus.OK)
+    List<AppointmentInfoDtoForEmployee> getAllAppointmentsOfDay(
+            @AuthenticationPrincipal String userId,
+            @RequestBody AllAppointmentsOfDayDto allAppointmentsOfDayDto) {
+        return appointmentService.getAllAppointmentsOfDay(allAppointmentsOfDayDto, userId);
+    }
+
     @GetMapping("/user")
     @ResponseStatus(HttpStatus.OK)
     List<AppointmentInfoDtoForUser> getUserAppointments(
             @AuthenticationPrincipal String userId) {
         return appointmentService.getUserAppointments(userId);
+    }
+
+    @PostMapping("/in-progress/{id}")
+    void setInProgressAppointment(
+            @PathVariable String id,
+            @AuthenticationPrincipal String userId
+    ) {
+        appointmentService.setInProgressAppointment(id, userId);
     }
 
     @PostMapping("/complete/{id}")

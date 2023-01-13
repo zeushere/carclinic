@@ -36,11 +36,25 @@ const Header = () => {
     const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo} = userSignin;
+    const userRole = useSelector((state) => state.userRole);
+    const { role} = userRole;
     const dispatch = useDispatch();
 
     const signoutHandler = () => {
         dispatch(signout());
+    }
 
+    function checkIfCanUseEmployeeFunctionality() {
+        if(role === 'ADMIN' || role === 'EMPLOYEE') {
+            return true;
+        }
+    }
+
+
+    function checkIfCanUseAdminFunctionality() {
+        if(role === 'ADMIN') {
+            return true;
+        }
     }
 
     return (
@@ -75,6 +89,35 @@ const Header = () => {
                                                 <Link className="dropdown-item dropdown-item__profile" to="/user-appointments">Statusy zgłoszeń</Link>
                                             </div>
 
+                                        { checkIfCanUseEmployeeFunctionality() &&
+                                            <>
+                                            <button className="p-0 btn__profile dropdown-toggle d-flex align-items-center" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            <span className={'d-flex gap-1'}><i className="ri-user-settings-fill"></i>Panel pracownika</span>
+                                        </button>
+                                        <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
+                                            <Link className="dropdown-item dropdown-item__profile" to="/appointments">Zgłoszenia</Link>
+                                            <Link className="dropdown-item dropdown-item__profile" to="/mechanical-services/employee">Usługi mechaniczne</Link>
+                                            <Link className="dropdown-item dropdown-item__profile" to="/user-appointments">Blog</Link>
+                                        </div>
+                                            </>
+                                        }
+
+                                        { checkIfCanUseAdminFunctionality() &&
+                                            <>
+                                                <button className="p-0 btn__profile dropdown-toggle d-flex align-items-center" type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    <span className={'d-flex gap-1'}><i className="ri-admin-fill"></i>Panel adminstratora</span>
+                                                </button>
+                                                <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
+                                                    <Link className="dropdown-item dropdown-item__profile" to="/profile">Użytkownicy</Link>
+                                                    <Link className="dropdown-item dropdown-item__profile" to="/profile">Pracownicy</Link>
+                                                </div>
+
+                                            </>
+                                        }
                                     <Link to='/home' className=" d-flex align-items-center gap-1"  onClick={signoutHandler}>
                                         <i className="ri-login-circle-line"></i> Wylogowanie
                                     </Link>

@@ -18,13 +18,16 @@ const UserAppointments = () => {
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
 
-    function checkDate(date, time) {
+    function checkDate(date, time, repairStatus) {
         let dateToCheck = moment(date).format('YYYY-MM-DD');
         if (moment(dateToCheck).isBefore(formattedDate)) {
             return true;
         } else if (moment(dateToCheck).isSame(formattedDate) && (parseInt(time.substr(0, 2)) < parseInt(formattedTime.substr(0, 2)))) {
             return true;
         } else if (moment(dateToCheck).isSame(formattedDate) && (parseInt(time.substr(0, 2)) === parseInt(formattedTime.substr(0, 2)) && parseInt(formattedTime.substr(3, 2)) > parseInt(time.substr(3, 2)))) {
+            return true;
+        }
+        if(repairStatus === 'Wykonane'){
             return true;
         }
     }
@@ -43,9 +46,9 @@ const UserAppointments = () => {
     function connectCarVars(brand, model) {
         return brand + ' ' + model;
     }
-    function checkRepairStatusIsPaid(userAppointment) {
+    function checkRepairStatusIsCompleted(userAppointment) {
         if(userAppointment.repairStatus === 'Wykonane'){
-            return true
+            return true;
         }
     }
 
@@ -76,9 +79,7 @@ const UserAppointments = () => {
                             </thead>
                             {userAppointments?.map((userAppointment) => (
                                 <tbody className="align-middle text-center">
-                                <tr style={checkRepairStatusIsPaid(userAppointment) && {color : "lawngreen"}}
-
-
+                                <tr style={checkRepairStatusIsCompleted(userAppointment) && {color : "lawngreen"}}
                                     key={userAppointment?.appointmentId} className={'table-th'}>
                                     <td>{userAppointment?.mechanicalService} </td>
                                     <td>{userAppointment?.date} </td>
@@ -91,7 +92,7 @@ const UserAppointments = () => {
                                     <td>{userAppointment.carModel ? connectCarVars(userAppointment.carBrand, userAppointment.carModel) : 'Nie dodano'}</td>
                                     <td>
                                         <button type="button" className="btn btn-danger btn-lg appointment_car__link m-2"
-                                                disabled={checkDate(userAppointment?.date, userAppointment?.fromTime)}
+                                                disabled={checkDate(userAppointment?.date, userAppointment?.fromTime, userAppointment?.repairStatus)}
                                                 onClick={() => deleteHandler(userAppointment?.appointmentId)}><Link to={'#'}
                                                                                                                    className="appointment_car__link">Anuluj</Link>
                                         </button>
@@ -106,6 +107,14 @@ const UserAppointments = () => {
                             ))}
                             {userAppointments?.length === 0 && <tbody className="align-middle text-center">
                             <tr  className={'table-th'}>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
+                                <td>Brak</td>
                                 <td>Brak</td>
                                 <td>Brak</td>
                             </tr>

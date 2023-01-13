@@ -40,4 +40,11 @@ public class MechanicalService {
 
     @OneToMany(mappedBy = "mechanicalService", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Appointment> appointments;
+
+    public MechanicalService(String name, LocalTime expectedExecutionTime, BigDecimal expectedServiceCost) {
+
+        this.name = name;
+        this.expectedExecutionTime = expectedExecutionTime;
+        this.expectedServiceCost = expectedServiceCost;
+    }
 }

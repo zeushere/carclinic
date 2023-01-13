@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.edu.ur.roda.carclinic.dto.RoleDto;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
 import pl.edu.ur.roda.carclinic.dto.UserDto;
 import pl.edu.ur.roda.carclinic.dto.UserEditDto;
@@ -68,5 +69,12 @@ public class UserController {
             @RequestParam("role") String role
     ) {
         userService.setRole(id, role);
+    }
+
+    @GetMapping("user-role")
+    RoleDto getUserRole(
+            @AuthenticationPrincipal String userId
+    ) {
+        return userService.getRole(userId);
     }
 }

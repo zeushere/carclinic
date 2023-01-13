@@ -1,4 +1,6 @@
 import {
+    GET_USER_ROLE_FAIL,
+    GET_USER_ROLE_REQUEST, GET_USER_ROLE_RESET, GET_USER_ROLE_SUCCESS,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_RESET,
@@ -71,6 +73,21 @@ export const userUpdateProfileReducer = (state = {}, action) => {
         case USER_UPDATE_PROFILE_FAIL:
             return {loading: false, error: action.payload};
         case USER_UPDATE_PROFILE_RESET:
+            return {};
+        default:
+            return state;
+    }
+};
+
+export const getUserRoleReducer = (state = {}, action) => {
+    switch (action.type) {
+        case GET_USER_ROLE_REQUEST:
+            return {loading: true};
+        case GET_USER_ROLE_SUCCESS:
+            return {loading: false, role: action.payload};
+        case GET_USER_ROLE_FAIL:
+            return {loading: false, error: action.payload};
+        case GET_USER_ROLE_RESET:
             return {};
         default:
             return state;

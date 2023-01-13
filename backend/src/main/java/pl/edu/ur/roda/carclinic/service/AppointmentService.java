@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
+import pl.edu.ur.roda.carclinic.dto.AllAppointmentsOfDayDto;
 import pl.edu.ur.roda.carclinic.dto.AppointmentAddDto;
+import pl.edu.ur.roda.carclinic.dto.AppointmentInfoDtoForEmployee;
 import pl.edu.ur.roda.carclinic.dto.AppointmentInfoDtoForUser;
-import pl.edu.ur.roda.carclinic.dto.TypicalFaultDto;
 import pl.edu.ur.roda.carclinic.entity.Appointment;
 import pl.edu.ur.roda.carclinic.entity.Car;
 import pl.edu.ur.roda.carclinic.entity.MechanicalService;
@@ -34,7 +35,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -63,7 +63,7 @@ public class AppointmentService {
         Car car = getCar(appointmentAddDto.getCarId());
         LocalDateTime appointmentDateTimeFrom = createDateTimeFrom(appointmentAddDto);
         LocalDateTime expectedTimeTo = null;
-        if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
+        if (!mechanicalService.getName().startsWith("Diagnostyka")) {
             expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
             if (appointmentAddDto.getRepairType().equals("Zdalna")) {
                 expectedTimeTo = expectedTimeTo.plusHours(1);
@@ -97,7 +97,7 @@ public class AppointmentService {
         WorkingPeriod workingPeriodDateFrom = workingPeriodRepository.findByDateAndAvailable(appointmentDateTimeFrom, AppointmentAvailableStatus.WOLNE.name());
 
         WorkingPeriod workingPeriodDateTo;
-        if (!mechanicalService.getName().equals("Diagnostyka samochodowa")) {
+        if (!mechanicalService.getName().startsWith("Diagnostyka")) {
             workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
             setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
         }
@@ -112,6 +112,8 @@ public class AppointmentService {
                 });
         return AppointmentId.of(appointment);
     }
+
+
 
 
     public record AppointmentId(String id) {
@@ -170,7 +172,7 @@ public class AppointmentService {
         MechanicalService mechanicalService = appointment.getMechanicalService();
         User user = appointment.getUser();
 
-        appointment.setRepairStatus("Zakończone");
+        appointment.setRepairStatus("Wykonane");
         EmailCompleteAppointmentService.EmailCompleteAppointmentRequest emailCompleteAppointmentRequest = new EmailCompleteAppointmentService.EmailCompleteAppointmentRequest(appointment, user, mechanicalService, null);
 
         if (!appointment.getRepairType().equals("Zdalna")) {
@@ -178,6 +180,80 @@ public class AppointmentService {
         } else {
             emailCompleteAppointmentService.sendConfirmationEmailRemote(emailCompleteAppointmentRequest);
         }
+    }
+
+    @Transactional
+    public void setInProgressAppointment(String id, String userId) {
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        appointment.setRepairStatus("W trakcie");
+    }
+
+    public AppointmentInfoDtoForEmployee getUserAppointment(String appointmentId, String userId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        User user = appointment.getUser();
+        MechanicalService mechanicalService = appointment.getMechanicalService();
+        Car car = appointment.getCar();
+        return
+                new AppointmentInfoDtoForEmployee(
+                        appointment.getId(),
+                        mechanicalService.getName(),
+                        appointment.getDate(),
+                        appointment.getFromTime(),
+                        appointment.getToTime(),
+                        appointment.getRepairType(),
+                        appointment.getRepairStatus(),
+                        appointment.getPaymentType(),
+                        appointment.getPaymentStatus(),
+                        appointment.getCost(),
+                        appointment.getDescription(),
+                        car != null ? car.getBrand() : null,
+                        car != null ? car.getModel() : null,
+                        car != null ? car.getYearProduction() : null,
+                        car != null ? car.getEngineType() : null,
+                        user.getEmail(),
+                        user.getFirstName(),
+                        user.getLastName());
+    }
+
+    public List<AppointmentInfoDtoForEmployee> getAllAppointmentsOfDay(AllAppointmentsOfDayDto allAppointmentsOfDayDto, String userId) {
+        LocalDate dayOfWork = allAppointmentsOfDayDto.dayOfWork();
+
+        List<AppointmentInfoDtoForEmployee> appointmentInfoDtoForEmployeeList = new ArrayList<>();
+
+        List<Appointment> allByDate = appointmentRepository.findAllByDate(dayOfWork);
+
+        if (allByDate != null) {
+            allByDate
+                    .forEach(appointment -> {
+                                User user = appointment.getUser();
+                                MechanicalService mechanicalService = appointment.getMechanicalService();
+                                Car car = appointment.getCar();
+                                appointmentInfoDtoForEmployeeList.add(
+                                        new AppointmentInfoDtoForEmployee(
+                                                appointment.getId(),
+                                                mechanicalService.getName(),
+                                                appointment.getDate(),
+                                                appointment.getFromTime(),
+                                                appointment.getToTime(),
+                                                appointment.getRepairType(),
+                                                appointment.getRepairStatus(),
+                                                appointment.getPaymentType(),
+                                                appointment.getPaymentStatus(),
+                                                appointment.getCost(),
+                                                appointment.getDescription(),
+                                                car != null ? car.getBrand() : null,
+                                                car != null ? car.getModel() : null,
+                                                car != null ? car.getYearProduction() : null,
+                                                car != null ? car.getEngineType() : null,
+                                                user.getEmail(),
+                                                user.getFirstName(),
+                                                user.getLastName()
+                                        )
+                                );
+                            }
+                    );
+        }
+        return appointmentInfoDtoForEmployeeList;
     }
 
     @Transactional
@@ -196,7 +272,7 @@ public class AppointmentService {
                             appointment.getRepairStatus(),
                             appointment.getPaymentType(),
                             appointment.getPaymentStatus(),
-                            appointment.getMechanicalService().getExpectedServiceCost(),
+                            appointment.getCost(),
                             appointment.getDescription(),
                             appointment.getCar() != null ? appointment.getCar().getBrand() : null,
                             appointment.getCar() != null ? appointment.getCar().getModel() : null

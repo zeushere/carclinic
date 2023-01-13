@@ -29,7 +29,7 @@ public class WorkingPeriodService {
 
     public List<WorkingPeriodInfoDto> getAvailableWorkingPeriods(Long mechanicalServiceId, AvailableWorkingPeriodDto availableWorkingPeriodDto, String typeOfWork) {
         MechanicalService mechanicalService = mechanicalServiceRepository.findById(mechanicalServiceId).orElseThrow(() -> new CouldNotFindMechanicalServiceException(mechanicalServiceId));
-        if (mechanicalService.getName().equals("Diagnostyka samochodowa")) {
+        if (mechanicalService.getName().startsWith("Diagnostyka")) {
             return workingPeriodRepository.findByDate(availableWorkingPeriodDto.dayOfWork())
                     .stream().map(WorkingPeriodInfoDto::of)
                     .collect(Collectors.toList());

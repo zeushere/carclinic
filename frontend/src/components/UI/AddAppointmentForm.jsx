@@ -21,7 +21,6 @@ import Snackbar from "../Snackbar/Snackbar";
 import SnackbarType from "../Snackbar/SnackbarType";
 import {availableWorkingPeriodList} from "../../actions/workingPeriodActions";
 import {addAppointment} from "../../actions/appointmentActions";
-import PayPalCheckoutButton from "../PayPal/PayPalCheckoutButton";
 
 function StaticDateRangePicker(props) {
     return null;
@@ -120,11 +119,11 @@ const AddAppointmentForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(typeOfPayment === 'Przy odbiorze'){
+        if (typeOfPayment === 'Przy odbiorze') {
             dispatch(addAppointment(value, fromTime, description, typeOfWork, typeOfPayment, cost, mechanicalServiceId, carId));
-        } else if (typeOfPayment === 'Online'){
+        } else if (typeOfPayment === 'Online') {
             localStorage.setItem('fromTime', fromTime);
-            localStorage.setItem('date',value.format('YYYY-MM-DD'))
+            localStorage.setItem('date', value.format('YYYY-MM-DD'))
             localStorage.setItem('repairType', typeOfWork);
             localStorage.setItem('paymentType', typeOfPayment);
             localStorage.setItem("cost", cost);
@@ -136,9 +135,9 @@ const AddAppointmentForm = () => {
     }
 
     useEffect(() => {
-        setUserAddedAppointment(addedAppointment.appointment)
+            setUserAddedAppointment(addedAppointment.appointment)
         }
-    ,[addedAppointment.appointment])
+        , [addedAppointment.appointment])
 
     const theme = createTheme(
         {
@@ -194,7 +193,7 @@ const AddAppointmentForm = () => {
     }
 
     function onChangeCarId(event) {
-        if(event.target.value === '') {
+        if (event.target.value === '') {
             setCarId(null)
         } else {
             setCarId(event.target.value)
@@ -382,7 +381,8 @@ const AddAppointmentForm = () => {
                 </div>
 
                 <FormGroup className="form__group mt-3 text-center w-100">
-                    <button type={'submit'} className="btn find__car-btn" style={{width: "35%"}}>Zarezerwuj wizytę</button>
+                    <button type={'submit'} className="btn find__car-btn" style={{width: "35%"}}>Zarezerwuj wizytę
+                    </button>
                 </FormGroup>
                 <div className={'paypal-button-container'}>
 

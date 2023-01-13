@@ -1,25 +1,33 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
 import {
+    getUserRoleReducer,
     userDetailsReducer,
     userRegisterReducer,
     userSigninReducer,
     userUpdateProfileReducer
 } from "../reducers/userReducers";
 import {
-    carAddReducer, carAppointmentsReducer,
+    carAddReducer,
+    carAppointmentsReducer,
     carDeleteReducer,
     carDetailsReducer,
     carFaultsReducer,
     carListReducer
 } from "../reducers/carReducers";
-import {mechanicalServicesListReducer} from "../reducers/mechanicalServicesReducers";
+import {
+    mechanicalServiceAddReducer,
+    mechanicalServiceDeleteReducer,
+    mechanicalServiceDetailsReducer,
+    mechanicalServicesListReducer, mechanicalServiceUpdateReducer
+} from "../reducers/mechanicalServicesReducers";
 import {rabatCodeDiscountReducer} from "../reducers/rabatCodesReducer";
 import {availableWorkingPeriodListReducer} from "../reducers/workingPeriodReducers";
 import {
+    allAppointmentsOfDayReducer,
     appointmentAddReducer,
-    appointmentDeleteReducer,
-    payAppointmentReducer,
+    appointmentDeleteReducer, appointmentOfDayDetailsReducer,
+    payAppointmentReducer, setCompleteAppointmentReducer, setInProgressAppointmentReducer,
     userAppointmentsListReducer
 } from "../reducers/appointmentReducers";
 import {sendEmailContactReducer} from "../reducers/contactReducers";
@@ -36,9 +44,16 @@ const initialState = {
             : null,
     },
 
+    userRole: {
+        userInfo: localStorage.getItem('userRole')
+            ? JSON.parse(localStorage.getItem('userRole'))
+            : null,
+    },
+
     userDetails: {
         user: null
     }
+
 }
 
 const reducer = combineReducers({
@@ -49,7 +64,9 @@ const reducer = combineReducers({
     carList: carListReducer,
     appointmentList: userAppointmentsListReducer,
     carDetails: carDetailsReducer,
+    mechanicalServiceDetails: mechanicalServiceDetailsReducer,
     carDelete: carDeleteReducer,
+    mechanicalServiceDelete: mechanicalServiceDeleteReducer,
     sendedContactEmail: sendEmailContactReducer,
     appointmentDelete: appointmentDeleteReducer,
     carAdd: carAddReducer,
@@ -60,6 +77,14 @@ const reducer = combineReducers({
     addedAppointment: appointmentAddReducer,
     paidAppointment: payAppointmentReducer,
     carAppointments: carAppointmentsReducer,
+    userRole: getUserRoleReducer,
+    mechanicalServiceUpdate: mechanicalServiceUpdateReducer,
+    addedMechanicalServiceId: mechanicalServiceAddReducer,
+    allAppointmentsOfDay: allAppointmentsOfDayReducer,
+    appointmentOfDayDetails: appointmentOfDayDetailsReducer,
+    setProgressAppointment: setInProgressAppointmentReducer,
+    setCompletedAppointment: setCompleteAppointmentReducer,
+
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
