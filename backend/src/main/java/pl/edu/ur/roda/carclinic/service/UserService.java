@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
+import pl.edu.ur.roda.carclinic.dto.RoleDto;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
 import pl.edu.ur.roda.carclinic.dto.UserDto;
 import pl.edu.ur.roda.carclinic.dto.UserEditDto;
@@ -91,5 +92,12 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleToUpdate);
         user.setRoles(roles);
+    }
+
+    public RoleDto getRole(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindCarException(userId));
+        Set<Role> roles = user.getRoles();
+        Role role = roles.stream().findFirst().get();
+        return new RoleDto(role.getName());
     }
 }

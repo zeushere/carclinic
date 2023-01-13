@@ -1,6 +1,7 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
 import {
+    getUserRoleReducer,
     userDetailsReducer,
     userRegisterReducer,
     userSigninReducer,
@@ -60,6 +61,7 @@ const reducer = combineReducers({
     addedAppointment: appointmentAddReducer,
     paidAppointment: payAppointmentReducer,
     carAppointments: carAppointmentsReducer,
+    userRole: getUserRoleReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

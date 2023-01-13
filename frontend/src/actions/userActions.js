@@ -1,5 +1,7 @@
 import Axios from "axios";
 import {
+    GET_USER_ROLE_FAIL,
+    GET_USER_ROLE_REQUEST, GET_USER_ROLE_RESET, GET_USER_ROLE_SUCCESS,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_RESET,
@@ -17,6 +19,11 @@ import {
     USER_UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
 import {CAR_LIST_RESET} from "../constants/carConstants";
+import {
+    RABAT_CODE_DISCOUNT_FAIL,
+    RABAT_CODE_DISCOUNT_REQUEST,
+    RABAT_CODE_DISCOUNT_SUCCESS
+} from "../constants/rabatCodeConstants";
 
 export const register = (firstName, lastName, login, email, password) => async (dispatch) => {
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
@@ -68,6 +75,7 @@ export const signout = () => (dispatch) => {
     dispatch({type: USER_DETAILS_RESET});
     dispatch({type: USER_SIGNOUT});
     dispatch({type: CAR_LIST_RESET})
+    dispatch({type: GET_USER_ROLE_RESET})
 };
 
 export const detailsUser = () => async (dispatch, getState) => {
@@ -113,5 +121,25 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
                 ? error.response.data.message
                 : error.message;
         dispatch({type: USER_UPDATE_PROFILE_FAIL, payload: message});
+    }
+};
+
+export const getUserRole = () => async (dispatch, getState) => {
+    dispatch({type: GET_USER_ROLE_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/user-role`,{
+            headers: {Authorization: `Bearer ${userInfo.token}`}});
+        dispatch({type: GET_USER_ROLE_SUCCESS, payload: data.role});
+    } catch (error) {
+        dispatch({
+            type: GET_USER_ROLE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
     }
 };

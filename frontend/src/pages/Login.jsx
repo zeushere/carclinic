@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import "../styles/login.css";
 import Helmet from "../components/Helmet/Helmet";
 import {useDispatch, useSelector} from "react-redux";
-import {signin} from "../actions/userActions";
+import {getUserRole, signin} from "../actions/userActions";
 import {Link, useNavigate} from "react-router-dom";
 import {MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBRow} from "mdb-react-ui-kit";
 import loginImg from '../assets/all-images/login-img.png';
@@ -21,6 +21,7 @@ const Login = (props) => {
 
     useEffect(() => {
         if (userInfo) {
+            dispatch(getUserRole());
             navigate(redirect)
         }
     }, [navigate, userInfo]);
