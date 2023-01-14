@@ -21,6 +21,13 @@ import EditMechanicalService from "../pages/EditMechanicalService";
 import AddMechanicalService from "../pages/AddMechanicalService";
 import AllAppointmentsOfDay from "../pages/AllAppointmentsOfDay";
 import AppointmentView from "../pages/AppointmentView";
+import UsersAdmin from "../pages/UsersAdmin";
+import EmployeesAdmin from "../pages/EmployeesAdmin";
+import AdminsAdmin from "../pages/AdminsAdmin";
+import EditUser from "../pages/EditUser";
+import AddUser from "../pages/AddUser";
+import AddEmployee from "../pages/AddEmployee";
+import AddAdmin from "../pages/AddAdmin";
 
 const Routers = () => {
     return (
@@ -34,6 +41,13 @@ const Routers = () => {
             <Route path="/mechanical-services/employee/add/" element={<AddMechanicalService />} />
             <Route path="/appointments/:id" element={<AppointmentView />} />
             <Route path="/appointments" element={<AllAppointmentsOfDay />} />
+            <Route path="/users/admin" element={<UsersAdmin />} />
+            <Route path="/users/admin/edit/:id" element={<EditUser />} />
+            <Route path="/users/admin/add/" element={<AddUser />} />
+            <Route path="/employees/admin/add/" element={<AddEmployee />} />
+            <Route path="/employees/admin" element={<EmployeesAdmin />} />
+            <Route path="/admins/admin" element={<AdminsAdmin />} />
+            <Route path="/admins/admin/add" element={<AddAdmin />} />
             <Route path="/cars/:id" element={<ClientCarDetails />} exact/>
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blogs/:slug" element={<BlogDetails />} />

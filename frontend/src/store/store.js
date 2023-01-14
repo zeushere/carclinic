@@ -1,8 +1,14 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from "redux-thunk";
 import {
+    checkUserRegularCustomerReducer,
+    getUserForAdminReducer,
     getUserRoleReducer,
-    userDetailsReducer,
+    getUsersWithAdminRoleReducer,
+    getUsersWithEmployeeRoleReducer,
+    getUsersWithUserRoleReducer,
+    updateUserByAdminReducer, userDeleteByAdminReducer,
+    userDetailsReducer, userRegisterByAdminReducer,
     userRegisterReducer,
     userSigninReducer,
     userUpdateProfileReducer
@@ -84,6 +90,14 @@ const reducer = combineReducers({
     appointmentOfDayDetails: appointmentOfDayDetailsReducer,
     setProgressAppointment: setInProgressAppointmentReducer,
     setCompletedAppointment: setCompleteAppointmentReducer,
+    usersWithUserRole: getUsersWithUserRoleReducer,
+    usersWithEmployeeRole: getUsersWithEmployeeRoleReducer,
+    usersWithAdminRole: getUsersWithAdminRoleReducer,
+    userForAdmin: getUserForAdminReducer,
+    updatedUserByAdmin: updateUserByAdminReducer,
+    isUserRegularCustomer: checkUserRegularCustomerReducer,
+    userRegisteredByAdminId: userRegisterByAdminReducer,
+    isUserDeletedByAdmin: userDeleteByAdminReducer,
 
 });
 

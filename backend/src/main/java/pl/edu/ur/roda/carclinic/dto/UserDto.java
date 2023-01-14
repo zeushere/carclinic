@@ -8,15 +8,17 @@ public record UserDto(
         String login,
         String firstName,
         String lastName,
+        String role,
         boolean regularCustomer
 ) {
-    public static UserDto of(User user) {
+    public static UserDto of(User user, String role) {
         return new UserDto(
                 user.getId(),
                 user.getEmail(),
                 user.getLogin(),
                 user.getFirstName(),
                 user.getLastName(),
+                role,
                 user.isRegularCustomer()
         );
     }

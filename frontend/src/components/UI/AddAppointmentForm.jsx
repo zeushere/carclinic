@@ -58,6 +58,8 @@ const AddAppointmentForm = () => {
     const fromTimeRef = useRef(null);
     const userSignin = useSelector(state => state.userSignin)
     const {userInfo} = userSignin;
+    const isUserRegularCustomer = useSelector((state) => state.isUserRegularCustomer);
+    const {regularCustomer} = isUserRegularCustomer
     const carsList = useSelector(state => state.carList);
     const {cars} = carsList;
     const availableWorkingPeriod = useSelector(state => state.availableWorkingPeriods);
@@ -113,7 +115,14 @@ const AddAppointmentForm = () => {
             setMechanicalServiceName(localStorage.getItem('mechanicalServiceName'))
             setMechanicalServiceExpectedServiceCost(localStorage.getItem('mechanicalServiceExpectedServiceCost'))
             setMechanicalServiceExpectedServiceTime(localStorage.getItem('mechanicalServiceExpectedExecutionTime'))
-            setCost(localStorage.getItem('mechanicalServiceExpectedServiceCost'))
+            if (regularCustomer) {
+                const regularCustomerDiscount = Math.round((localStorage.getItem('mechanicalServiceExpectedServiceCost') * 10) / 100)
+                setCost(localStorage.getItem('mechanicalServiceExpectedServiceCost')-regularCustomerDiscount);
+            } else if (!regularCustomer) {
+                setCost(localStorage.getItem('mechanicalServiceExpectedServiceCost'))
+
+            }
+
         }
     }
 

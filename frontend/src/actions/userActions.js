@@ -1,11 +1,30 @@
 import Axios from "axios";
 import {
+    CHECK_USER_REGULAR_CUSTOMER_FAIL,
+    CHECK_USER_REGULAR_CUSTOMER_REQUEST, CHECK_USER_REGULAR_CUSTOMER_SUCCESS,
+    GET_USER_FOR_ADMIN_FAIL,
+    GET_USER_FOR_ADMIN_REQUEST,
+    GET_USER_FOR_ADMIN_SUCCESS,
     GET_USER_ROLE_FAIL,
-    GET_USER_ROLE_REQUEST, GET_USER_ROLE_RESET, GET_USER_ROLE_SUCCESS,
+    GET_USER_ROLE_REQUEST,
+    GET_USER_ROLE_RESET,
+    GET_USER_ROLE_SUCCESS,
+    GET_USERS_WITH_ADMIN_ROLE_FAIL,
+    GET_USERS_WITH_ADMIN_ROLE_REQUEST,
+    GET_USERS_WITH_ADMIN_ROLE_SUCCESS,
+    GET_USERS_WITH_EMPLOYEE_ROLE_FAIL,
+    GET_USERS_WITH_EMPLOYEE_ROLE_REQUEST,
+    GET_USERS_WITH_EMPLOYEE_ROLE_SUCCESS,
+    GET_USERS_WITH_USER_ROLE_FAIL,
+    GET_USERS_WITH_USER_ROLE_REQUEST,
+    GET_USERS_WITH_USER_ROLE_SUCCESS, UPDATE_USER_BY_ADMIN_FAIL,
+    UPDATE_USER_BY_ADMIN_REQUEST,
+    UPDATE_USER_BY_ADMIN_RESET,
+    UPDATE_USER_BY_ADMIN_SUCCESS, USER_DELETE_BY_ADMIN_FAIL, USER_DELETE_BY_ADMIN_REQUEST, USER_DELETE_BY_ADMIN_SUCCESS,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_RESET,
-    USER_DETAILS_SUCCESS,
+    USER_DETAILS_SUCCESS, USER_REGISTER_BY_ADMIN_FAIL, USER_REGISTER_BY_ADMIN_REQUEST, USER_REGISTER_BY_ADMIN_SUCCESS,
     USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
@@ -18,12 +37,25 @@ import {
     USER_UPDATE_PROFILE_RESET,
     USER_UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
-import {CAR_LIST_RESET} from "../constants/carConstants";
+import {
+    CAR_DELETE_FAIL,
+    CAR_DELETE_REQUEST, CAR_DELETE_SUCCESS,
+    CAR_LIST_FAIL,
+    CAR_LIST_REQUEST,
+    CAR_LIST_RESET,
+    CAR_LIST_SUCCESS
+} from "../constants/carConstants";
 import {
     RABAT_CODE_DISCOUNT_FAIL,
     RABAT_CODE_DISCOUNT_REQUEST,
     RABAT_CODE_DISCOUNT_SUCCESS
 } from "../constants/rabatCodeConstants";
+import {
+    APPOINTMENT_ADD_FAIL,
+    APPOINTMENT_ADD_REQUEST,
+    APPOINTMENT_ADD_SUCCESS
+} from "../constants/appointmentConstants";
+import {payAppointment} from "./appointmentActions";
 
 export const register = (firstName, lastName, login, email, password) => async (dispatch) => {
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
@@ -114,7 +146,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         });
 
 
-
     } catch (error) {
         const message =
             error.response && error.response.data.message
@@ -130,8 +161,9 @@ export const getUserRole = () => async (dispatch, getState) => {
         userSignin: {userInfo},
     } = getState();
     try {
-        const {data} = await Axios.get(`/user-role`,{
-            headers: {Authorization: `Bearer ${userInfo.token}`}});
+        const {data} = await Axios.get(`/user-role`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        });
         dispatch({type: GET_USER_ROLE_SUCCESS, payload: data.role})
         localStorage.setItem('userRole', JSON.stringify(data));
     } catch (error) {
@@ -142,5 +174,178 @@ export const getUserRole = () => async (dispatch, getState) => {
                     ? error.response.data.message
                     : error.message,
         });
+    }
+};
+
+export const getUsersWithUserRole = () => async (dispatch, getState) => {
+    dispatch({type: GET_USERS_WITH_USER_ROLE_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/admin/users`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: GET_USERS_WITH_USER_ROLE_SUCCESS, payload: data});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: GET_USERS_WITH_USER_ROLE_FAIL, payload: message});
+    }
+};
+
+export const getUsersWithEmployeeRole = () => async (dispatch, getState) => {
+    dispatch({type: GET_USERS_WITH_EMPLOYEE_ROLE_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/admin/employees`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: GET_USERS_WITH_EMPLOYEE_ROLE_SUCCESS, payload: data});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: GET_USERS_WITH_EMPLOYEE_ROLE_FAIL, payload: message});
+    }
+};
+
+export const getUsersWithAdminRole = () => async (dispatch, getState) => {
+    dispatch({type: GET_USERS_WITH_ADMIN_ROLE_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/admin/admins`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: GET_USERS_WITH_ADMIN_ROLE_SUCCESS, payload: data});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: GET_USERS_WITH_ADMIN_ROLE_FAIL, payload: message});
+    }
+};
+
+export const getUserForAdmin = (id) => async (dispatch, getState) => {
+    dispatch({type: GET_USER_FOR_ADMIN_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/admin/users/${id}`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: GET_USER_FOR_ADMIN_SUCCESS, payload: data});
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({type: GET_USER_FOR_ADMIN_FAIL, payload: message});
+    }
+};
+
+export const updateUserByAdmin = (id, firstName, lastName, email, login, password, role, isRegularCustomer) => async (dispatch, getState) => {
+    dispatch({type: UPDATE_USER_BY_ADMIN_REQUEST});
+    const {userSignin: {userInfo}} = getState();
+    try {
+        const {data} = await Axios.patch(`/admin/edit/${id}`, {
+                'firstName': firstName,
+                'lastName': lastName,
+                'email': email,
+                'login': login,
+                'password': password,
+                'role': role,
+                'isRegularCustomer': isRegularCustomer
+            },
+            {
+                headers: {Authorization: `Bearer ${userInfo.token}`}
+            });
+        dispatch({type: UPDATE_USER_BY_ADMIN_SUCCESS, payload: data});
+    } catch (error) {
+        dispatch({
+            type: UPDATE_USER_BY_ADMIN_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const checkUserRegularCustomer = () => async (dispatch, getState) => {
+    dispatch({type: CHECK_USER_REGULAR_CUSTOMER_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.get(`/users/regular-customer`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        });
+        dispatch({type: CHECK_USER_REGULAR_CUSTOMER_SUCCESS, payload: data})
+        localStorage.setItem('userRegularCustomer', JSON.stringify(data));
+    } catch (error) {
+        dispatch({
+            type: CHECK_USER_REGULAR_CUSTOMER_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const registerUserByAdmin = (firstName, lastName, login, email, password, role, isRegularCustomer) => async (dispatch, getState) => {
+    dispatch({type: USER_REGISTER_BY_ADMIN_REQUEST});
+    const {
+        userSignin: {userInfo},
+    } = getState();
+    try {
+        const {data} = await Axios.post('/admin/register', {
+                firstName,
+                lastName,
+                email,
+                login,
+                password,
+                role,
+                isRegularCustomer
+            },
+            {
+                params: {'g-recaptcha': 'test'},
+                headers: {Authorization: `Bearer ${userInfo.token}`}
+            });
+        dispatch({type: USER_REGISTER_BY_ADMIN_SUCCESS, payload: data});
+    } catch (error) {
+        dispatch({
+            type: USER_REGISTER_BY_ADMIN_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+export const deleteUserByAdmin = (id) => async (dispatch, getState) => {
+    dispatch({type: USER_DELETE_BY_ADMIN_REQUEST, payload: id});
+    const {userSignin: {userInfo}} = getState();
+    try {
+        const {data} = await Axios.delete(`/admin/users/${id}`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: USER_DELETE_BY_ADMIN_SUCCESS});
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        dispatch({type: USER_DELETE_BY_ADMIN_FAIL, payload: message});
     }
 };

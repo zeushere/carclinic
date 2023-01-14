@@ -59,12 +59,17 @@
 .login__input[type="password"],
 .login__input[type="number"],
 .login__input[type="time"],
+.edit__user__select,
 .login__textarea {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
     padding: 0.25rem;
     margin-bottom: 1rem;
     border-radius: 0.5rem;
+}
+
+.edit__user__select {
+    height: 42px;
 }
 
 @media only screen and (min-width: 577px) {
