@@ -154,9 +154,9 @@ public class AppointmentService {
     @Transactional
     public void cancelAppointment(String id, String userId) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();
-        if (appointment.getDate().isBefore(LocalDate.now())) {
-            throw new CouldNotCancelPastAppointment();
-        }
+//        if (appointment.getDate().isBefore(LocalDate.now())) {
+//            throw new CouldNotCancelPastAppointment();
+//        }
         Set<WorkingPeriod> workingPeriodSet = appointment.getWorkingPeriods();
         workingPeriodSet
                 .forEach(workingPeriod -> {
