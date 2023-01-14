@@ -38,6 +38,8 @@ const Header = () => {
     const { userInfo} = userSignin;
     const userRole = useSelector((state) => state.userRole);
     const { role} = userRole;
+    const isUserRegularCustomer = useSelector((state) => state.isUserRegularCustomer);
+    const { regularCustomer} = isUserRegularCustomer
     const dispatch = useDispatch();
 
     const signoutHandler = () => {
@@ -77,7 +79,7 @@ const Header = () => {
 
                                 {userInfo ? (
                                     <>
-
+                                        {regularCustomer && <span className={'btn__profile'}> <i className="ri-star-half-s-line"></i>Stały klient -10%</span>}
                                             <button className="p-0 btn__profile dropdown-toggle d-flex align-items-center" type="button"
                                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                     aria-expanded="false">
@@ -99,6 +101,7 @@ const Header = () => {
                                         <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
                                             <Link className="dropdown-item dropdown-item__profile" to="/appointments">Zgłoszenia</Link>
                                             <Link className="dropdown-item dropdown-item__profile" to="/mechanical-services/employee">Usługi mechaniczne</Link>
+                                            <Link className="dropdown-item dropdown-item__profile" to="/mechanical-services/employee">Kody rabatowe</Link>
                                             <Link className="dropdown-item dropdown-item__profile" to="/user-appointments">Blog</Link>
                                         </div>
                                             </>
@@ -112,8 +115,9 @@ const Header = () => {
                                                     <span className={'d-flex gap-1'}><i className="ri-admin-fill"></i>Panel adminstratora</span>
                                                 </button>
                                                 <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
-                                                    <Link className="dropdown-item dropdown-item__profile" to="/profile">Użytkownicy</Link>
-                                                    <Link className="dropdown-item dropdown-item__profile" to="/profile">Pracownicy</Link>
+                                                    <Link className="dropdown-item dropdown-item__profile" to="/users/admin">Użytkownicy</Link>
+                                                    <Link className="dropdown-item dropdown-item__profile" to="/employees/admin">Pracownicy</Link>
+                                                    <Link className="dropdown-item dropdown-item__profile" to="/admins/admin">Adminstratorzy</Link>
                                                 </div>
 
                                             </>

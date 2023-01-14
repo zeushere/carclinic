@@ -58,4 +58,14 @@ public class User {
         this.password = password;
         this.roles.add(role);
     }
+
+    public User(String firstName, String lastName, String email, String login, char[] password, Role role, boolean regularCustomer) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.roles.add(role);
+        this.regularCustomer = regularCustomer;
+    }
 }
