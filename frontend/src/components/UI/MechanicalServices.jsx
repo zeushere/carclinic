@@ -6,6 +6,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {MdClose} from "react-icons/md";
 import {listMechanicalServices} from "../../actions/mechanicalServicesActions";
 import {Link} from "react-router-dom";
+import $ from "jquery";
+import {Col, Container, Row} from "reactstrap";
 
 export const MechanicalServices = () => {
 
@@ -20,14 +22,31 @@ export const MechanicalServices = () => {
         localStorage.setItem('mechanicalServiceExpectedExecutionTime', mechanicalServiceId.expectedExecutionTime.substr(0, 5))
     }
 
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr:not(:first)").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
     useEffect(() => {
         dispatch(listMechanicalServices())
     },[dispatch])
     return (
         <Helmet title="Usługi Mechaniczne">
             <CommonSection title="Usługi mechaniczne"/>
-            <div className="table-responsive-md m-5">
-                <table className="table table-faults mb-0" style={{color: "white"}}>
+            <Container>
+            <Row className={'justify-content-end mr-4'}>
+                <Col lg= '2' className={'mb-2'}>
+                    <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
+                </Col>
+            </Row>
+                <Row>
+            <div className="table-responsive-md m-3">
+
+                <table className="table table-faults mb-0" id="myTable" style={{color: "white"}}>
                     <thead className="text-center">
                     <tr className={'table-th'}>
                         <th>Nazwa usługi</th>
@@ -52,6 +71,8 @@ export const MechanicalServices = () => {
                 </table>
 
             </div>
+                </Row>
+            </Container>
         </Helmet>
     )
 }

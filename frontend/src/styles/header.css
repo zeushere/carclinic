@@ -134,11 +134,12 @@
 
 .search__box {
     border: 1px solid #7c8a972f;
-    padding: 7px 12px;
-    display: flex;
+    padding: 2px 1px;
+    display: inline;
     align-items: center;
     border-radius: 50px;
     background: #020a4de9;
+    color: white;
 }
 
 .search__box input {

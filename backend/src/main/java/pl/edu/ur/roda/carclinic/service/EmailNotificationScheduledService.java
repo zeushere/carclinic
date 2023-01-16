@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.edu.ur.roda.carclinic.entity.Car;
@@ -15,8 +14,11 @@ import pl.edu.ur.roda.carclinic.properties.EmailSendNotificationProperties;
 import pl.edu.ur.roda.carclinic.repostiory.CarRepository;
 import pl.edu.ur.roda.carclinic.repostiory.RoleRepository;
 import pl.edu.ur.roda.carclinic.repostiory.UserRepository;
+import pl.edu.ur.roda.carclinic.util.filestorage.FileStorage;
 
+import javax.mail.util.ByteArrayDataSource;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,11 +31,14 @@ import java.util.Scanner;
 @Slf4j
 public class EmailNotificationScheduledService {
 
+    private static final String IMG_HTML = "<p><img src='cid:image'></p>";
+
     private final EmailSendNotificationProperties emailSendNotificationProperties;
     private final JavaMailSender javaMailSender;
     private final CarRepository carRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final FileStorage fileStorage;
 
     @Scheduled(initialDelay = 60000, fixedRate = 86400000)
     @Transactional
@@ -51,14 +56,20 @@ public class EmailNotificationScheduledService {
                             EmailNotificationRequest emailNotificationRequest = EmailNotificationRequest.of(user, car);
                             log.info("Sending email notification to {} with subject {}", emailNotificationRequest.user().getEmail(), emailSendNotificationProperties.getSubject());
                             message.setText(loadTextMessage(emailNotificationRequest), true);
+                            message.addInline("image", loadImage());
                             car.setNotificationSend(LocalDateTime.now());
                         }));
                     }
                 });
     }
+
+    private ByteArrayDataSource loadImage() throws IOException {
+        return new ByteArrayDataSource(fileStorage.getFileBytes("backend/src/main/resources/files/email/email-oil-notification.png"), fileStorage.getFileType("backend/src/main/resources/files/email/email-oil-notification.png"));
+    }
+
     private String loadTextMessage(EmailNotificationRequest emailNotificationRequest) {
-            return getMessageFromFile(emailNotificationRequest.user().getFirstName(), emailNotificationRequest.car().getBrand(), emailNotificationRequest.car().getModel());
-        }
+        return getMessageFromFile(emailNotificationRequest.user().getFirstName(), emailNotificationRequest.car().getBrand(), emailNotificationRequest.car().getModel());
+    }
 
     private String getMessageFromFile(
             String userName,
@@ -102,7 +113,8 @@ public class EmailNotificationScheduledService {
 
         usersWithRoleUser
                 .forEach(user -> {
-                    if (user.getCars() != null) {;
+                    if (user.getCars() != null) {
+                        ;
                         user.getCars()
                                 .forEach(car -> userCarMap.put(car, user));
                     }

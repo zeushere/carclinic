@@ -30,7 +30,7 @@ public class CarService {
     private final FileStorage fileStorage;
     private final ImageEncoder imageEncoder;
 
-    @Value("${errorreports.images-path}")
+    @Value("${cars.images-path}")
     private String directoryPath;
 
     @Transactional

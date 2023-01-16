@@ -79,7 +79,7 @@ const Contact = () => {
                       onChange={(e) => setMessage(e.target.value)}
                       rows="5"
                       placeholder="Wiadomość"
-                      className="textarea textarea__contact"
+                      className="textarea textarea__contact w-100"
                       required
                   ></textarea>
                                 </FormGroup>

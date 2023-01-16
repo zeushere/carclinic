@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteAppointment, listUserAppointments} from "../actions/appointmentActions";
 import {Link} from "react-router-dom";
 import moment from "moment/moment";
+import $ from 'jquery'
+import {APPOINTMENT_DELETE_RESET} from "../constants/appointmentConstants";
 
 const UserAppointments = () => {
     const snackbarRefDeleteAppointment = useRef(null);
@@ -14,7 +16,17 @@ const UserAppointments = () => {
     const dispatch = useDispatch();
     const appointmentList = useSelector(state => state.appointmentList);
     const {userAppointments} = appointmentList;
+    const appointmentDelete = useSelector((state) => state.appointmentDelete);
+    const {loading, error, success} = appointmentDelete;
 
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr:not(:first)").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
 
@@ -35,13 +47,19 @@ const UserAppointments = () => {
     const deleteHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz anulować zgłoszenie?')) {
             dispatch(deleteAppointment(id));
+            snackbarRefDeleteAppointment.current.show();
+            dispatch({type: APPOINTMENT_DELETE_RESET})
+
         }
     };
-
 
     useEffect(() => {
         dispatch(listUserAppointments());
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(listUserAppointments());
+    }, [success]);
 
     function connectCarVars(brand, model) {
         return brand + ' ' + model;
@@ -55,14 +73,24 @@ const UserAppointments = () => {
     return (
         <section>
             <Container>
+
                 <Row>
-                    <Col lg="12" md='12' className={'text-center mb-5'}>
+                    <Col lg="12" md='12' className={'text-center mb-4'}>
                         <h2 className="section__title">Twoje zgłoszenia</h2>
                     </Col>
                 </Row>
+                    <Row className={'justify-content-end'}>
+                    <Col lg= '2' className={'mb-4'}>
+                    <div className="search__box mr-3">
+                        <input id="myInput" type="text" placeholder="Szukaj"/>
+                    </div>
+                    </Col>
+                    </Row>
+
                 <Row>
+
                     <div className="table-responsive-lg m-0">
-                        <table className="table table-faults mb-0" style={{color: "white"}}>
+                        <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
                             <thead className="text-center">
                             <tr className={'table-th'}>
                                 <th>Nazwa usługi</th>
@@ -125,7 +153,7 @@ const UserAppointments = () => {
                 </Row>
                 <Snackbar
                     ref={snackbarRefDeleteAppointment}
-                    message="Pomyślnie usunięto zgłoszenie!"
+                    message="Pomyślnie anulowano zgłoszenie!"
                     type={SnackbarType.success}
                 />
             </Container>
