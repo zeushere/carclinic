@@ -24,5 +24,6 @@
     <include file="database/17-add-cost-to-appointment.sql"/>
     <include file="database/18-add-rabat-code-table.sql"/>
     <include file="database/19-add-regular-customer-field-to-user.sql"/>
+    <include file="database/20-add-blog-table.sql"/>
 
 </databaseChangeLog>

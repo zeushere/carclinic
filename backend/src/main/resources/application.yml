@@ -36,6 +36,9 @@ files-storage:
 errorreports:
   images-path: 'report'
 
+blog:
+  images-path: 'blog'
+
 mail:
   admin: carclinic.superuser@gmail.com
   sender:

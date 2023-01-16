@@ -2,8 +2,6 @@ import React from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
-import CarListing from "../pages/CarListing";
-import CarDetails from "../pages/CarDetails";
 import Blog from "../pages/Blog";
 import BlogDetails from "../pages/BlogDetails";
 import NotFound from "../pages/NotFound";
@@ -31,6 +29,9 @@ import AddAdmin from "../pages/AddAdmin";
 import RabatCodesEmployee from "../pages/RabatCodesEmployee";
 import EditRabatCode from "../pages/EditRabatCode";
 import AddRabatCode from "../pages/AddRabatCode";
+import BlogsEmployee from "../pages/BlogsEmployee";
+import AddBlog from "../pages/AddBlog";
+import EditBlog from "../pages/EditBlog";
 
 const Routers = () => {
     return (
@@ -41,10 +42,13 @@ const Routers = () => {
             <Route path="/mechanical-services" element={<MechanicalServices/>}/>
             <Route path="/mechanical-services/employee" element={<MechanicalServiceEmployee/>}/>
             <Route path="/rabat-codes/employee" element={<RabatCodesEmployee/>}/>
+            <Route path="/blogs/employee" element={<BlogsEmployee/>}/>
             <Route path="/rabat-codes/employee/edit/:id" element={<EditRabatCode/>}/>
+            <Route path="/blogs/employee/edit/:id" element={<EditBlog/>}/>
             <Route path="/mechanical-services/employee/edit/:id" element={<EditMechanicalService/>}/>
             <Route path="/mechanical-services/employee/add/" element={<AddMechanicalService/>}/>
             <Route path="/rabat-codes/employee/add/" element={<AddRabatCode/>}/>
+            <Route path="/blogs/employee/add/" element={<AddBlog/>}/>
             <Route path="/appointments/:id" element={<AppointmentView/>}/>
             <Route path="/appointments" element={<AllAppointmentsOfDay/>}/>
             <Route path="/users/admin" element={<UsersAdmin/>}/>
@@ -56,7 +60,7 @@ const Routers = () => {
             <Route path="/admins/admin/add" element={<AddAdmin/>}/>
             <Route path="/cars/:id" element={<ClientCarDetails/>} exact/>
             <Route path="/blogs" element={<Blog/>}/>
-            <Route path="/blogs/:slug" element={<BlogDetails/>}/>
+            <Route path="/blogs/:id" element={<BlogDetails/>}/>
             <Route path="/contact" element={<Contact/>}/>
             <Route path="/payment-screen" element={<PaymentScreen/>}/>
             <Route path="/login" element={<Login/>}/>
