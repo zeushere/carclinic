@@ -64,7 +64,7 @@ export const RabatCodesEmployee = () => {
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
                                         <th>Kod rabatowy</th>
-                                        <th>Wielkość zniżki</th>
+                                        <th>Wysokość zniżki</th>
                                         <th>Akcja</th>
                                     </tr>
                                     </thead>

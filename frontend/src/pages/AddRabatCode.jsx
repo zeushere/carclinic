@@ -53,7 +53,7 @@ const AddRabatCode = () => {
                                         placeholder={'Kod'}
                                         required
                                     />
-                                    <label htmlFor="lastName">Wielkość zniżki:</label>
+                                    <label htmlFor="lastName">Wysokość zniżki:</label>
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="number"
@@ -63,7 +63,7 @@ const AddRabatCode = () => {
                                         autoComplete="off"
                                         value={discountSize}
                                         onChange={(e) => setDiscountSize(e.target.value)}
-                                        placeholder={'Wielkość zniżki'}
+                                        placeholder={'Wysokość zniżki'}
                                         required
                                     />
                                     <button className={'profile__button'} type={"submit"}>Zatwierdź</button>

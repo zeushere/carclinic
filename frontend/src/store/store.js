@@ -43,6 +43,14 @@ import {
     userAppointmentsListReducer
 } from "../reducers/appointmentReducers";
 import {sendEmailContactReducer} from "../reducers/contactReducers";
+import {
+    blogAddImageReducer,
+    blogAddReducer,
+    blogDeleteReducer,
+    blogDetailsReducer,
+    blogListReducer,
+    blogUpdateReducer
+} from "../reducers/blogReducers";
 
 const initialState = {
     userSignin: {
@@ -109,6 +117,12 @@ const reducer = combineReducers({
     rabatCodeDetails: rabatCodeDetailsReducer,
     rabatCodeUpdate: rabatCodeUpdateReducer,
     rabatCodeAddedId: rabatCodeAddReducer,
+    blogList: blogListReducer,
+    blogDelete: blogDeleteReducer,
+    blogDetails: blogDetailsReducer,
+    blogUpdate: blogUpdateReducer,
+    blogAdded: blogAddReducer,
+    isImageAddedToBlog: blogAddImageReducer,
 
 
 });

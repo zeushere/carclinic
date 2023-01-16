@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import pl.edu.ur.roda.carclinic.dto.ErrorMessageDto;
 import pl.edu.ur.roda.carclinic.exception.CaptchaValidationException;
+import pl.edu.ur.roda.carclinic.exception.CouldNotFindBlogException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
 import pl.edu.ur.roda.carclinic.exception.FileNoExistException;
@@ -85,6 +86,11 @@ public class ControllerHandler {
 
     @ExceptionHandler(CouldNotFindUserException.class)
     public ResponseEntity<ErrorMessageDto> handleUserNotFoundException(CouldNotFindUserException exception) {
+        return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CouldNotFindBlogException.class)
+    public ResponseEntity<ErrorMessageDto> handleColdNotFindBlogException(CouldNotFindUserException exception) {
         return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
