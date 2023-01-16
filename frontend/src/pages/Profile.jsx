@@ -128,6 +128,7 @@ const Profile = () => {
                                         id="address"
                                         autoComplete="off"
                                         value={address}
+                                        minLength={'5'}
                                         onChange={(e) => setAddress(e.target.value)}
                                         placeholder={'Adres'}
                                         required
@@ -153,6 +154,8 @@ const Profile = () => {
                                         type="text"
                                         id="login"
                                         autoComplete="off"
+                                        minLength={4}
+                                        maxLength={20}
                                         value={login}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}

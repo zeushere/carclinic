@@ -98,7 +98,7 @@ const Register = (props) => {
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="text"
                                         id="username"
-                                        minLength={5}
+                                        minLength={4}
                                         maxLength={20}
                                         autoComplete="off"
                                         onChange={(e) => setUsername(e.target.value)}
