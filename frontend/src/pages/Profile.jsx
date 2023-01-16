@@ -4,11 +4,13 @@ import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-k
 import {useDispatch, useSelector} from "react-redux";
 import {detailsUser, updateUserProfile} from "../actions/userActions";
 import '../styles/profile.css'
-import {USER_UPDATE_PROFILE_RESET} from "../constants/userConstants";
+import {USER_DETAILS_RESET, USER_UPDATE_PROFILE_RESET} from "../constants/userConstants";
 import LoadingBox from "../components/LoadingBox/LoadingBox";
 import MessageBox from "../components/MessageBox/MessageBox";
 import Snackbar from "../components/Snackbar/Snackbar";
 import SnackbarType from "../components/Snackbar/SnackbarType";
+import {detailsMechanicalService} from "../actions/mechanicalServicesActions";
+import {MECHANICAL_SERVICE_UPDATE_RESET} from "../constants/mechanicalServicesConstants";
 
 const Profile = () => {
     const snackbarRef = useRef(null);
@@ -57,18 +59,24 @@ const Profile = () => {
                     address
                 })
             );
-            dispatch({type: USER_UPDATE_PROFILE_RESET});
             setPassword('');
             setConfirmPassword('');
             snackbarRef.current.show();
         }
     }
 
-    useEffect(() => {
-        loadUserDetails()
-        fillVariablesOfUserDetails()
-    }, [user, dispatch]);
 
+    useEffect(() => {
+        if (!user) {
+            dispatch(detailsUser());
+            dispatch({type: USER_UPDATE_PROFILE_RESET});
+        }
+        window.scroll(0, 100)
+    }, [dispatch]);
+
+    useEffect(() => {
+     fillVariablesOfUserDetails()
+    }, [user])
 
     const fillVariablesOfUserDetails = () => {
         if (user) {
@@ -117,7 +125,7 @@ const Profile = () => {
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="text"
-                                        id="lastName"
+                                        id="address"
                                         autoComplete="off"
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}

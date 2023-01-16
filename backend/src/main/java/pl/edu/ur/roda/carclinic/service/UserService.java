@@ -88,6 +88,7 @@ public class UserService {
         user.setLastName(userEditDto.lastName());
         user.setEmail(userEditDto.email());
         user.setLogin(userEditDto.login());
+        user.setAddress(userEditDto.address());
         char[] encodedPassword = passwordEncoder.encode(userEditDto.password()).toCharArray();
         user.setPassword(encodedPassword);
 

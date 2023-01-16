@@ -126,15 +126,14 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     try {
         const {data} = await Axios.put(`/profile`, user, {
             headers: {Authorization: `Bearer ${userInfo.token}`},
-        }).then(async () => {
-            const username = data.login;
-            const password = data.password;
-            const {loginData} = await Axios.post('/login', {username, password},
-                {headers: {'g-recaptcha': 'test'}});
-            dispatch({type: USER_UPDATE_PROFILE_SUCCESS, payload: data});
-            dispatch({type: USER_SIGNIN_REQUEST, payload: loginData});
-            dispatch({type: USER_SIGNIN_SUCCESS, payload: loginData});
         });
+        dispatch({type: USER_UPDATE_PROFILE_SUCCESS, payload: true});
+
+        const username = data.login;
+        const password = data.password;
+
+        dispatch(signin(username,password));
+        dispatch(detailsUser());
     } catch (error) {
         const message =
             error.response && error.response.data.message
