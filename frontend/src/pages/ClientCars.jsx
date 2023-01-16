@@ -24,14 +24,14 @@ const ClientCars = () => {
     const [addCarViewFlag, setAddCarViewFlag] = useState(false);
     const carAdd = useSelector((state) => state.carAdd);
     const {addedCarId} = carAdd;
-    const bodyFormData = new FormData();
+    const [image, setImage] = useState('');
     const addCarFormDiv = useRef(null);
+    const isImageAddedToCar = useSelector((state) => state.isImageAddedToCar);
+    const {isImageAdded} = isImageAddedToCar;
+
 
     const uploadImage = (e) => {
-        const invoke = 'invoke';
-        const file = e.target.files[0];
-        bodyFormData.append('image', file);
-        localStorage.setItem('invoke', invoke);
+        setImage(e.target.files[0]);
         snackbarRefAddImage.current.show();
     };
 
@@ -54,7 +54,7 @@ const ClientCars = () => {
 
                     <Col lg="7" md="12" sm="12">
                         <AddCarForm addCarViewFlag={addCarViewFlag} setAddCarViewFlag={setAddCarViewFlag}
-                                    addCarFormDiv={addCarFormDiv} formdata={bodyFormData}/>
+                                    addCarFormDiv={addCarFormDiv} image={image}/>
                     </Col>
                 </Row>
             </Container>
@@ -67,7 +67,7 @@ const ClientCars = () => {
             snackbarRefDeleteCar.current.show();
             dispatch({type: CAR_DELETE_RESET});
         }
-    }, [dispatch, successDelete, addedCarId, localStorage]);
+    }, [dispatch, successDelete, addedCarId, isImageAdded]);
 
     return (
         <section>
@@ -97,10 +97,10 @@ const ClientCars = () => {
                     message="Pomyślnie usunięto samochód!"
                     type={SnackbarType.success}
                 /><Snackbar
-                    ref={snackbarRefAddImage}
-                    message="Pomyślnie dodano zdjęcie!"
-                    type={SnackbarType.success}
-                />
+                ref={snackbarRefAddImage}
+                message="Pomyślnie dodano zdjęcie!"
+                type={SnackbarType.success}
+            />
             </Container>
         </section>
     );

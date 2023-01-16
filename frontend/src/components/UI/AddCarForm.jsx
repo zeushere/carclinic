@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import "../../styles/find-car-form.css";
 import {Form, FormGroup} from "reactstrap";
 import '../../styles/add-car-form.css';
@@ -6,8 +6,10 @@ import useWindowDimensions from "../WindowDimension/WindowDimension";
 import {useDispatch, useSelector} from "react-redux";
 import {addCar} from "../../actions/carActions";
 import Axios from "axios";
-import {CAR_DELETE_FAIL} from "../../constants/carConstants";
+import {CAR_ADD_RESET, CAR_DELETE_FAIL} from "../../constants/carConstants";
 import {MdClose} from "react-icons/md";
+import SnackbarType from "../Snackbar/SnackbarType";
+import Snackbar from "../Snackbar/Snackbar";
 
 
 const AddCarForm = (props) => {
@@ -25,35 +27,25 @@ const AddCarForm = (props) => {
     const {userInfo} = userSignin;
     const carAdd = useSelector(state => state.carAdd);
     const {addedCarId} = carAdd;
+    const image = props.image;
+    const snackbarRef = useRef(null);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addCar(brand, model, yearProduction, engineType, carType, description));
-        props.setAddCarViewFlag(!props.addCarViewFlag)
-        dispatch(addImageToCar());
-    }
+        if (image !== '') {
+            const bodyFormData = new FormData();
+            bodyFormData.append('image', image);
+            dispatch(addCar(brand, model, yearProduction, engineType, carType, description, bodyFormData));
+        } else {
+            dispatch(addCar(brand, model, yearProduction, engineType, carType, description, null));
 
-    const addImageToCar = () => async (dispatch) => {
-        if (localStorage.getItem('invoke') != null) {
-            const bodyFormData = props.formdata;
-            try {
-                 console.log(addedCarId)
-                const {data} = await Axios.post(`/cars/${addedCarId}`, bodyFormData, {
-                    headers: {Authorization: `Bearer ${userInfo.token}`}
-                });
-                localStorage.removeItem('invoke')
-                localStorage.removeItem('addedCarId')
-            } catch (error) {
-                const message = error.response && error.response.data.message
-                    ? error.response.data.message
-                    : error.message;
-                dispatch({type: CAR_DELETE_FAIL, payload: message});
-                localStorage.removeItem('invoke')
-                localStorage.removeItem('addedCarId')
-            }
         }
-    };
+        dispatch({type: CAR_ADD_RESET});
+        snackbarRef.current.show();
 
+        props.setAddCarViewFlag(!props.addCarViewFlag)
+    }
 
     return (
         <Form className="form" onSubmit={handleSubmit}>
@@ -67,7 +59,7 @@ const AddCarForm = (props) => {
                 </button>
 
             </div>
-            <div className=" d-flex justify-content-around flex-wrap">
+            <div className=" d-flex justify-content-around flex-wrap add__car__form">
                 <FormGroup className="form__group">
                     <input type="text"
                            placeholder="Marka" required
@@ -89,8 +81,8 @@ const AddCarForm = (props) => {
 
                 <FormGroup className="form__group">
                     <select className="form-select" aria-label="Default select example" required
-                           value={engineType}
-                           onChange={(e) => setEngineType(e.target.value)}>
+                            value={engineType}
+                            onChange={(e) => setEngineType(e.target.value)}>
                         <option value="" disabled selected hidden>Typ silnika</option>
                         <option value="Benzyna">Benzyna</option>
                         <option value="Diesel">Diesel</option>
@@ -122,6 +114,11 @@ const AddCarForm = (props) => {
                     samochód
                 </button>
             </div>
+            <Snackbar
+                ref={snackbarRef}
+                message="Pomyślnie dodano samochód!"
+                type={SnackbarType.success}
+            />
         </Form>
     );
 };

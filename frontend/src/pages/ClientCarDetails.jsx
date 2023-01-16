@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Col, Container, Row} from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import {Link, useNavigate, useParams} from "react-router-dom";
@@ -10,6 +10,9 @@ import '../styles/client-car-details.css'
 import TypicalFaults from "../components/UI/TypicalFaults"
 import '../styles/car-faults.css'
 import AppointmentsCarHistory from "../components/UI/AppointmentsCarHistory";
+import {CAR_DELETE_RESET} from "../constants/carConstants";
+import Snackbar from "../components/Snackbar/Snackbar";
+import SnackbarType from "../components/Snackbar/SnackbarType";
 
 
 const ClientCarDetails = (props) => {
@@ -19,10 +22,14 @@ const ClientCarDetails = (props) => {
     const carDetails = useSelector(state => state.carDetails);
     const [typicalFaultsCarViewFlag, setTypicalFaultsCarViewFlag] = useState(false);
     const [carAppointmentsViewFlag, setCarAppointmentsViewFlag] = useState(false);
+    const appointmentDelete = useSelector((state) => state.appointmentDelete);
+    const {loading, error, success} = appointmentDelete;
+
     const {car} = carDetails;
     const deleteHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz usunąć ten samochód?')) {
             dispatch(deleteCar(id));
+            dispatch({type: CAR_DELETE_RESET})
             navigate('/client-cars')
         }
     };
@@ -36,6 +43,10 @@ const ClientCarDetails = (props) => {
         dispatch(carAppointments(id))
 
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(carAppointments(id))
+    },[success])
 
     function typicalFaultsCar() {
         return <div  className={'mt-5'}>

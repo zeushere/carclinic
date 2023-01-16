@@ -5,6 +5,8 @@ import {Link} from "react-router-dom";
 import '../styles/client-car.css'
 import {deleteCar} from "../actions/carActions";
 import {useDispatch} from "react-redux";
+import Snackbar from "../components/Snackbar/Snackbar";
+import SnackbarType from "../components/Snackbar/SnackbarType";
 
 const ClientCar = (props) => {
     const {id, brand, model, yearProduction, engineType, carType, description, image} = props.car;

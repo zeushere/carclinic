@@ -1,5 +1,11 @@
 .textarea__add__car__form {
     width: 65%;
+    resize: none;
+}
+
+.textarea__add__car__form::placeholder {
+    color: black!important;
+    opacity: 1;
 }
 .add__car-btn {
     display: inline;
@@ -8,6 +14,10 @@
     padding: 8px 15px;
     border: none;
     outline: none;
+}
+.add__car__form input::placeholder{
+    color: black!important;
+    opacity: 1;
 }
 
 .add__car-btn:hover {

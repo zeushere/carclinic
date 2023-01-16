@@ -1,5 +1,5 @@
 import {
-    CAR_ADD_FAIL, CAR_ADD_IMAGE_REQUEST,
+    CAR_ADD_FAIL, CAR_ADD_IMAGE_FAIL, CAR_ADD_IMAGE_REQUEST, CAR_ADD_IMAGE_SUCCESS,
     CAR_ADD_REQUEST, CAR_ADD_RESET,
     CAR_ADD_SUCCESS, CAR_APPOINTMENT_FAIL, CAR_APPOINTMENT_REQUEST, CAR_APPOINTMENT_SUCCESS,
     CAR_DELETE_FAIL,
@@ -13,6 +13,8 @@ import {
     CAR_LIST_SUCCESS
 } from "../constants/carConstants";
 import Axios from "axios";
+import {BLOG_ADD_IMAGE_FAIL, BLOG_ADD_IMAGE_REQUEST, BLOG_ADD_IMAGE_SUCCESS} from "../constants/blogConstants";
+import {addImageToBlog} from "./blogActions";
 
 export const listCars = () => async (dispatch, getState) => {
     dispatch({type: CAR_LIST_REQUEST});
@@ -112,7 +114,7 @@ export const deleteCar = (id) => async (dispatch, getState) => {
     }
 };
 
-export const addCar = (brand, model, yearProduction, engineType, carType, description) => async (dispatch, getState) => {
+export const addCar = (brand, model, yearProduction, engineType, carType, description, bodyFormData) => async (dispatch, getState) => {
     dispatch({type: CAR_ADD_REQUEST});
     const {userSignin: {userInfo}} = getState();
     try {
@@ -129,7 +131,9 @@ export const addCar = (brand, model, yearProduction, engineType, carType, descri
             });
         const carId = data.id
         dispatch({type: CAR_ADD_SUCCESS, payload: {carId}});
-        localStorage.setItem('addedCarId', carId)
+        if (bodyFormData !== null) {
+            dispatch(addImageToCar(data.id, bodyFormData))
+        }
     } catch (error) {
         dispatch({
             type: CAR_ADD_FAIL,
@@ -140,4 +144,21 @@ export const addCar = (brand, model, yearProduction, engineType, carType, descri
         });
     }
 };
+
+export const addImageToCar = (id, bodyFormData) => async (dispatch, getState) => {
+    dispatch({type: CAR_ADD_IMAGE_REQUEST});
+    const {userSignin: {userInfo}} =
+        getState();
+    try {
+        const {data} = await Axios.post(`/cars/${id}`, bodyFormData, {
+            headers: {Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: CAR_ADD_IMAGE_SUCCESS, payload: true});
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        dispatch({type: CAR_ADD_IMAGE_FAIL, payload: message});
+    }
+}
 

@@ -2,7 +2,6 @@ package pl.edu.ur.roda.carclinic.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.ur.roda.carclinic.dto.BlogAddDto;
 import pl.edu.ur.roda.carclinic.dto.BlogInfoDto;
-import pl.edu.ur.roda.carclinic.dto.CarRequest;
 import pl.edu.ur.roda.carclinic.service.BlogService;
-import pl.edu.ur.roda.carclinic.service.CarService;
 
 import javax.validation.Valid;
 import java.util.List;

@@ -16,9 +16,8 @@ const AppointmentsCarHistory = (props) => {
     const appointmets = useSelector(state => state.carAppointments);
     const {carAppointments} = appointmets;
     const dispatch = useDispatch();
-    const appointmentDelete = useSelector((state) => state.appointmentDelete);
-    const {loading: loadingDelete, error: errorDelete, success: successDelete} = appointmentDelete;
     const snackbarRefDeleteAppointment = useRef(null);
+
 
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
@@ -40,6 +39,8 @@ const AppointmentsCarHistory = (props) => {
     const deleteHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz anulować zgłoszenie?')) {
             dispatch(deleteAppointment(id));
+            snackbarRefDeleteAppointment.current.show();
+            dispatch({type: CAR_DELETE_RESET});
         }
     };
 
@@ -51,11 +52,7 @@ const AppointmentsCarHistory = (props) => {
 
     useEffect(() => {
         window.scrollTo(0, 700);
-        if (successDelete === true) {
-            snackbarRefDeleteAppointment.current.show();
-            dispatch({type: CAR_DELETE_RESET});
-        }
-    },[dispatch, successDelete])
+    },[])
 
     return (
         <div className="table-responsive-md">
@@ -127,7 +124,7 @@ const AppointmentsCarHistory = (props) => {
             </div>
             <Snackbar
                 ref={snackbarRefDeleteAppointment}
-                message="Pomyślnie usunięto zgłoszenie!"
+                message="Pomyślnie anulowano zgłoszenie!"
                 type={SnackbarType.success}
             />
         </div>

@@ -153,7 +153,7 @@ export const getUserRole = () => async (dispatch, getState) => {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: GET_USER_ROLE_SUCCESS, payload: data.role})
-        localStorage.setItem('userRole', JSON.stringify(data));
+        localStorage.setItem('userRole', JSON.stringify(data.role));
     } catch (error) {
         dispatch({
             type: GET_USER_ROLE_FAIL,

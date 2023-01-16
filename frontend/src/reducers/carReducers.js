@@ -1,5 +1,5 @@
 import {
-    CAR_ADD_FAIL, CAR_ADD_IMAGE_REQUEST, CAR_ADD_IMAGE_SUCCESS,
+    CAR_ADD_FAIL, CAR_ADD_IMAGE_FAIL, CAR_ADD_IMAGE_REQUEST, CAR_ADD_IMAGE_RESET, CAR_ADD_IMAGE_SUCCESS,
     CAR_ADD_REQUEST, CAR_ADD_RESET,
     CAR_ADD_SUCCESS, CAR_APPOINTMENT_FAIL, CAR_APPOINTMENT_REQUEST, CAR_APPOINTMENT_SUCCESS,
     CAR_DELETE_FAIL,
@@ -14,6 +14,12 @@ import {
     CAR_LIST_SUCCESS
 } from "../constants/carConstants";
 import {USER_SIGNOUT} from "../constants/userConstants";
+import {
+    BLOG_ADD_IMAGE_FAIL,
+    BLOG_ADD_IMAGE_REQUEST,
+    BLOG_ADD_IMAGE_RESET,
+    BLOG_ADD_IMAGE_SUCCESS
+} from "../constants/blogConstants";
 
 export const carListReducer = (
     state = {loading: true, cars: []},
@@ -116,12 +122,13 @@ export const carAddImageReducer = (state = {}, action) => {
         case CAR_ADD_IMAGE_REQUEST:
             return {loading: true};
         case CAR_ADD_IMAGE_SUCCESS:
-            return {loading: false};
-        case CAR_ADD_FAIL:
+            return {loading: false, isImageAdded: action.payload};
+        case CAR_ADD_IMAGE_FAIL:
             return {loading: false, error: action.payload};
-        case CAR_ADD_RESET:
+        case CAR_ADD_IMAGE_RESET:
             return {};
         default:
             return state;
+
     }
-};
+}

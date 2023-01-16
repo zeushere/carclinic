@@ -18,13 +18,12 @@ import pl.edu.ur.roda.carclinic.util.filestorage.FileStorage;
 import pl.edu.ur.roda.carclinic.util.filestorage.ImageEncoder;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CarService {
-
-    public static AddedCarId carIdToAddImage = null;
     private final CarRepository carRepository;
     private final UserRepository userRepository;
     private final CarInfoDtoCarMapper carInfoDtoCarMapper;
@@ -36,11 +35,9 @@ public class CarService {
 
     @Transactional
     public void addImageToCar(MultipartFile image, String carId, String ownerId) {
-        if(carIdToAddImage != null) {
-            Car car = carRepository.findById(carIdToAddImage.id()).orElseThrow(() -> new CouldNotFindCarException(carIdToAddImage.id()));
-            String imagePath = fileStorage.saveImage(image, directoryPath);
-            car.setImagePath(imagePath);
-        }
+        Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
+        String imagePath = fileStorage.saveImage(image, directoryPath);
+        car.setImagePath(imagePath);
     }
 
     public AddedCarId addCar(
@@ -58,10 +55,7 @@ public class CarService {
 
         Car savedCar = carRepository.save(car);
 
-        AddedCarId addedCarId = new AddedCarId(savedCar.getId());
-        carIdToAddImage = addedCarId;
-
-        return addedCarId;
+        return new AddedCarId(savedCar.getId());
     }
 
     public List<CarInfoDto> getCars(String ownerId) {
@@ -101,8 +95,15 @@ public class CarService {
         return carInfoDto;
     }
 
+    @Transactional
     public void deleteCar(String carId, String ownerId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new CouldNotFindCarException(carId));
+
+        if (car.getAppointments() != null) {
+            car.getAppointments()
+                    .forEach(appointment -> appointment.setCar(null));
+        }
+        car.setAppointments(new HashSet<>());
         carRepository.delete(car);
     }
 
