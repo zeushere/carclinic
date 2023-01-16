@@ -6,6 +6,7 @@ public record UserInfoDto(
         String firstName,
         String lastName,
         String login,
-        String email
+        String email,
+        String address
 ) {
 }

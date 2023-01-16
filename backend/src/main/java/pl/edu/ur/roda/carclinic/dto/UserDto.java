@@ -8,6 +8,7 @@ public record UserDto(
         String login,
         String firstName,
         String lastName,
+        String address,
         String role,
         boolean regularCustomer
 ) {
@@ -18,6 +19,7 @@ public record UserDto(
                 user.getLogin(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getAddress(),
                 role,
                 user.isRegularCustomer()
         );

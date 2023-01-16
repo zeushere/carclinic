@@ -24,5 +24,10 @@ public record UserEditDto(
         String login,
 
         @NotBlank(message = "user.password.isBlank")
-        String password) {
+        String password,
+
+        @Size(max = 255)
+        @NotBlank
+        String address
+        ) {
 }

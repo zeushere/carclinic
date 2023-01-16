@@ -17,6 +17,7 @@ const EditUser = () => {
     const {user} = userForAdmin;
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [address, setAddress] = useState('');
     const [login, setLogin] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,6 +38,7 @@ const EditUser = () => {
                     email,
                     login,
                     null,
+                    address,
                     role,
                     regularCustomer
                 )
@@ -56,6 +58,7 @@ const EditUser = () => {
                     email,
                     login,
                     password,
+                    address,
                     role,
                     regularCustomer
                 )
@@ -80,6 +83,7 @@ const EditUser = () => {
             setLastName(user.lastName)
             setEmail(user.email)
             setLogin(user.login)
+            setAddress(user.address)
             setRole(user.role)
             isRegularCustomer(user.regularCustomer)
         }
@@ -118,6 +122,17 @@ const EditUser = () => {
                                         required
                                     />
 
+                                    <label htmlFor="lastName">Adres:</label>
+                                    <input
+                                        className={'login__input d-flex flex-row align-items-center'}
+                                        type="text"
+                                        id="address"
+                                        autoComplete="off"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        placeholder={'Adres'}
+                                        required
+                                    />
                                     <label htmlFor="email">Email:</label>
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}

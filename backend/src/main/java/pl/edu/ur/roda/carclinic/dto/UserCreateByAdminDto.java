@@ -26,6 +26,9 @@ public record UserCreateByAdminDto(
         @NotBlank
         String password,
 
+        @NotBlank
+        String address,
+
         @NotBlank(message = "user.role.isBlank")
         String role,
 

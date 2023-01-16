@@ -23,5 +23,11 @@ public record UserCreateDto(
         String login,
 
         @NotBlank(message = "user.password.isBlank")
-        String password) {
+        String password,
+
+        @Size(max = 255)
+        @NotBlank(message = "user.address.isBlank")
+        String address
+
+) {
 }

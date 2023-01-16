@@ -34,6 +34,7 @@ public class User {
     private String email;
     private String login;
     private char[] password;
+    private String address;
     private boolean regularCustomer;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -50,21 +51,23 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Appointment> appointments;
 
-    public User(String firstName, String lastName, String email, String login, char[] password, Role role) {
+    public User(String firstName, String lastName, String email, String login, char[] password,String address, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.password = password;
+        this.address = address;
         this.roles.add(role);
     }
 
-    public User(String firstName, String lastName, String email, String login, char[] password, Role role, boolean regularCustomer) {
+    public User(String firstName, String lastName, String email, String login, char[] password, String address, Role role, boolean regularCustomer) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.password = password;
+        this.address = address;
         this.roles.add(role);
         this.regularCustomer = regularCustomer;
     }

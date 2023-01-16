@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import "../styles/login.css";
 import Helmet from "../components/Helmet/Helmet";
@@ -7,21 +7,27 @@ import {useNavigate} from "react-router-dom";
 import {MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
 import registerImg from '../assets/all-images/register-img.png';
 import {register} from "../actions/userActions";
+import {USER_REGISTER_RESET} from "../constants/userConstants";
+import LoadingBox from "../components/Boxes/LoadingBox";
+import MessageBox from "../components/Boxes/MessageBox";
+import Snackbar from "../components/Snackbar/Snackbar";
+import SnackbarType from "../components/Snackbar/SnackbarType";
 
 const Register = (props) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [address, setAddress] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [plError, setPlError] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo} = userSignin;
     const userRegister = useSelector((state) => state.userRegister);
-    const { successfulRegister} = userRegister;
-
-
+    const {loading,error, successfulRegister} = userRegister;
+    const snackBarRefInvalidPassword = useRef(null);
     let navigate = useNavigate();
 
     const redirect = '/login';
@@ -29,15 +35,16 @@ const Register = (props) => {
     useEffect(() => {
         if (userInfo || successfulRegister) {
             navigate(redirect)
+            dispatch({type: USER_REGISTER_RESET})
         }
     }, [navigate, userInfo, successfulRegister]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert('Wprowadzone hasła nie pasują do siebie!');
+        snackBarRefInvalidPassword.current.show();
         } else {
-            dispatch(register(firstName, lastName, username, email, password));
+            dispatch(register(firstName, lastName, address, username, email, password));
         }
     };
 
@@ -51,7 +58,8 @@ const Register = (props) => {
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol md='6' lg='6' className=' d-flex flex-column align-items-center justify-content-md-start'>
-
+                                {loading && <LoadingBox></LoadingBox>}
+                                {error && <MessageBox variant="danger">Podany email lub login jest zajęty</MessageBox>}
                                 <span className={'login__title'}><h1>Rejestracja</h1></span>
                                 <form className={'login__form'} onSubmit={handleSubmit}>
                                     <label htmlFor="name">Imię:</label>
@@ -74,11 +82,24 @@ const Register = (props) => {
                                         placeholder={'Nazwisko'}
                                         required
                                     />
+                                    <label htmlFor="surname">Adres:</label>
+                                    <input
+                                        className={'login__input d-flex flex-row align-items-center'}
+                                        type="text"
+                                        id="address"
+                                        minLength={'5'}
+                                        autoComplete="off"
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        placeholder={'Adres'}
+                                        required
+                                    />
                                     <label htmlFor="username">Login:</label>
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="text"
                                         id="username"
+                                        minLength={5}
+                                        maxLength={20}
                                         autoComplete="off"
                                         onChange={(e) => setUsername(e.target.value)}
                                         placeholder={'Login'}
@@ -90,6 +111,8 @@ const Register = (props) => {
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="email"
                                         id="email"
+                                        title={'Wprowadzono niepoprawny email.'}
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                         autoComplete="off"
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder={'Email'}
@@ -100,6 +123,8 @@ const Register = (props) => {
                                     <input className={'login__input d-flex flex-row align-items-center'}
                                            type="password"
                                            id="password"
+                                           title={'Hasło musi zawierać od 8 do 12 znaków. Co najmniej jedną duża literę, jedną małą, jedną liczbę oraz jeden znak specjalny spośród zbioru (!@#$%^&*_=+-).'}
+                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
                                            onChange={(e) => setPassword(e.target.value)}
                                            required
                                            placeholder={'Hasło'}
@@ -125,7 +150,11 @@ const Register = (props) => {
                         </MDBRow>
                     </MDBCardBody>
                 </MDBCard>
-
+                <Snackbar
+                    ref={snackBarRefInvalidPassword}
+                    message="Hasła nie pasują do siebie!"
+                    type={SnackbarType.fail}
+                />
             </MDBContainer>
         </Helmet>
     );

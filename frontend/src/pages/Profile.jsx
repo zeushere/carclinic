@@ -17,6 +17,7 @@ const Profile = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [address, setAddress] = useState('');
     const [login, setLogin] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -47,6 +48,7 @@ const Profile = () => {
                     email,
                     login,
                     password,
+                    address
                 })
             );
             dispatch({type: USER_UPDATE_PROFILE_RESET});
@@ -68,6 +70,7 @@ const Profile = () => {
             setLastName(user.lastName)
             setEmail(user.email)
             setLogin(user.login)
+            setAddress(user.address)
         }
     }
 
@@ -104,6 +107,18 @@ const Profile = () => {
                                         required
                                     />
 
+                                    <label htmlFor="lastName">Adres:</label>
+                                    <input
+                                        className={'login__input d-flex flex-row align-items-center'}
+                                        type="text"
+                                        id="lastName"
+                                        autoComplete="off"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        placeholder={'Adres'}
+                                        required
+                                    />
+
                                     <label htmlFor="email">Email:</label>
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}
@@ -134,6 +149,8 @@ const Profile = () => {
                                            id="password"
                                            onChange={(e) => setPassword(e.target.value)}
                                            value={password}
+                                           title={'Hasło musi zawierać od 8 do 12 znaków. Co najmniej jedną duża literę, jedną małą, jedną liczbę oraz jeden znak specjalny spośród zbioru (!@#$%^&*_=+-).'}
+                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
                                            required
                                            autoComplete={'off'}
                                            placeholder={'Hasło'}

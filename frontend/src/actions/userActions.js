@@ -45,7 +45,7 @@ import {
 } from "../constants/userConstants";
 import {CAR_LIST_RESET} from "../constants/carConstants";
 
-export const register = (firstName, lastName, login, email, password) => async (dispatch) => {
+export const register = (firstName, lastName, address, login, email, password) => async (dispatch) => {
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
     try {
         await Axios.post('/register', {
@@ -54,6 +54,7 @@ export const register = (firstName, lastName, login, email, password) => async (
                 email,
                 login,
                 password,
+                address
             },
             {params: {'g-recaptcha': 'test'}});
         const successfulRegister = true;
@@ -241,7 +242,7 @@ export const getUserForAdmin = (id) => async (dispatch, getState) => {
     }
 };
 
-export const updateUserByAdmin = (id, firstName, lastName, email, login, password, role, isRegularCustomer) => async (dispatch, getState) => {
+export const updateUserByAdmin = (id, firstName, lastName, email, login, password, address, role, isRegularCustomer) => async (dispatch, getState) => {
     dispatch({type: UPDATE_USER_BY_ADMIN_REQUEST});
     const {userSignin: {userInfo}} = getState();
     try {
@@ -252,6 +253,7 @@ export const updateUserByAdmin = (id, firstName, lastName, email, login, passwor
                 'login': login,
                 'password': password,
                 'role': role,
+                'address' : address,
                 'isRegularCustomer': isRegularCustomer
             },
             {
@@ -291,7 +293,7 @@ export const checkUserRegularCustomer = () => async (dispatch, getState) => {
     }
 };
 
-export const registerUserByAdmin = (firstName, lastName, login, email, password, role, isRegularCustomer) => async (dispatch, getState) => {
+export const registerUserByAdmin = (firstName, lastName, login, email, password,address, role, isRegularCustomer) => async (dispatch, getState) => {
     dispatch({type: USER_REGISTER_BY_ADMIN_REQUEST});
     const {
         userSignin: {userInfo},
@@ -303,6 +305,7 @@ export const registerUserByAdmin = (firstName, lastName, login, email, password,
                 email,
                 login,
                 password,
+                address,
                 role,
                 isRegularCustomer
             },

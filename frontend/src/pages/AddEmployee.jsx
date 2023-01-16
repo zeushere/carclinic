@@ -20,6 +20,7 @@ const AddEmployee = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [address, setAddress] = useState('');
     const [login, setLogin] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -41,6 +42,7 @@ const AddEmployee = () => {
                     login,
                     email,
                     password,
+                    address,
                     "EMPLOYEE",
                     regularCustomer
                 )
@@ -85,7 +87,17 @@ const AddEmployee = () => {
                                         placeholder={'Nazwisko'}
                                         required
                                     />
-
+                                    <label htmlFor="lastName">Adres:</label>
+                                    <input
+                                        className={'login__input d-flex flex-row align-items-center'}
+                                        type="text"
+                                        id="address"
+                                        autoComplete="off"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        placeholder={'Adres'}
+                                        required
+                                    />
                                     <label htmlFor="email">Email:</label>
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}

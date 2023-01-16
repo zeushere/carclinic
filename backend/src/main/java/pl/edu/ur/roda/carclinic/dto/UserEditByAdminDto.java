@@ -25,6 +25,10 @@ public record UserEditByAdminDto(
 
         String password,
 
+        @Size(max = 255)
+        @NotBlank
+        String address,
+
         @NotBlank(message = "user.role.isBlank")
         String role,
 

@@ -38,7 +38,7 @@ import {
     USER_REGISTER_BY_ADMIN_REQUEST,
     USER_REGISTER_BY_ADMIN_SUCCESS,
     USER_REGISTER_FAIL,
-    USER_REGISTER_REQUEST,
+    USER_REGISTER_REQUEST, USER_REGISTER_RESET,
     USER_REGISTER_SUCCESS,
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
@@ -93,7 +93,7 @@ export const userRegisterReducer = (state = {}, action) => {
             return {loading: false, successfulRegister: action.payload.successfulRegister};
         case USER_REGISTER_FAIL:
             return {loading: false, error: action.payload};
-        case USER_SIGNOUT:
+        case USER_REGISTER_RESET:
             return {};
         default:
             return state;

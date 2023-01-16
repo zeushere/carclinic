@@ -47,7 +47,7 @@ public class UserService {
         captchaValidator.validate(captcha);
         char[] encodedPassword = passwordEncoder.encode(userCreateDto.password()).toCharArray();
         Role userRole = roleRepository.findByName("USER").orElseThrow();
-        User registerUser = userRepository.save(new User(userCreateDto.firstName(), userCreateDto.lastName(), userCreateDto.email(), userCreateDto.login(), encodedPassword, userRole));
+        User registerUser = userRepository.save(new User(userCreateDto.firstName(), userCreateDto.lastName(), userCreateDto.email(), userCreateDto.login(), encodedPassword, userCreateDto.address(), userRole));
         return UserReadDto.of(registerUser);
     }
 
@@ -55,7 +55,7 @@ public class UserService {
         captchaValidator.validate(captcha);
         char[] encodedPassword = passwordEncoder.encode(userCreateByAdminDto.password()).toCharArray();
         Role role = roleRepository.findByName(userCreateByAdminDto.role()).orElseThrow();
-        User registerUser = userRepository.save(new User(userCreateByAdminDto.firstName(), userCreateByAdminDto.lastName(), userCreateByAdminDto.email(), userCreateByAdminDto.login(), encodedPassword, role, userCreateByAdminDto.isRegularCustomer()));
+        User registerUser = userRepository.save(new User(userCreateByAdminDto.firstName(), userCreateByAdminDto.lastName(), userCreateByAdminDto.email(), userCreateByAdminDto.login(), encodedPassword, userCreateByAdminDto.address(), role, userCreateByAdminDto.isRegularCustomer()));
         return new UserRegisterIdDto(registerUser.getId());
     }
 
@@ -207,7 +207,7 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new CouldNotFindCarException(id));
         Set<Appointment> userAppointments = user.getAppointments();
 
-        if(userAppointments != null){
+        if (userAppointments != null) {
             userAppointments
                     .forEach(appointment ->
                             appointmentService.cancelAppointment(appointment.getId(), id));
