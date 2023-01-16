@@ -28,8 +28,9 @@ public class RabatCodeService {
         return RabatCodeDiscount.of(optionalByCode.map(RabatCode::getDiscountSize).orElse(null));
     }
 
-    public void addRabatCode(RabatCodeDto rabatCodeDto) {
-        rabatCodeRepository.save(RabatCodeDto.of(rabatCodeDto));
+    public Long addRabatCode(RabatCodeDto rabatCodeDto) {
+        RabatCode savedRabatCode = rabatCodeRepository.save(RabatCodeDto.of(rabatCodeDto));
+        return savedRabatCode.getId();
     }
 
     public void deleteRabatCode(Long rabatCodeId) {
@@ -49,5 +50,9 @@ public class RabatCodeService {
         }
 
         return RabatCodeDto.from(rabatCode);
+    }
+
+    public RabatCode getRabatCode(Long id) {
+        return rabatCodeRepository.findById(id).orElseThrow();
     }
 }

@@ -7,50 +7,55 @@ import {Col, Container, Row} from "reactstrap";
 import '../styles/mechanical-service-employee.css'
 import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
+import {deleteRabatCode, listRabatCodes} from "../actions/rabatCodeActions";
 
-export const MechanicalServiceEmployee = () => {
+export const RabatCodesEmployee = () => {
 
-    const mechanicalServicesList = useSelector(state => state.mechanicalServicesList);
-    const {mechanicalServices} = mechanicalServicesList;
-    const mechanicalServiceDelete = useSelector((state) => state.mechanicalServiceDelete);
-    const {loading: loadingDelete, error: errorDelete, success: successDelete} = mechanicalServiceDelete;
+    const rabatCodesList = useSelector(state => state.rabatCodesList);
+    const {rabatCodes} = rabatCodesList;
+    const rabatCodeDelete = useSelector((state) => state.rabatCodeDelete);
+    const {loading: loadingDelete, error: errorDelete, success: successDelete} = rabatCodeDelete;
     const dispatch = useDispatch();
-    const snackbarRefDeleteMechanicalService = useRef(null);
+    const snackbarRefDeleteRabatCode = useRef(null);
     const navigate = useNavigate();
 
-    const addMechanicalServiceHandler = (e) => {
-        if (window.confirm('Czy na pewno chcesz dodać usługę?')) {
-            navigate('/mechanical-services/employee/add/')
+    const addRabatCodeHandler = (e) => {
+        if (window.confirm('Czy na pewno chcesz dodać kod?')) {
+            navigate('/rabat-codes/employee/add/')
         }
     }
 
-    const deleteHandler = (id) => {
-        if (window.confirm('Czy na pewno chcesz usunąć usługę?')) {
-            dispatch(deleteMechanicalService(id));
+    const deleteRabatCodeHandler = (id) => {
+        if (window.confirm('Czy na pewno chcesz usunąć kod?')) {
+            dispatch(deleteRabatCode(id));
         }
     };
 
     useEffect(() => {
-        dispatch(listMechanicalServices())
+        dispatch(listRabatCodes())
     }, [dispatch])
 
     useEffect(() => {
-        if(successDelete){
-            snackbarRefDeleteMechanicalService.current.show();
-            dispatch(listMechanicalServices())
+        if (successDelete) {
+            snackbarRefDeleteRabatCode.current.show();
+            dispatch(listRabatCodes())
         }
 
     }, [successDelete])
     return (
-        <Helmet title="Usługi Mechaniczne">
+        <Helmet title="Kody rabatowe">
             <section>
                 <Container>
                     <Row>
                         <Col lg="12" md='12' className={'text-center mb-5'}>
-                            <h2 className="section__title">Panel usług mechanicznych</h2>
+                            <h2 className="section__title">Panel kodów rabatowych</h2>
                         </Col>
                         <Row className={'justify-content-center'}>
-                            <Col  md={'3'}><button className={'btn add__mechanical__service__btn'} onClick={() => addMechanicalServiceHandler()}><Link to={'#'}>Dodaj usługę</Link></button></Col></Row>
+                            <Col md={'3'}>
+                                <button className={'btn add__mechanical__service__btn'}
+                                        onClick={() => addRabatCodeHandler()}><Link to={'#'}>Dodaj kod rabatowy</Link>
+                                </button>
+                            </Col></Row>
                     </Row>
                     <Row>
                         <Col lg={'12'} md={'12'}>
@@ -58,35 +63,34 @@ export const MechanicalServiceEmployee = () => {
                                 <table className="table table-faults mb-0" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
-                                        <th>Nazwa usługi</th>
-                                        <th>Czas wykonania</th>
-                                        <th>Koszt usługi</th>
+                                        <th>Kod rabatowy</th>
+                                        <th>Wielkość zniżki</th>
                                         <th>Akcja</th>
                                     </tr>
                                     </thead>
-                                    {mechanicalServices?.map((mechanicalService) => (
+                                    {rabatCodes?.map((rabatCode) => (
                                         <tbody className="align-middle text-center">
-                                        <tr key={mechanicalService?.id} className={'table-th'}>
-                                            <td>{mechanicalService?.name} </td>
-                                            <td>{mechanicalService.expectedExecutionTime?.substr(0, 5)}{mechanicalService.expectedExecutionTime ? ' h' : 'Zależny od usterki'} </td>
-                                            <td>{mechanicalService?.expectedServiceCost} {mechanicalService?.expectedServiceCost ? ' zł' : 'Do uzgodnienia'}</td>
+                                        <tr key={rabatCode?.id} className={'table-th'}>
+                                            <td>{rabatCode?.code} </td>
+                                            <td>{rabatCode?.discountSize} %</td>
                                             <td className={'mechanical__service__link'}>
                                                 <button type="button"
                                                         className="btn btn-danger btn-lg appointment_car__link m-2"
-                                                        onClick={() => deleteHandler(mechanicalService?.id)}><Link
+                                                        onClick={() => deleteRabatCodeHandler(rabatCode?.id)}><Link
                                                     to={'#'}
                                                     className="appointment_car__link">Usuń</Link>
                                                 </button>
                                                 <button type="button"
                                                         className="btn btn-lg mechanicalService__button edit-mechanical-service-button btn-warning"
-                                                        ><Link
-                                                    to={`/mechanical-services/employee/edit/${mechanicalService?.id}`} className="">Edytuj</Link></button>
+                                                ><Link
+                                                    to={`/rabat-codes/employee/edit/${rabatCode?.id}`}
+                                                    className="">Edytuj</Link></button>
                                             </td>
                                         </tr>
                                         </tbody>
                                     ))}
-                                    {mechanicalServices?.length === 0 && <tbody className="align-middle text-center">
-                                    <tr  className={'table-th'}>
+                                    {rabatCodes?.length === 0 && <tbody className="align-middle text-center">
+                                    <tr className={'table-th'}>
                                         <td>Brak</td>
                                         <td>Brak</td>
                                         <td>Brak</td>
@@ -99,8 +103,8 @@ export const MechanicalServiceEmployee = () => {
                         </Col>
                     </Row>
                     <Snackbar
-                        ref={snackbarRefDeleteMechanicalService}
-                        message="Pomyślnie usunięto usługę!"
+                        ref={snackbarRefDeleteRabatCode}
+                        message="Pomyślnie usunięto kod!"
                         type={SnackbarType.success}
                     />
                 </Container>
@@ -108,4 +112,4 @@ export const MechanicalServiceEmployee = () => {
         </Helmet>
     )
 }
-export default MechanicalServiceEmployee;
+export default RabatCodesEmployee;

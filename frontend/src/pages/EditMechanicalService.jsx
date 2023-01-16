@@ -124,7 +124,7 @@ const EditMechanicalService = () => {
             </MDBContainer>
             <Snackbar
                 ref={snackbarRef}
-                message="Usługa została pomyślnie zaaktualizowana!"
+                message="Usługa została pomyślnie zaktualizowana!"
                 type={SnackbarType.success}
             />
         </Helmet>
