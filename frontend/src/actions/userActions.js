@@ -132,9 +132,9 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             const {loginData} = await Axios.post('/login', {username, password},
                 {headers: {'g-recaptcha': 'test'}});
             dispatch({type: USER_UPDATE_PROFILE_SUCCESS, payload: data});
+            dispatch({type: USER_SIGNIN_REQUEST, payload: loginData});
+            dispatch({type: USER_SIGNIN_SUCCESS, payload: loginData});
         });
-
-
     } catch (error) {
         const message =
             error.response && error.response.data.message
@@ -293,7 +293,7 @@ export const checkUserRegularCustomer = () => async (dispatch, getState) => {
     }
 };
 
-export const registerUserByAdmin = (firstName, lastName, login, email, password,address, role, isRegularCustomer) => async (dispatch, getState) => {
+export const registerUserByAdmin = (firstName, lastName, login, email, password, address, role, isRegularCustomer) => async (dispatch, getState) => {
     dispatch({type: USER_REGISTER_BY_ADMIN_REQUEST});
     const {
         userSignin: {userInfo},

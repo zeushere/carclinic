@@ -14,6 +14,9 @@ const Profile = () => {
     const snackbarRef = useRef(null);
     const userDetails = useSelector((state) => state.userDetails);
     const {loading, error, user} = userDetails;
+    const userRole = useSelector((state) => state.userRole);
+    const {role} = userRole;
+    const snackBarRefInvalidPassword = useRef(null);
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -29,7 +32,8 @@ const Profile = () => {
         loading: loadingUpdate,
     } = userUpdateProfile;
     const dispatch = useDispatch();
-
+    let passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$';
+    let adminPasswordPattern = "[A-Za-z0-9]{4,}";
     const loadUserDetails = () => {
         if (!user) {
             dispatch({type: USER_UPDATE_PROFILE_RESET});
@@ -39,7 +43,9 @@ const Profile = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert('Podane hasła nie pasują do siebie!');
+            snackBarRefInvalidPassword.current.show();
+            setPassword('');
+            setConfirmPassword('');
         } else {
             dispatch(
                 updateUserProfile({
@@ -54,7 +60,6 @@ const Profile = () => {
             dispatch({type: USER_UPDATE_PROFILE_RESET});
             setPassword('');
             setConfirmPassword('');
-            dispatch(detailsUser());
             snackbarRef.current.show();
         }
     }
@@ -63,6 +68,7 @@ const Profile = () => {
         loadUserDetails()
         fillVariablesOfUserDetails()
     }, [user, dispatch]);
+
 
     const fillVariablesOfUserDetails = () => {
         if (user) {
@@ -77,7 +83,7 @@ const Profile = () => {
     return (
         <Helmet title="Profile">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black m-5 profile__edit_form' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -125,6 +131,8 @@ const Profile = () => {
                                         type="email"
                                         id="email"
                                         autoComplete="off"
+                                        title={'Wprowadzono niepoprawny email.'}
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder={'Email'}
@@ -149,8 +157,9 @@ const Profile = () => {
                                            id="password"
                                            onChange={(e) => setPassword(e.target.value)}
                                            value={password}
-                                           title={'Hasło musi zawierać od 8 do 12 znaków. Co najmniej jedną duża literę, jedną małą, jedną liczbę oraz jeden znak specjalny spośród zbioru (!@#$%^&*_=+-).'}
-                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+                                           title={role !== 'ADMIN' ? 'Hasło musi zawierać od 8 do 12 znaków. Co najmniej jedną duża literę, jedną małą, jedną liczbę oraz jeden znak specjalny spośród zbioru (!@#$%^&*_=+-).': 'Administratorze wprowadź minimum 4 znaki'}
+                                           pattern={role !== 'ADMIN' ? passwordPattern : adminPasswordPattern}
+                                           minLength={role !== 'ADMIN' ? 8 : 4}
                                            required
                                            autoComplete={'off'}
                                            placeholder={'Hasło'}
@@ -178,6 +187,11 @@ const Profile = () => {
                 ref={snackbarRef}
                 message="Profil został pomyślnie zaktualizowany!"
                 type={SnackbarType.success}
+            />
+            <Snackbar
+                ref={snackBarRefInvalidPassword}
+                message="Hasła nie pasują do siebie!"
+                type={SnackbarType.fail}
             />
         </Helmet>
     );
