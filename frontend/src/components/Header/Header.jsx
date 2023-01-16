@@ -101,7 +101,7 @@ const Header = () => {
                                         <div className="dropdown-menu dropdown__profile" aria-labelledby="dropdownMenuButton">
                                             <Link className="dropdown-item dropdown-item__profile" to="/appointments">Zgłoszenia</Link>
                                             <Link className="dropdown-item dropdown-item__profile" to="/mechanical-services/employee">Usługi mechaniczne</Link>
-                                            <Link className="dropdown-item dropdown-item__profile" to="/mechanical-services/employee">Kody rabatowe</Link>
+                                            <Link className="dropdown-item dropdown-item__profile" to="/rabat-codes/employee">Kody rabatowe</Link>
                                             <Link className="dropdown-item dropdown-item__profile" to="/user-appointments">Blog</Link>
                                         </div>
                                             </>

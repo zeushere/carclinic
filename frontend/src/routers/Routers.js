@@ -28,37 +28,43 @@ import EditUser from "../pages/EditUser";
 import AddUser from "../pages/AddUser";
 import AddEmployee from "../pages/AddEmployee";
 import AddAdmin from "../pages/AddAdmin";
+import RabatCodesEmployee from "../pages/RabatCodesEmployee";
+import EditRabatCode from "../pages/EditRabatCode";
+import AddRabatCode from "../pages/AddRabatCode";
 
 const Routers = () => {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/mechanical-services" element={<MechanicalServices />} />
-            <Route path="/mechanical-services/employee" element={<MechanicalServiceEmployee />} />
-            <Route path="/mechanical-services/employee/edit/:id" element={<EditMechanicalService />} />
-            <Route path="/mechanical-services/employee/add/" element={<AddMechanicalService />} />
-            <Route path="/appointments/:id" element={<AppointmentView />} />
-            <Route path="/appointments" element={<AllAppointmentsOfDay />} />
-            <Route path="/users/admin" element={<UsersAdmin />} />
-            <Route path="/users/admin/edit/:id" element={<EditUser />} />
-            <Route path="/users/admin/add/" element={<AddUser />} />
-            <Route path="/employees/admin/add/" element={<AddEmployee />} />
-            <Route path="/employees/admin" element={<EmployeesAdmin />} />
-            <Route path="/admins/admin" element={<AdminsAdmin />} />
-            <Route path="/admins/admin/add" element={<AddAdmin />} />
-            <Route path="/cars/:id" element={<ClientCarDetails />} exact/>
-            <Route path="/blogs" element={<Blog />} />
-            <Route path="/blogs/:slug" element={<BlogDetails />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/payment-screen" element={<PaymentScreen />} />
+            <Route path="/" element={<Navigate to="/home"/>}/>
+            <Route path="/home" element={<Home/>}/>
+            <Route path="/about" element={<About/>}/>
+            <Route path="/mechanical-services" element={<MechanicalServices/>}/>
+            <Route path="/mechanical-services/employee" element={<MechanicalServiceEmployee/>}/>
+            <Route path="/rabat-codes/employee" element={<RabatCodesEmployee/>}/>
+            <Route path="/rabat-codes/employee/edit/:id" element={<EditRabatCode/>}/>
+            <Route path="/mechanical-services/employee/edit/:id" element={<EditMechanicalService/>}/>
+            <Route path="/mechanical-services/employee/add/" element={<AddMechanicalService/>}/>
+            <Route path="/rabat-codes/employee/add/" element={<AddRabatCode/>}/>
+            <Route path="/appointments/:id" element={<AppointmentView/>}/>
+            <Route path="/appointments" element={<AllAppointmentsOfDay/>}/>
+            <Route path="/users/admin" element={<UsersAdmin/>}/>
+            <Route path="/users/admin/edit/:id" element={<EditUser/>}/>
+            <Route path="/users/admin/add/" element={<AddUser/>}/>
+            <Route path="/employees/admin/add/" element={<AddEmployee/>}/>
+            <Route path="/employees/admin" element={<EmployeesAdmin/>}/>
+            <Route path="/admins/admin" element={<AdminsAdmin/>}/>
+            <Route path="/admins/admin/add" element={<AddAdmin/>}/>
+            <Route path="/cars/:id" element={<ClientCarDetails/>} exact/>
+            <Route path="/blogs" element={<Blog/>}/>
+            <Route path="/blogs/:slug" element={<BlogDetails/>}/>
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path="/payment-screen" element={<PaymentScreen/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/client-cars" element={<ClientCars/>}/>
             <Route path="/user-appointments" element={<UserAppointments/>}/>
             <Route path="/register" element={<Register/>}/>
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound/>}/>
         </Routes>
     );
 };

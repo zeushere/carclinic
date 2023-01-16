@@ -31,8 +31,8 @@ public class RabatCodeController {
     }
 
     @PostMapping
-    void addRabatCode(@RequestBody RabatCodeDto rabatCodeDto) {
-        rabatCodeService.addRabatCode(rabatCodeDto);
+    Long addRabatCode(@RequestBody RabatCodeDto rabatCodeDto) {
+        return rabatCodeService.addRabatCode(rabatCodeDto);
     }
 
     @DeleteMapping("{id}")
@@ -52,5 +52,12 @@ public class RabatCodeController {
     @GetMapping
     List<RabatCode> getRabatCodes() {
         return rabatCodeService.getRabatCodes();
+    }
+
+    @GetMapping("/details/{id}")
+    RabatCode getRabatCode(
+            @PathVariable Long id
+    ) {
+        return rabatCodeService.getRabatCode(id);
     }
 }

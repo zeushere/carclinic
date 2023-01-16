@@ -27,7 +27,13 @@ import {
     mechanicalServiceDetailsReducer,
     mechanicalServicesListReducer, mechanicalServiceUpdateReducer
 } from "../reducers/mechanicalServicesReducers";
-import {rabatCodeDiscountReducer} from "../reducers/rabatCodesReducer";
+import {
+    rabatCodeAddReducer,
+    rabatCodeDeleteReducer,
+    rabatCodeDetailsReducer,
+    rabatCodeDiscountReducer,
+    rabatCodesListReducer, rabatCodeUpdateReducer
+} from "../reducers/rabatCodesReducer";
 import {availableWorkingPeriodListReducer} from "../reducers/workingPeriodReducers";
 import {
     allAppointmentsOfDayReducer,
@@ -98,6 +104,12 @@ const reducer = combineReducers({
     isUserRegularCustomer: checkUserRegularCustomerReducer,
     userRegisteredByAdminId: userRegisterByAdminReducer,
     isUserDeletedByAdmin: userDeleteByAdminReducer,
+    rabatCodesList: rabatCodesListReducer,
+    rabatCodeDelete: rabatCodeDeleteReducer,
+    rabatCodeDetails: rabatCodeDetailsReducer,
+    rabatCodeUpdate: rabatCodeUpdateReducer,
+    rabatCodeAddedId: rabatCodeAddReducer,
+
 
 });
 
