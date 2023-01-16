@@ -1,12 +1,11 @@
-import React  from "react";
+import React from "react";
 import {Col} from "reactstrap";
 import unknownCar from "../assets/all-images/cars-img/unknown-car.png"
 import {Link} from "react-router-dom";
 import '../styles/client-car.css'
+import '../styles/car-item.css'
 import {deleteCar} from "../actions/carActions";
 import {useDispatch} from "react-redux";
-import Snackbar from "../components/Snackbar/Snackbar";
-import SnackbarType from "../components/Snackbar/SnackbarType";
 
 const ClientCar = (props) => {
     const {id, brand, model, yearProduction, engineType, carType, description, image} = props.car;
@@ -47,7 +46,9 @@ const ClientCar = (props) => {
                         }
                     </button>
 
-                    <button className=" w-50 car__item-btn car__btn-details" onClick={() => {deleteHandler(id)}}>
+                    <button className=" w-50 car__item-btn car__btn-details" onClick={() => {
+                        deleteHandler(id)
+                    }}>
                         {<Link className='delete__car__button' to='#'>Usuń</Link>
                         }
                     </button>
