@@ -31,7 +31,7 @@ const BlogItem = ({item}) => {
     return (
         <Col lg="4" md="6" sm="6" className="mb-5">
             <div className="blog__item">
-                <img src={image} alt="" className="w-100"/>
+                <img src={image} alt="" className="w-100" style={{height: '276px'}}/>
                 <div className="blog__info p-3">
                     <Link to={`/blogs/${id}`} className="blog__title">
                         {title}

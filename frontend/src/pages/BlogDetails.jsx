@@ -70,7 +70,7 @@ const BlogDetails = () => {
                             {blogs?.map((item) => (
                                 <div className="recent__blog-post mb-4" key={item.id}>
                                     <div className="recent__blog-item d-flex gap-3">
-                                        <img src={item.image} alt="" className="w-25 rounded-2" />
+                                        <img src={item.image} alt="" className="w-25 rounded-2" style={{height: "69.5px"}} />
                                         <h6>
                                            <Link to={`/blogs/${item?.id}`}>{item.title}</Link>
                                         </h6>

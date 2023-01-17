@@ -9,9 +9,13 @@ CREATE TABLE rabat_code
     PRIMARY KEY (id)
 );
 
+INSERT INTO rabat_code (id, code, discount_size) VALUES (
+                                                         1, 'test', 25
+                                                        );
+
 CREATE SEQUENCE seq_rabat_code
     INCREMENT 1
-    START 1
+    START 2
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1;
