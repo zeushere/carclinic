@@ -35,10 +35,11 @@ import {
     USER_DETAILS_RESET,
     USER_DETAILS_SUCCESS,
     USER_REGISTER_BY_ADMIN_FAIL,
-    USER_REGISTER_BY_ADMIN_REQUEST,
+    USER_REGISTER_BY_ADMIN_REQUEST, USER_REGISTER_BY_ADMIN_RESET,
     USER_REGISTER_BY_ADMIN_SUCCESS,
     USER_REGISTER_FAIL,
-    USER_REGISTER_REQUEST, USER_REGISTER_RESET,
+    USER_REGISTER_REQUEST,
+    USER_REGISTER_RESET,
     USER_REGISTER_SUCCESS,
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
@@ -49,25 +50,6 @@ import {
     USER_UPDATE_PROFILE_RESET,
     USER_UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
-import {
-    CAR_DELETE_FAIL,
-    CAR_DELETE_REQUEST, CAR_DELETE_RESET, CAR_DELETE_SUCCESS,
-    CAR_LIST_FAIL,
-    CAR_LIST_REQUEST,
-    CAR_LIST_RESET,
-    CAR_LIST_SUCCESS
-} from "../constants/carConstants";
-import {
-    MECHANICAL_SERVICE_DETAILS_FAIL,
-    MECHANICAL_SERVICE_DETAILS_REQUEST,
-    MECHANICAL_SERVICE_DETAILS_SUCCESS
-} from "../constants/mechanicalServicesConstants";
-import {
-    APPOINTMENT_ADD_FAIL,
-    APPOINTMENT_ADD_REQUEST, APPOINTMENT_ADD_RESET,
-    APPOINTMENT_ADD_SUCCESS
-} from "../constants/appointmentConstants";
-import {checkUserRegularCustomer} from "../actions/userActions";
 
 export const userSigninReducer = (state = {}, action) => {
     switch (action.type) {
@@ -253,6 +235,8 @@ export const userRegisterByAdminReducer = (state = {}, action) => {
             return {loading: false, userRegisterId: action.payload};
         case USER_REGISTER_BY_ADMIN_FAIL:
             return {loading: false, error: action.payload};
+        case USER_REGISTER_BY_ADMIN_RESET:
+            return {};
         default:
             return state;
     }

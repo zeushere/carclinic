@@ -49,11 +49,15 @@ public class TypicalFaultsService {
                         }
                     }
                     if (probability == 3) {
-                        TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.HIGH_PROBABLE, typicalFaults1);
+                        TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.HIGH, typicalFaults1);
                         typicalFaultDtoList.add(typicalFault);
                     }
                     if (probability == 2) {
-                        TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.LIKELY, typicalFaults1);
+                        TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.MEDIUM, typicalFaults1);
+                        typicalFaultDtoList.add(typicalFault);
+                    }
+                    if( probability == 1) {
+                        TypicalFaultDto typicalFault = TypicalFaultDto.of(TypicalFaultsPossibility.LOW, typicalFaults1);
                         typicalFaultDtoList.add(typicalFault);
                     }
                 });

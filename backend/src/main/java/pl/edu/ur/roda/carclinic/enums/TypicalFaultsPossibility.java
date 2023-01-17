@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum TypicalFaultsPossibility {
 
-    LIKELY("PRAWDOPODOBNE"),
-    HIGH_PROBABLE("WYSOCE PRAWDOPODOBNE");
+    LOW("NISKIE"),
+    MEDIUM("ŚREDNIE"),
+    HIGH("WYSOKIE");
 
     private final String possibility;
 }

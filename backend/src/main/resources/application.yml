@@ -33,8 +33,8 @@ rest:
 files-storage:
   path: 'backend/src/main/resources/files'
 
-errorreports:
-  images-path: 'report'
+cars:
+  images-path: 'cars'
 
 blog:
   images-path: 'blog'
@@ -47,33 +47,23 @@ mail:
     user: carclinic.superuser@gmail.com
     host: smtp.gmail.com
     port: 587
-  registration:
-    subject: 'Rejestracja konta Bajkownia.org/Gry'
-    pathToMessage: '/content/mail/userRegistration_pl.txt'
-  password-reset:
-    subject: 'Resetowanie hasła'
-    pathToMessage: '/content/mail/userResetPassword_pl.txt'
   add-appointment:
-    subject: 'Dodano rezerwację usługi'
-    pathToMessage: '/content/mail/addAppointment_pl.txt'
+    subject: 'Dodano rezerwację usługi w serwisie CarClinic!'
+    pathToMessage: '/content/mail/addAppointment_pl.html'
   add-appointment-to-employee:
     subject: 'Dodano rezerwację usługi'
-    pathToMessage: '/content/mail/addAppointment_Message_To_Employee_pl.txt'
-  confirm-email-change:
-    subject: 'Potwierdzenie zmiany adresu E-Mail | Bajkownia.org'
-    pathToMessage: '/content/mail/confirmEmailChange_pl.txt'
-  confirm-remove-account:
-    subject: 'Potwierdzenie usunięcia konta | Bajkownia.org'
-    pathToMessage: '/content/mail/confirmPlayerRemove_pl.txt'
-  notification-status-errorreport:
-    subject: 'Zmiana statusu zgłoszenia błędu'
-    pathToMessage: '/content/mail/userNotificationStatusErrorReport_pl.txt'
+    pathToMessage: '/content/mail/addAppointment_Message_To_Employee_pl.html'
   send-notification:
     subject: 'Czy wymieniłeś już olej i filtry w swoim samochodzie?'
-    pathToMessage: '/content/mail/sendNotificationToUsersWithCars.txt'
+    pathToMessage: '/content/mail/sendNotificationToUsersWithCars.html'
+  contact:
+    pathToMessage: '/content/mail/contact.html'
   complete-appointment:
-    subject: 'Twoje zgłoszenie zostało zakończone'
-    pathToMessage: '/content/mail/completeAppointment.txt'
+    subject: 'Twoje zgłoszenie w serwisie CarClinic zostało wykonane!'
+    pathToMessage: '/content/mail/completeAppointment.html'
   complete-appointment-remote:
-    subject: 'Twoje zgłoszenie zostało zakończone'
-    pathToMessage: '/content/mail/completeAppointmentRemote.txt'
+    subject: 'Twoje zgłoszenie w serwisie CarClinic zostało wykonane!'
+    pathToMessage: '/content/mail/completeAppointmentRemote.html'
+  in progress-appointment:
+    subject: 'Twoje zgłoszenie w CarClinic jest w trakcie rozpatrywania!'
+    pathToMessage: '/content/mail/inProgressAppointment.html'

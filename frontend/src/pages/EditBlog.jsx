@@ -4,14 +4,13 @@ import Helmet from "../components/Helmet/Helmet";
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
 import Snackbar from "../components/Snackbar/Snackbar";
 import SnackbarType from "../components/Snackbar/SnackbarType";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {addBlog, detailsBlog, updateBlog} from "../actions/blogActions";
 import {BLOG_UPDATE_RESET} from "../constants/blogConstants";
 import {detailsUser} from "../actions/userActions";
 
 const EditBlog = () => {
     const {id} = useParams();
-    const snackbarRef = useRef(null);
     const blogDetails = useSelector((state) => state.blogDetails);
     const {blog} = blogDetails;
     const userDetails = useSelector((state) => state.userDetails);
@@ -20,6 +19,7 @@ const EditBlog = () => {
     const [article, setArticle] = useState('');
     const [image, setImage] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,10 +46,7 @@ const EditBlog = () => {
                 )
             );
         }
-
-
-        dispatch({type: BLOG_UPDATE_RESET});
-        snackbarRef.current.show();
+        navigate('/blogs/employee')
     }
 
     useEffect(() => {
@@ -118,11 +115,6 @@ const EditBlog = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Wpis został pomyślnie zaktualizowany!"
-                type={SnackbarType.success}
-            />
         </Helmet>
     );
 };

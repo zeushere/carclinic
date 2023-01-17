@@ -1,10 +1,11 @@
 import {RABAT_CODE_ADD_FAIL, RABAT_CODE_ADD_SUCCESS} from "../constants/rabatCodeConstants";
 import Axios from "axios";
 import {
+    BLOG_ADD_FAIL,
     BLOG_ADD_IMAGE_FAIL,
     BLOG_ADD_IMAGE_REQUEST,
     BLOG_ADD_IMAGE_SUCCESS,
-    BLOG_ADD_REQUEST,
+    BLOG_ADD_REQUEST, BLOG_ADD_SUCCESS,
     BLOG_DELETE_FAIL,
     BLOG_DELETE_REQUEST,
     BLOG_DELETE_SUCCESS,
@@ -64,14 +65,14 @@ export const addBlog = (title, author, article, bodyFormData) => async (dispatch
             , {
                 headers: {Authorization: `Bearer ${userInfo.token}`},
             });
-        dispatch({type: RABAT_CODE_ADD_SUCCESS, payload: data});
+        dispatch({type: BLOG_ADD_SUCCESS, payload: data});
         dispatch(addImageToBlog(data.id, bodyFormData))
     } catch (error) {
         const message =
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message;
-        dispatch({type: RABAT_CODE_ADD_FAIL, error: message});
+        dispatch({type: BLOG_ADD_FAIL, error: message});
     }
 };
 

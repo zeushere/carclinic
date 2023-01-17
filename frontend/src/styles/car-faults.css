@@ -9,9 +9,12 @@
 .table-faults {
     background: #000d6b;
 }
+td {
+    border: none!important;
+}
 
 .table-th:hover {
-    color: #f9a826!important;
+background-color: #00b5c2;
 }
 
 .hide_faults__button:hover {

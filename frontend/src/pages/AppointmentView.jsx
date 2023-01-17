@@ -6,8 +6,7 @@ import {detailsCar} from "../actions/carActions";
 import {
     deleteAppointment,
     getDetailsAppointment,
-    payAppointment,
-    setCompleteAppointment, setInProgressAppointment
+    payAppointment, setAppointmentProgress, completeAppointment,
 } from "../actions/appointmentActions";
 import moment from "moment";
 import SnackbarType from "../components/Snackbar/SnackbarType";
@@ -18,13 +17,19 @@ const AppointmentView = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const snackbarRefDeleteAppointment = useRef(null);
+
     const appointmentOfDayDetails = useSelector(state => state.appointmentOfDayDetails);
     const {appointmentOfDay} = appointmentOfDayDetails;
+    const setProgressAppointment = useSelector(state => state.setProgressAppointment);
+    const {setInProgressAppointment} = setProgressAppointment;
+    const setCompletedAppointment = useSelector(state => state.setCompletedAppointment);
+    const {setCompleteAppointment} = setCompletedAppointment;
+    const paidAppointment = useSelector(state => state.paidAppointment);
+    const {appointmentPaid} = paidAppointment;
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
 
-    const snackbarRefChangeStatusAppointment = useRef(null);
-    const snackbarRefPayAppointment = useRef(null);
 
 
     function checkIsCanBeCancelled(date, time, repairStatus) {
@@ -65,28 +70,40 @@ const AppointmentView = () => {
 
     const inProgressHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz zmienić status na W trakcie?')) {
-            dispatch(setInProgressAppointment(id))
-            snackbarRefChangeStatusAppointment.current.show()
+            dispatch(setAppointmentProgress(id))
+            navigate('/appointments')
         }
     };
 
     const completeHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz zmienić status na Wykonane?')) {
-            dispatch(setCompleteAppointment(id));
-            snackbarRefChangeStatusAppointment.current.show()
+            dispatch(completeAppointment(id));
+            navigate('/appointments')
         }
     };
 
     const payHandler = (id) => {
-        if (window.confirm('Czy na pewno chcesz opłacić zgłoszenie?')) {
+        if (window.confirm('Czy na pewno chcesz zatwierdzić płatność zgłoszenia?')) {
             dispatch(payAppointment(id));
-            snackbarRefPayAppointment.current.show()
+            navigate('/appointments')
         }
     };
+    useEffect(() => {
+        dispatch(getDetailsAppointment(id))
+    },[appointmentPaid])
+
+    useEffect(() => {
+        dispatch(getDetailsAppointment(id))
+    },[setCompleteAppointment])
+
 
     useEffect(() => {
         dispatch(getDetailsAppointment(id))
     },[dispatch])
+
+    useEffect(() => {
+        dispatch(getDetailsAppointment(id))
+    },[setInProgressAppointment])
 
     return (
         <section className="section about-section" id="about">
@@ -204,22 +221,13 @@ const AppointmentView = () => {
                                         onClick={() => payHandler(appointmentOfDay?.appointmentId)}><Link to={'#'}
                                                                                                              className="appointment_car__link">Opłać</Link>
                                 </button>
-                                <p className="m-0px font-w-600">Opłać zgłoszenie</p>
+                                <p className="m-0px font-w-600">Zatwierdź płatność</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Snackbar
-                ref={snackbarRefPayAppointment}
-                message="Pomyślnie opłacono zgłoszenie!"
-                type={SnackbarType.success}
-            />
-            <Snackbar
-                ref={snackbarRefChangeStatusAppointment}
-                message="Pomyślnie zmienono status zgłoszenia!"
-                type={SnackbarType.success}
-            />
+
         </section>
     );
 }

@@ -1,8 +1,6 @@
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
-import Snackbar from "../components/Snackbar/Snackbar";
-import SnackbarType from "../components/Snackbar/SnackbarType";
 import Helmet from "../components/Helmet/Helmet";
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {registerUserByAdmin} from "../actions/userActions";
@@ -15,7 +13,6 @@ const AddUser = () => {
     const [expectedServiceCost, setExpectedServiceCost] = useState('');
     const [expectedExecutionTime, setExpectedExecutionTime] = useState('');
     const dispatch = useDispatch();
-    const snackbarRef = useRef(null);
     const navigate = useNavigate();
 
     const [firstName, setFirstName] = useState('');
@@ -47,7 +44,7 @@ const AddUser = () => {
                     regularCustomer
                 )
             );
-            snackbarRef.current.show();
+            navigate('/users/admin')
         }
     }
     // if(mechanicalServiceId) {
@@ -104,6 +101,7 @@ const AddUser = () => {
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="email"
                                         id="email"
+                                        title={'Wprowadź poprawny e-mail'}
                                         autoComplete="off"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -117,6 +115,8 @@ const AddUser = () => {
                                         type="text"
                                         id="login"
                                         autoComplete="off"
+                                        minLength={'4'}
+                                        maxLength={'20'}
                                         value={login}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}
@@ -163,11 +163,6 @@ const AddUser = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Użytkownik został pomyślnie dodany!"
-                type={SnackbarType.success}
-            />
         </Helmet>
     )
 }

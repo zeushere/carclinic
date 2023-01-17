@@ -15,7 +15,6 @@ const AddAdmin = () => {
     const [expectedServiceCost, setExpectedServiceCost] = useState('');
     const [expectedExecutionTime, setExpectedExecutionTime] = useState('');
     const dispatch = useDispatch();
-    const snackbarRef = useRef(null);
     const navigate = useNavigate();
 
     const [firstName, setFirstName] = useState('');
@@ -47,7 +46,7 @@ const AddAdmin = () => {
                     regularCustomer
                 )
             );
-            snackbarRef.current.show();
+            navigate('/admins/admin')
         }
     }
     // if(mechanicalServiceId) {
@@ -164,11 +163,6 @@ const AddAdmin = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Administrator został pomyślnie dodany!"
-                type={SnackbarType.success}
-            />
         </Helmet>
     )
 }

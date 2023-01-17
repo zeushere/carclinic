@@ -7,13 +7,16 @@ import {
     getUsersWithAdminRoleReducer,
     getUsersWithEmployeeRoleReducer,
     getUsersWithUserRoleReducer,
-    updateUserByAdminReducer, userDeleteByAdminReducer,
-    userDetailsReducer, userRegisterByAdminReducer,
+    updateUserByAdminReducer,
+    userDeleteByAdminReducer,
+    userDetailsReducer,
+    userRegisterByAdminReducer,
     userRegisterReducer,
     userSigninReducer,
     userUpdateProfileReducer
 } from "../reducers/userReducers";
 import {
+    carAddImageReducer,
     carAddReducer,
     carAppointmentsReducer,
     carDeleteReducer,
@@ -25,21 +28,26 @@ import {
     mechanicalServiceAddReducer,
     mechanicalServiceDeleteReducer,
     mechanicalServiceDetailsReducer,
-    mechanicalServicesListReducer, mechanicalServiceUpdateReducer
+    mechanicalServicesListReducer,
+    mechanicalServiceUpdateReducer
 } from "../reducers/mechanicalServicesReducers";
 import {
     rabatCodeAddReducer,
     rabatCodeDeleteReducer,
     rabatCodeDetailsReducer,
     rabatCodeDiscountReducer,
-    rabatCodesListReducer, rabatCodeUpdateReducer
+    rabatCodesListReducer,
+    rabatCodeUpdateReducer
 } from "../reducers/rabatCodesReducer";
 import {availableWorkingPeriodListReducer} from "../reducers/workingPeriodReducers";
 import {
     allAppointmentsOfDayReducer,
     appointmentAddReducer,
-    appointmentDeleteReducer, appointmentOfDayDetailsReducer,
-    payAppointmentReducer, setCompleteAppointmentReducer, setInProgressAppointmentReducer,
+    appointmentDeleteReducer,
+    appointmentOfDayDetailsReducer,
+    payAppointmentReducer,
+    setCompleteAppointmentReducer,
+    setInProgressAppointmentReducer,
     userAppointmentsListReducer
 } from "../reducers/appointmentReducers";
 import {sendEmailContactReducer} from "../reducers/contactReducers";
@@ -65,7 +73,7 @@ const initialState = {
     },
 
     userRole: {
-        userInfo: localStorage.getItem('userRole')
+        role: localStorage.getItem('userRole')
             ? JSON.parse(localStorage.getItem('userRole'))
             : null,
     },
@@ -123,7 +131,7 @@ const reducer = combineReducers({
     blogUpdate: blogUpdateReducer,
     blogAdded: blogAddReducer,
     isImageAddedToBlog: blogAddImageReducer,
-
+    isImageAddedToCar: carAddImageReducer,
 
 });
 

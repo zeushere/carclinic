@@ -16,13 +16,10 @@ const AddBlog = () => {
 
     const userDetails = useSelector((state) => state.userDetails);
     const {loading, error, user} = userDetails;
-    const rabatCodeAddedId = useSelector((state) => state.rabatCodeAddedId);
-    const {rabatCodeId} = rabatCodeAddedId;
     const [title, setTitle] = useState('');
     const [article, setArticle] = useState('');
     const [image, setImage] = useState('');
     const dispatch = useDispatch();
-    const snackbarRef = useRef(null);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -48,9 +45,7 @@ const AddBlog = () => {
                 )
             );
         }
-
-        dispatch({type: BLOG_ADD_RESET});
-        snackbarRef.current.show();
+        navigate('/blogs/employee')
     }
 
     useEffect(() => {
@@ -102,11 +97,7 @@ const AddBlog = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Wpis został pomyślnie dodany!"
-                type={SnackbarType.success}
-            />
+
         </Helmet>
     )
 }

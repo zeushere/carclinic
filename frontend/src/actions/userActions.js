@@ -126,15 +126,14 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     try {
         const {data} = await Axios.put(`/profile`, user, {
             headers: {Authorization: `Bearer ${userInfo.token}`},
-        }).then(async () => {
-            const username = data.login;
-            const password = data.password;
-            const {loginData} = await Axios.post('/login', {username, password},
-                {headers: {'g-recaptcha': 'test'}});
-            dispatch({type: USER_UPDATE_PROFILE_SUCCESS, payload: data});
         });
+        dispatch({type: USER_UPDATE_PROFILE_SUCCESS, payload: true});
 
+        const username = data.login;
+        const password = data.password;
 
+        dispatch(signin(username,password));
+        dispatch(detailsUser());
     } catch (error) {
         const message =
             error.response && error.response.data.message
@@ -154,7 +153,7 @@ export const getUserRole = () => async (dispatch, getState) => {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: GET_USER_ROLE_SUCCESS, payload: data.role})
-        localStorage.setItem('userRole', JSON.stringify(data));
+        localStorage.setItem('userRole', JSON.stringify(data.role));
     } catch (error) {
         dispatch({
             type: GET_USER_ROLE_FAIL,
@@ -293,7 +292,7 @@ export const checkUserRegularCustomer = () => async (dispatch, getState) => {
     }
 };
 
-export const registerUserByAdmin = (firstName, lastName, login, email, password,address, role, isRegularCustomer) => async (dispatch, getState) => {
+export const registerUserByAdmin = (firstName, lastName, login, email, password, address, role, isRegularCustomer) => async (dispatch, getState) => {
     dispatch({type: USER_REGISTER_BY_ADMIN_REQUEST});
     const {
         userSignin: {userInfo},

@@ -4,16 +4,21 @@ import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-k
 import {useDispatch, useSelector} from "react-redux";
 import {detailsUser, updateUserProfile} from "../actions/userActions";
 import '../styles/profile.css'
-import {USER_UPDATE_PROFILE_RESET} from "../constants/userConstants";
+import {USER_DETAILS_RESET, USER_UPDATE_PROFILE_RESET} from "../constants/userConstants";
 import LoadingBox from "../components/LoadingBox/LoadingBox";
 import MessageBox from "../components/MessageBox/MessageBox";
 import Snackbar from "../components/Snackbar/Snackbar";
 import SnackbarType from "../components/Snackbar/SnackbarType";
+import {detailsMechanicalService} from "../actions/mechanicalServicesActions";
+import {MECHANICAL_SERVICE_UPDATE_RESET} from "../constants/mechanicalServicesConstants";
 
 const Profile = () => {
     const snackbarRef = useRef(null);
     const userDetails = useSelector((state) => state.userDetails);
     const {loading, error, user} = userDetails;
+    const userRole = useSelector((state) => state.userRole);
+    const {role} = userRole;
+    const snackBarRefInvalidPassword = useRef(null);
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -29,17 +34,14 @@ const Profile = () => {
         loading: loadingUpdate,
     } = userUpdateProfile;
     const dispatch = useDispatch();
-
-    const loadUserDetails = () => {
-        if (!user) {
-            dispatch({type: USER_UPDATE_PROFILE_RESET});
-            dispatch(detailsUser());
-        }
-    }
+    let passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$';
+    let adminPasswordPattern = "[A-Za-z0-9]{4,}";
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert('Podane hasła nie pasują do siebie!');
+            snackBarRefInvalidPassword.current.show();
+            setPassword('');
+            setConfirmPassword('');
         } else {
             dispatch(
                 updateUserProfile({
@@ -51,18 +53,24 @@ const Profile = () => {
                     address
                 })
             );
-            dispatch({type: USER_UPDATE_PROFILE_RESET});
             setPassword('');
             setConfirmPassword('');
-            dispatch(detailsUser());
             snackbarRef.current.show();
         }
     }
 
+
     useEffect(() => {
-        loadUserDetails()
-        fillVariablesOfUserDetails()
-    }, [user, dispatch]);
+        if (!user) {
+            dispatch(detailsUser());
+            dispatch({type: USER_UPDATE_PROFILE_RESET});
+        }
+        window.scroll(0, 100)
+    }, [dispatch]);
+
+    useEffect(() => {
+     fillVariablesOfUserDetails()
+    }, [user])
 
     const fillVariablesOfUserDetails = () => {
         if (user) {
@@ -77,7 +85,7 @@ const Profile = () => {
     return (
         <Helmet title="Profile">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black m-5 profile__edit_form' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -111,9 +119,10 @@ const Profile = () => {
                                     <input
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="text"
-                                        id="lastName"
+                                        id="address"
                                         autoComplete="off"
                                         value={address}
+                                        minLength={'5'}
                                         onChange={(e) => setAddress(e.target.value)}
                                         placeholder={'Adres'}
                                         required
@@ -125,6 +134,8 @@ const Profile = () => {
                                         type="email"
                                         id="email"
                                         autoComplete="off"
+                                        title={'Wprowadzono niepoprawny email.'}
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder={'Email'}
@@ -137,6 +148,8 @@ const Profile = () => {
                                         type="text"
                                         id="login"
                                         autoComplete="off"
+                                        minLength={4}
+                                        maxLength={20}
                                         value={login}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}
@@ -149,8 +162,9 @@ const Profile = () => {
                                            id="password"
                                            onChange={(e) => setPassword(e.target.value)}
                                            value={password}
-                                           title={'Hasło musi zawierać od 8 do 12 znaków. Co najmniej jedną duża literę, jedną małą, jedną liczbę oraz jeden znak specjalny spośród zbioru (!@#$%^&*_=+-).'}
-                                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+                                           title={role !== 'ADMIN' ? 'Hasło musi zawierać od 8 do 12 znaków. Co najmniej jedną duża literę, jedną małą, jedną liczbę oraz jeden znak specjalny spośród zbioru (!@#$%^&*_=+-).': 'Administratorze wprowadź minimum 4 znaki'}
+                                           pattern={role !== 'ADMIN' ? passwordPattern : adminPasswordPattern}
+                                           minLength={role !== 'ADMIN' ? 8 : 4}
                                            required
                                            autoComplete={'off'}
                                            placeholder={'Hasło'}
@@ -178,6 +192,11 @@ const Profile = () => {
                 ref={snackbarRef}
                 message="Profil został pomyślnie zaktualizowany!"
                 type={SnackbarType.success}
+            />
+            <Snackbar
+                ref={snackBarRefInvalidPassword}
+                message="Hasła nie pasują do siebie!"
+                type={SnackbarType.fail}
             />
         </Helmet>
     );

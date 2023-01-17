@@ -15,6 +15,7 @@ import pl.edu.ur.roda.carclinic.entity.User;
 import pl.edu.ur.roda.carclinic.exception.FileNoExistException;
 import pl.edu.ur.roda.carclinic.properties.EmailCompleteAppointmentProperties;
 import pl.edu.ur.roda.carclinic.properties.EmailCompleteAppointmentRemoteProperties;
+import pl.edu.ur.roda.carclinic.util.filestorage.FileStorage;
 
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class EmailCompleteAppointmentService {
     private final EmailCompleteAppointmentProperties completeAppointmentProperties;
     private final EmailCompleteAppointmentRemoteProperties emailCompleteAppointmentRemoteProperties;
     private final JavaMailSender javaMailSender;
+    private final FileStorage fileStorage;
 
     @Async
     public void sendConfirmationEmail(EmailCompleteAppointmentRequest completeAppointmentRequest) {
@@ -41,9 +43,7 @@ public class EmailCompleteAppointmentService {
             message.setSubject(completeAppointmentProperties.getSubject());
             log.info("Sending confirmation email complete appointment to {} with subject {}", completeAppointmentRequest.user.getEmail(), completeAppointmentProperties.getSubject());
             message.setText(loadTextMessage(completeAppointmentRequest), true);
-            if (completeAppointmentRequest.image() != null && !completeAppointmentRequest.image().isEmpty()) {
-                message.addInline("image", loadImage(completeAppointmentRequest.image()));
-            }
+            message.addInline("image", loadImage());
         }
         ));
     }
@@ -56,15 +56,12 @@ public class EmailCompleteAppointmentService {
             message.setSubject(emailCompleteAppointmentRemoteProperties.getSubject());
             log.info("Sending confirmation email complete appointment to {} with subject {}", completeAppointmentRequest.user.getEmail(), emailCompleteAppointmentRemoteProperties.getSubject());
             message.setText(loadTextMessageRemote(completeAppointmentRequest), true);
-            if (completeAppointmentRequest.image() != null && !completeAppointmentRequest.image().isEmpty()) {
-                message.addInline("image", loadImage(completeAppointmentRequest.image()));
-            }
+            message.addInline("image", loadImage());
         }
         ));
     }
-
-    private ByteArrayDataSource loadImage(MultipartFile image) throws IOException {
-        return new ByteArrayDataSource(image.getBytes(), image.getContentType());
+    private ByteArrayDataSource loadImage() throws IOException {
+        return new ByteArrayDataSource(fileStorage.getFileBytes("backend/src/main/resources/files/email/email-complete.png"), fileStorage.getFileType("backend/src/main/resources/files/email/email-contact.png"));
     }
 
     private String loadTextMessage(EmailCompleteAppointmentRequest completeAppointmentRequest) {

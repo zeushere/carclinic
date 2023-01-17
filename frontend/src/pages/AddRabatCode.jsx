@@ -12,12 +12,10 @@ import {addRabatCode} from "../actions/rabatCodeActions";
 
 const AddRabatCode = () => {
 
-    const rabatCodeAddedId = useSelector((state) => state.rabatCodeAddedId);
-    const {rabatCodeId} = rabatCodeAddedId;
+
     const [code, setCode] = useState('');
     const [discountSize, setDiscountSize] = useState('');
     const dispatch = useDispatch();
-    const snackbarRef = useRef(null);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -28,8 +26,8 @@ const AddRabatCode = () => {
                 discountSize,
             )
         );
-        dispatch({type: RABAT_CODE_ADD_RESET});
-        snackbarRef.current.show();
+        navigate('/rabat-codes/employee')
+       ;
     }
 
     return (
@@ -73,11 +71,7 @@ const AddRabatCode = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Kod został pomyślnie dodany!"
-                type={SnackbarType.success}
-            />
+
         </Helmet>
     )
 }

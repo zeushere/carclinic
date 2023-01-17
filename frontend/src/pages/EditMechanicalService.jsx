@@ -4,19 +4,19 @@ import Helmet from "../components/Helmet/Helmet";
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
 import Snackbar from "../components/Snackbar/Snackbar";
 import SnackbarType from "../components/Snackbar/SnackbarType";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {MECHANICAL_SERVICE_UPDATE_RESET} from "../constants/mechanicalServicesConstants";
 import {detailsMechanicalService, updateMechanicalService} from "../actions/mechanicalServicesActions";
 
 const EditMechanicalService = () => {
     const {id} = useParams();
-    const snackbarRef = useRef(null);
     const mechanicalServiceDetails = useSelector((state) => state.mechanicalServiceDetails);
     const {mechanicalService} = mechanicalServiceDetails;
     const [name, setName] = useState('');
     const [expectedServiceCost, setExpectedServiceCost] = useState('');
     const [expectedExecutionTime, setExpectedExecutionTime] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -40,9 +40,7 @@ const EditMechanicalService = () => {
                 )
             );
         }
-
-        dispatch({type: MECHANICAL_SERVICE_UPDATE_RESET});
-        snackbarRef.current.show();
+        navigate('/mechanical-services/employee')
     }
 
 
@@ -122,11 +120,7 @@ const EditMechanicalService = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Usługa została pomyślnie zaktualizowana!"
-                type={SnackbarType.success}
-            />
+
         </Helmet>
     );
 };
