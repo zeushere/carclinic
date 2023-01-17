@@ -1,6 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {MdClose} from "react-icons/md";
+import sortTable from "../table-sorting/table-sorting";
 
 const TypicalFaults = (props) => {
     const faults = useSelector(state => state.carFaults);
@@ -12,11 +13,11 @@ const TypicalFaults = (props) => {
                         props.setTypicalFaultsCarViewFlag(!props.typicalFaultsCarViewFlag)
                     }/>
             </div>
-            <table className="table table-faults mb-0" style={{color : "white"}}>
+            <table id="myTable1" className="table table-faults mb-0" style={{color : "white"}}>
                 <thead  className="text-center">
                 <tr className={'table-th'}>
-                    <th>Nazwa Usterki</th>
-                    <th>Prawdopodobieństwo</th>
+                    <th onClick={()=>sortTable(0)}>Nazwa Usterki</th>
+                    <th onClick={() => sortTable(1)}>Prawdopodobieństwo</th>
                 </tr>
                 </thead>
                 {carFaults.map((fault) => (

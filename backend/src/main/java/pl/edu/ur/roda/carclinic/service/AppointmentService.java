@@ -52,6 +52,7 @@ public class AppointmentService {
     private final MechanicalServiceRepository mechanicalServiceRepository;
     private final EmailAddAppointmentToUserService emailAddAppointmentToUserService;
     private final EmailCompleteAppointmentService emailCompleteAppointmentService;
+    private final EmailInProgressAppointmentService emailInProgressAppointmentService;
     private final EmailAddAppointmentToEmployeeService emailAddAppointmentToEmployeeService;
     private final RoleRepository roleRepository;
 
@@ -185,7 +186,13 @@ public class AppointmentService {
     @Transactional
     public void setInProgressAppointment(String id, String userId) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        MechanicalService mechanicalService = appointment.getMechanicalService();
+        User user = appointment.getUser();
+
         appointment.setRepairStatus("W trakcie");
+        EmailInProgressAppointmentService.EmailInProgressAppointmentRequest emailInProgressAppointmentRequest = new EmailInProgressAppointmentService.EmailInProgressAppointmentRequest(appointment, user, mechanicalService);
+
+        emailInProgressAppointmentService.sendConfirmationEmail(emailInProgressAppointmentRequest);
     }
 
     public AppointmentInfoDtoForEmployee getUserAppointment(String appointmentId, String userId) {

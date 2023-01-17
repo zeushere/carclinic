@@ -11,6 +11,7 @@ import {CAR_DELETE_RESET} from "../../constants/carConstants";
 import Snackbar from "../Snackbar/Snackbar";
 import SnackbarType from "../Snackbar/SnackbarType";
 import {deleteAppointment} from "../../actions/appointmentActions";
+import sortTable from "../table-sorting/table-sorting";
 
 const AppointmentsCarHistory = (props) => {
     const appointmets = useSelector(state => state.carAppointments);
@@ -54,6 +55,60 @@ const AppointmentsCarHistory = (props) => {
         window.scrollTo(0, 700);
     },[])
 
+    function appointmentsCarHistories(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable2");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
     return (
         <div className="table-responsive-md">
             <div className={'text-right mb-0'}>
@@ -62,17 +117,17 @@ const AppointmentsCarHistory = (props) => {
                 }/>
             </div>
             <div className="table-responsive-md m-0">
-                <table className="table table-faults mb-0" style={{color: "white"}}>
+                <table id="myTable2" className="table table-faults mb-0" style={{color: "white"}}>
                     <thead className="text-center">
-                    <tr className={'table-th'}>
-                        <th>Nazwa usługi</th>
-                        <th>Data wykonania</th>
-                        <th>Godzina wykonania</th>
-                        <th>Typ naprawy</th>
-                        <th>Status naprawy</th>
-                        <th>Typ płatności</th>
-                        <th>Status płatności</th>
-                        <th>Koszt usługi</th>
+                    <tr  className={'table-th'}>
+                        <th onClick={() => appointmentsCarHistories(0)}>Nazwa usługi</th>
+                        <th onClick={() => appointmentsCarHistories(1)}>Data wykonania</th>
+                        <th onClick={() => appointmentsCarHistories(2)}>Godzina wykonania</th>
+                        <th onClick={() => appointmentsCarHistories(3)}>Typ naprawy</th>
+                        <th onClick={() => appointmentsCarHistories(4)}>Status naprawy</th>
+                        <th onClick={() => appointmentsCarHistories(5)}>Typ płatności</th>
+                        <th onClick={() => appointmentsCarHistories(6)}>Status płatności</th>
+                        <th onClick={() => appointmentsCarHistories(7)}>Koszt usługi</th>
                         <th>Akcja</th>
                     </tr>
                     </thead>

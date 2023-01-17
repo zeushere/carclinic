@@ -55,7 +55,7 @@ export const payAppointmentReducer = (state = {}, action) => {
         case APPOINTMENT_UPDATE_PAYMENT_REQUEST:
             return {loading: true};
         case APPOINTMENT_UPDATE_PAYMENT_SUCCESS:
-            return {loading: false, paidAppointment: action.payload};
+            return {loading: false, appointmentPaid: action.payload};
         case APPOINTMENT_UPDATE_PAYMENT_FAIL:
             return {loading: false, error: action.payload};
         case APPOINTMENT_UPDATE_PAYMENT_RESET:

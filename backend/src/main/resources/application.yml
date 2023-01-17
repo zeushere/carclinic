@@ -48,7 +48,7 @@ mail:
     host: smtp.gmail.com
     port: 587
   add-appointment:
-    subject: 'Dodano rezerwację usługi'
+    subject: 'Dodano rezerwację usługi w serwisie CarClinic!'
     pathToMessage: '/content/mail/addAppointment_pl.html'
   add-appointment-to-employee:
     subject: 'Dodano rezerwację usługi'
@@ -59,8 +59,11 @@ mail:
   contact:
     pathToMessage: '/content/mail/contact.html'
   complete-appointment:
-    subject: 'Twoje zgłoszenie zostało zakończone'
+    subject: 'Twoje zgłoszenie w serwisie CarClinic zostało wykonane!'
     pathToMessage: '/content/mail/completeAppointment.html'
   complete-appointment-remote:
-    subject: 'Twoje zgłoszenie zostało zakończone'
+    subject: 'Twoje zgłoszenie w serwisie CarClinic zostało wykonane!'
     pathToMessage: '/content/mail/completeAppointmentRemote.html'
+  in progress-appointment:
+    subject: 'Twoje zgłoszenie w CarClinic jest w trakcie rozpatrywania!'
+    pathToMessage: '/content/mail/inProgressAppointment.html'

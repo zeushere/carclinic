@@ -78,11 +78,11 @@ export const payAppointment = (appointmentId) => async (dispatch, getState) => {
         await Axios.post(`/appointments/paid/${appointmentId}`, {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`},
         });
-        const paidAppointment = {
+        const appointmentPaid = {
             'appointmentId': appointmentId,
             'paymentStatus': "Opłacone"
         }
-        dispatch({type: APPOINTMENT_UPDATE_PAYMENT_SUCCESS, payload: paidAppointment});
+        dispatch({type: APPOINTMENT_UPDATE_PAYMENT_SUCCESS, payload: appointmentPaid});
     } catch (error) {
         const message =
             error.response && error.response.data.message
@@ -165,7 +165,7 @@ export const getDetailsAppointment = (id) => async (dispatch, getState) => {
     }
 };
 
-export const setInProgressAppointment = (appointmentId) => async (dispatch, getState) => {
+export const setAppointmentProgress = (appointmentId) => async (dispatch, getState) => {
     dispatch({type: APPOINTMENT_SET_IN_PROGRESS_REQUEST});
     const {
         userSignin: {userInfo},
@@ -184,7 +184,7 @@ export const setInProgressAppointment = (appointmentId) => async (dispatch, getS
     }
 };
 
-export const setCompleteAppointment = (appointmentId) => async (dispatch, getState) => {
+export const completeAppointment = (appointmentId) => async (dispatch, getState) => {
     dispatch({type: APPOINTMENT_SET_COMPLETE_REQUEST});
     const {
         userSignin: {userInfo},
