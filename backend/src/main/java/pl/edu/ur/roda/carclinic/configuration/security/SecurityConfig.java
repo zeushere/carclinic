@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -33,7 +32,6 @@ public class SecurityConfig {
     private final JWTManager jwtManager;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final ObjectMapper objectMapper;
-    private final CaptchaValidator captchaValidator;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,7 +43,7 @@ public class SecurityConfig {
         http.authorizeRequests().antMatchers("/admin/**").hasAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-        http.addFilter(new AuthenticationFilter(authenticationManager(authenticationConfiguration), jwtManager, objectMapper, captchaValidator));
+        http.addFilter(new AuthenticationFilter(authenticationManager(authenticationConfiguration), jwtManager, objectMapper));
         http.addFilterBefore(new AuthorizationFilter(jwtManager, objectMapper), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

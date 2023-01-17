@@ -36,17 +36,15 @@ public class UserController {
 
     @PostMapping("register")
     public ResponseEntity<UserReadDto> register(
-            @Valid @RequestBody UserCreateDto userCreateDto,
-            @RequestParam("g-recaptcha") String captcha) {
-        return new ResponseEntity<>(userService.createUser(userCreateDto, captcha), HttpStatus.CREATED);
+            @Valid @RequestBody UserCreateDto userCreateDto) {
+        return new ResponseEntity<>(userService.createUser(userCreateDto), HttpStatus.CREATED);
     }
 
     @PostMapping("admin/register")
     public ResponseEntity<UserRegisterIdDto> registerByAdmin(
             @Valid @RequestBody UserCreateByAdminDto userCreateByAdminDto,
-            @RequestParam("g-recaptcha") String captcha,
             @AuthenticationPrincipal String userId) {
-        return new ResponseEntity<>(userService.createUserByAdmin(userCreateByAdminDto, captcha), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUserByAdmin(userCreateByAdminDto), HttpStatus.CREATED);
     }
 
     @GetMapping("profile")

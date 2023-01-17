@@ -49,14 +49,13 @@ export const register = (firstName, lastName, address, login, email, password) =
     dispatch({type: USER_REGISTER_REQUEST, payload: {email, password}});
     try {
         await Axios.post('/register', {
-                firstName,
-                lastName,
-                email,
-                login,
-                password,
-                address
-            },
-            {params: {'g-recaptcha': 'test'}});
+            firstName,
+            lastName,
+            email,
+            login,
+            password,
+            address
+        });
         const successfulRegister = true;
         dispatch({type: USER_REGISTER_SUCCESS, payload: {successfulRegister}});
         localStorage.setItem('successfulRegister', JSON.stringify(successfulRegister))
@@ -74,8 +73,7 @@ export const register = (firstName, lastName, address, login, email, password) =
 export const signin = (username, password) => async (dispatch) => {
     dispatch({type: USER_SIGNIN_REQUEST, payload: {username, password}});
     try {
-        const {data} = await Axios.post('/login', {username, password},
-            {headers: {'g-recaptcha': 'test'}});
+        const {data} = await Axios.post('/login', {username, password});
         dispatch({type: USER_SIGNIN_SUCCESS, payload: data});
         localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
@@ -132,7 +130,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         const username = data.login;
         const password = data.password;
 
-        dispatch(signin(username,password));
+        dispatch(signin(username, password));
         dispatch(detailsUser());
     } catch (error) {
         const message =
@@ -252,7 +250,7 @@ export const updateUserByAdmin = (id, firstName, lastName, email, login, passwor
                 'login': login,
                 'password': password,
                 'role': role,
-                'address' : address,
+                'address': address,
                 'isRegularCustomer': isRegularCustomer
             },
             {
@@ -309,7 +307,6 @@ export const registerUserByAdmin = (firstName, lastName, login, email, password,
                 isRegularCustomer
             },
             {
-                params: {'g-recaptcha': 'test'},
                 headers: {Authorization: `Bearer ${userInfo.token}`}
             });
         dispatch({type: USER_REGISTER_BY_ADMIN_SUCCESS, payload: data});

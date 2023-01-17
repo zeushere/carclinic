@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.edu.ur.roda.carclinic.configuration.captcha.CaptchaValidator;
 import pl.edu.ur.roda.carclinic.dto.RoleDto;
 import pl.edu.ur.roda.carclinic.dto.UserCreateByAdminDto;
 import pl.edu.ur.roda.carclinic.dto.UserCreateDto;
@@ -39,20 +38,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CaptchaValidator captchaValidator;
     private final UserInfoDtoUserMapper userInfoDtoUserMapper;
     private final AppointmentService appointmentService;
 
-    public UserReadDto createUser(UserCreateDto userCreateDto, String captcha) {
-        captchaValidator.validate(captcha);
+    public UserReadDto createUser(UserCreateDto userCreateDto) {
         char[] encodedPassword = passwordEncoder.encode(userCreateDto.password()).toCharArray();
         Role userRole = roleRepository.findByName("USER").orElseThrow();
         User registerUser = userRepository.save(new User(userCreateDto.firstName(), userCreateDto.lastName(), userCreateDto.email(), userCreateDto.login(), encodedPassword, userCreateDto.address(), userRole));
         return UserReadDto.of(registerUser);
     }
 
-    public UserRegisterIdDto createUserByAdmin(UserCreateByAdminDto userCreateByAdminDto, String captcha) {
-        captchaValidator.validate(captcha);
+    public UserRegisterIdDto createUserByAdmin(UserCreateByAdminDto userCreateByAdminDto) {
         char[] encodedPassword = passwordEncoder.encode(userCreateByAdminDto.password()).toCharArray();
         Role role = roleRepository.findByName(userCreateByAdminDto.role()).orElseThrow();
         User registerUser = userRepository.save(new User(userCreateByAdminDto.firstName(), userCreateByAdminDto.lastName(), userCreateByAdminDto.email(), userCreateByAdminDto.login(), encodedPassword, userCreateByAdminDto.address(), role, userCreateByAdminDto.isRegularCustomer()));

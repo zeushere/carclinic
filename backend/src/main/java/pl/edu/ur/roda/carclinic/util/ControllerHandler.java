@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import pl.edu.ur.roda.carclinic.dto.ErrorMessageDto;
-import pl.edu.ur.roda.carclinic.exception.CaptchaValidationException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindBlogException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
@@ -41,11 +40,6 @@ public class ControllerHandler {
     public ResponseEntity<Map<String, String>> handleRequestPartExceptions(MissingServletRequestParameterException ex) {
         Map<String, String> errors = getErrors(ex.getParameterName(), ex.getMessage());
         return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(CaptchaValidationException.class)
-    public ResponseEntity<ErrorMessageDto> handleCaptchaValidation(CaptchaValidationException exception) {
-        return new ResponseEntity<>(new ErrorMessageDto(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(FileNoExistException.class)
