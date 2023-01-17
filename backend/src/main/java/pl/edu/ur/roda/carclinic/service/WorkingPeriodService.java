@@ -30,8 +30,10 @@ public class WorkingPeriodService {
     public List<WorkingPeriodInfoDto> getAvailableWorkingPeriods(Long mechanicalServiceId, AvailableWorkingPeriodDto availableWorkingPeriodDto, String typeOfWork) {
         MechanicalService mechanicalService = mechanicalServiceRepository.findById(mechanicalServiceId).orElseThrow(() -> new CouldNotFindMechanicalServiceException(mechanicalServiceId));
         if (mechanicalService.getName().startsWith("Diagnostyka")) {
-            return workingPeriodRepository.findByDate(availableWorkingPeriodDto.dayOfWork())
-                    .stream().map(WorkingPeriodInfoDto::of)
+            List<WorkingPeriod> collect = workingPeriodRepository.findByDate(availableWorkingPeriodDto.dayOfWork());
+            List<WorkingPeriod> availableHoursAtDay = getAvailableHoursAtDay(collect);
+            return availableHoursAtDay.stream()
+                    .map(WorkingPeriodInfoDto::of)
                     .collect(Collectors.toList());
         }
         LocalTime expectedExecutionTime = mechanicalService.getExpectedExecutionTime();

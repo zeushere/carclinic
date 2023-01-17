@@ -24,16 +24,14 @@ const Login = (props) => {
     const redirect = '/';
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         if (userInfo) {
             dispatch(getUserRole());
             dispatch(checkUserRegularCustomer());
             navigate(redirect)
             dispatch({type: USER_REGISTER_RESET})
-
         }
     }, [navigate, userInfo]);
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();

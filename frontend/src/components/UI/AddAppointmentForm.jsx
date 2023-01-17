@@ -128,6 +128,9 @@ const AddAppointmentForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(!userInfo) {
+            navigate('/login')
+        }
         if (typeOfPayment === 'Przy odbiorze') {
             dispatch(addAppointment(value, fromTime, description, typeOfWork, typeOfPayment, cost, mechanicalServiceId, carId));
         } else if (typeOfPayment === 'Online') {

@@ -21,7 +21,7 @@ const HeroSlider = () => {
     const [click, setClick] = useState(false);
 
     useEffect(() => {
-        window.scrollTo(0, 300);
+        window.scrollTo(0, 400);
     }, [click]);
 
     return (
