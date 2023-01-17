@@ -36,12 +36,6 @@ const Profile = () => {
     const dispatch = useDispatch();
     let passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$';
     let adminPasswordPattern = "[A-Za-z0-9]{4,}";
-    const loadUserDetails = () => {
-        if (!user) {
-            dispatch({type: USER_UPDATE_PROFILE_RESET});
-            dispatch(detailsUser());
-        }
-    }
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {

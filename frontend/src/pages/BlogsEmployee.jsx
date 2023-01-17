@@ -50,7 +50,7 @@ export const BlogsEmployee = () => {
             });
         });
     });
-    
+
     function sortEmployeeBlogs(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("myTable");
@@ -130,7 +130,7 @@ export const BlogsEmployee = () => {
 
                         <Col lg={'12'} md={'12'}>
 
-                            <div className="table-responsive-md mt-4 ">
+                            <div className="table-responsive-md mt-3 ">
                                 <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>

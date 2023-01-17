@@ -8,6 +8,7 @@ import '../styles/mechanical-service-employee.css'
 import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteUserByAdmin, getUsersWithUserRole} from "../actions/userActions";
+import $ from "jquery";
 
 export const UsersAdmin = () => {
 
@@ -30,6 +31,7 @@ export const UsersAdmin = () => {
     const deleteUserHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz usunąć użytkownika?')) {
             dispatch(deleteUserByAdmin(id));
+            snackbarRefDeleteUser.current.show();
         }
     };
 
@@ -38,12 +40,73 @@ export const UsersAdmin = () => {
     }, [dispatch])
 
     useEffect(() => {
-        if(successDelete){
-            snackbarRefDeleteUser.current.show();
             dispatch(getUsersWithUserRole())
-        }
+     }, [successDelete])
 
-    }, [successDelete])
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr:not(:first)").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    function sortUsersAdmin(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
     return (
         <Helmet title="Panel użytkowników">
             <section>
@@ -58,13 +121,18 @@ export const UsersAdmin = () => {
                     <Row>
                         <Col lg={'12'} md={'12'}>
                             <div className="table-responsive-md m-5">
-                                <table className="table table-faults mb-0" style={{color: "white"}}>
+                                <Row className={'justify-content-end mr-3 mb-2'}>
+                                    <Col lg= '2' className={'search__box'}>
+                                        <input id="myInput" type="text" placeholder="Szukaj"/>
+                                    </Col>
+                                </Row>
+                                <table id="myTable" className="table table-faults mb-0 mt-3" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
-                                        <th>Email</th>
-                                        <th>Login</th>
-                                        <th>Imię</th>
-                                        <th>Nazwisko</th>
+                                        <th onClick={() =>sortUsersAdmin(0)}>Email</th>
+                                        <th onClick={() =>sortUsersAdmin(1)}>Login</th>
+                                        <th onClick={() =>sortUsersAdmin(2)}>Imię</th>
+                                        <th onClick={() =>sortUsersAdmin(3)}>Nazwisko</th>
                                         <th>Akcja</th>
                                     </tr>
                                     </thead>

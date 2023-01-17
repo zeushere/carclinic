@@ -15,6 +15,8 @@ const EditUser = () => {
     const snackbarRef = useRef(null);
     const userForAdmin = useSelector((state) => state.userForAdmin);
     const {user} = userForAdmin;
+    const updatedUserByAdmin = useSelector((state) => state.updatedUserByAdmin);
+    const {updatedUser} = updatedUserByAdmin;
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [address, setAddress] = useState('');
@@ -63,11 +65,20 @@ const EditUser = () => {
                     regularCustomer
                 )
             );
-            dispatch({type: UPDATE_USER_BY_ADMIN_RESET});
             snackbarRef.current.show();
         }
     }
 
+    useEffect(() => {
+        dispatch(getUserForAdmin(id));
+        setFirstName(user?.firstName)
+        setLastName(user?.lastName)
+        setEmail(user?.email)
+        setLogin(user?.login)
+        setAddress(user?.address)
+        setRole(user?.role)
+        isRegularCustomer(user?.regularCustomer)
+    },[updatedUser])
 
     useEffect(() => {
         if (!user || (user.id) !== id) {

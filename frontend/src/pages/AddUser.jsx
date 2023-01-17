@@ -104,6 +104,7 @@ const AddUser = () => {
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="email"
                                         id="email"
+                                        title={'Wprowadź poprawny e-mail'}
                                         autoComplete="off"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
@@ -117,6 +118,8 @@ const AddUser = () => {
                                         type="text"
                                         id="login"
                                         autoComplete="off"
+                                        minLength={'4'}
+                                        maxLength={'20'}
                                         value={login}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}
