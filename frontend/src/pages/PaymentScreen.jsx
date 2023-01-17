@@ -1,12 +1,16 @@
 import CommonSection from "../components/UI/CommonSection";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Helmet from "../components/Helmet/Helmet";
 import {Col, Row} from "reactstrap";
 import {MdClose} from "react-icons/md";
 import {PayPalButtons} from "@paypal/react-paypal-js";
 import '../styles/payment-screen.css'
 import PayPalCheckoutButton from "../components/PayPal/PayPalCheckoutButton";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import Snackbar from "../components/Snackbar/Snackbar";
+import SnackbarType from "../components/Snackbar/SnackbarType";
+import {APPOINTMENT_UPDATE_PAYMENT_RESET} from "../constants/appointmentConstants";
+import {useNavigate} from "react-router-dom";
 
 const PaymentScreen = () => {
 
@@ -14,6 +18,20 @@ const PaymentScreen = () => {
         description: localStorage.getItem('mechanicalServiceName'),
         price : localStorage.getItem('cost'),
     }
+
+    const paidAppointment = useSelector(state => state.paidAppointment);
+    const {appointmentPaid} = paidAppointment;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(appointmentPaid){
+            navigate('/home')
+        }
+    },[appointmentPaid])
+
+    useEffect(() => {
+        window.scrollTo(0, 220);
+    },[])
     return (
         <Helmet title="Płatność online">
             <CommonSection title="Płatność online" />
@@ -50,13 +68,11 @@ const PaymentScreen = () => {
                 </Col>
                 <Col lg={'6'}><span className={'display-6 font-weight-normal'}>Zrealizuj płatność</span>
                 <div className={'mt-4'}>
-      {/*              {(addedAppointment && appointmentStatus === 'Opłacone') ? (<span style = {{color: "green"}}>*/}
-      {/*<i class="fa fa-check-circle fa-5x" aria-hidden="true"></i></span>) :*/}
                         <PayPalCheckoutButton product={product}/>
-
                 </div>
                 </Col>
             </Row>
+
         </Helmet>
             )}
 

@@ -51,7 +51,7 @@ mail:
     subject: 'Dodano rezerwację usługi w serwisie CarClinic!'
     pathToMessage: '/content/mail/addAppointment_pl.html'
   add-appointment-to-employee:
-    subject: 'Dodano rezerwację usługi'
+    subject: 'Dodano rezerwację usługi w serwisie CarClinic!'
     pathToMessage: '/content/mail/addAppointment_Message_To_Employee_pl.html'
   send-notification:
     subject: 'Czy wymieniłeś już olej i filtry w swoim samochodzie?'
@@ -64,6 +64,9 @@ mail:
   complete-appointment-remote:
     subject: 'Twoje zgłoszenie w serwisie CarClinic zostało wykonane!'
     pathToMessage: '/content/mail/completeAppointmentRemote.html'
-  in progress-appointment:
+  in-progress-appointment:
     subject: 'Twoje zgłoszenie w CarClinic jest w trakcie rozpatrywania!'
     pathToMessage: '/content/mail/inProgressAppointment.html'
+  cancel-appointment:
+    subject: 'Zgłoszenie w CarClinic zostało anulowane!'
+    pathToMessage: '/content/mail/cancelAppointment.html'

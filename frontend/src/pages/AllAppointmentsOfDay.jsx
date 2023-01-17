@@ -4,22 +4,22 @@ import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
 import useWindowDimensions from "../components/WindowDimension/WindowDimension";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteAppointment, listAppointmentsOfDay, listUserAppointments} from "../actions/appointmentActions";
+import {listAppointmentsOfDay} from "../actions/appointmentActions";
 import {Link} from "react-router-dom";
 import moment from "moment/moment";
+import date from "moment/moment";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {DesktopDatePicker, LocalizationProvider, plPL} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {TextField} from "@mui/material";
-import {Dayjs} from "dayjs";
 import * as dayjs from "dayjs";
-import date from "moment/moment";
-import sortTable from "../components/table-sorting/table-sorting";
+import {Dayjs} from "dayjs";
 import $ from "jquery";
 import {
     APPOINTMENT_DELETE_RESET,
     APPOINTMENT_SET_COMPLETE_RESET,
-    APPOINTMENT_SET_IN_PROGRESS_RESET, APPOINTMENT_UPDATE_PAYMENT_RESET
+    APPOINTMENT_SET_IN_PROGRESS_RESET,
+    APPOINTMENT_UPDATE_PAYMENT_RESET
 } from "../constants/appointmentConstants";
 
 const AllAppointmentsOfDay = () => {
@@ -46,6 +46,7 @@ const AllAppointmentsOfDay = () => {
 
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
+    const inputRef = React.useRef(null)
 
     function checkDate(date, time) {
         let dateToCheck = moment(date).format('YYYY-MM-DD');
@@ -131,7 +132,7 @@ const AllAppointmentsOfDay = () => {
         });
     });
 
-    function sortAllAppointemntsOfDay(n) {
+    function sortAllAppointmentsOfDay(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("myTable");
         switching = true;
@@ -186,6 +187,12 @@ const AllAppointmentsOfDay = () => {
         }
     }
 
+    useEffect(() => {
+        if (allAppointmentsOfDay) {
+            inputRef.current.click()
+        }
+    }, [allAppointmentsOfDay])
+
     return (
         <section>
             <Container>
@@ -223,19 +230,20 @@ const AllAppointmentsOfDay = () => {
                 </Row>
                 <Row>
                     <div className="table-responsive-lg mt-3">
-                        <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
+                        <table aria-sort={'descending'} id="myTable" className="table table-faults mb-0"
+                               style={{color: "white"}}>
                             <thead className="text-center">
                             <tr className={'table-th'}>
-                                <th onClick={() => sortAllAppointemntsOfDay(0)}>Nazwa usługi</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(1)}>Godzina wykonania</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(0)}>Nazwa usługi</th>
+                                <th ref={inputRef} onClick={() => sortAllAppointmentsOfDay(1)}>Godzina wykonania</th>
 
-                                <th onClick={() => sortAllAppointemntsOfDay(2)}>Godzina zakończenia</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(3)}>Typ naprawy</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(4)}>Status naprawy</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(5)}>Typ płatności</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(6)}>Status płatności</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(7)}>Koszt usługi</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(8)}>Samochód</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(2)}>Godzina zakończenia</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(3)}>Typ naprawy</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(4)}>Status naprawy</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(5)}>Typ płatności</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(6)}>Status płatności</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(7)}>Koszt usługi</th>
+                                <th onClick={() => sortAllAppointmentsOfDay(8)}>Samochód</th>
                                 <th>Akcja</th>
                             </tr>
                             </thead>
@@ -284,7 +292,7 @@ const AllAppointmentsOfDay = () => {
                 </Row>
                 <Snackbar
                     ref={snackbarRefDeleteAppointment}
-                    message="Pomyślnie usunięto zgłoszenie!"
+                    message="Pomyślnie anulowano zgłoszenie!"
                     type={SnackbarType.success}
                 />
                 <Snackbar

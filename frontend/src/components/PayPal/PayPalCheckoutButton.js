@@ -2,6 +2,7 @@ import {PayPalButtons} from "@paypal/react-paypal-js";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addAppointment, payAppointment} from "../../actions/appointmentActions";
+import {APPOINTMENT_ADD_RESET} from "../../constants/appointmentConstants";
 
 const PayPalCheckoutButton = (props) => {
     const {product} = props;
@@ -19,17 +20,7 @@ const PayPalCheckoutButton = (props) => {
     const handleApprove = () => {
         setPaidFor(true);
     };
-
-    if (paidFor) {
-        if(carId === 'null'){
-            dispatch(addAppointment(date, fromTime, description, repairType, paymentType, cost, mechanicalServiceId, null))
-        } else {
-            dispatch(addAppointment(date, fromTime, description, repairType, paymentType, cost, mechanicalServiceId, carId))
-        }
-    }
-
     if (error) {
-        //Display or redirect user
 
         alert(error);
     }
@@ -66,8 +57,10 @@ const PayPalCheckoutButton = (props) => {
         onApprove={async (data, actions) => {
             const order = await actions.order.capture();
             console.log("order", order);
-
+            dispatch(addAppointment(date, fromTime, description, repairType, paymentType, cost, mechanicalServiceId, carId))
+            dispatch({type: APPOINTMENT_ADD_RESET})
             handleApprove(data.orderID);
+            localStorage.setItem('appointment', 'paid')
         }}
 
         onCancel={() => {

@@ -29,6 +29,7 @@ public class CarService {
     private final CarInfoDtoCarMapper carInfoDtoCarMapper;
     private final FileStorage fileStorage;
     private final ImageEncoder imageEncoder;
+    private final EmailNotificationScheduledService emailNotificationScheduledService;
 
     @Value("${cars.images-path}")
     private String directoryPath;
@@ -53,7 +54,9 @@ public class CarService {
 
         Car car = CarAddDto.prepareCar(carAddDto, owner);
 
+        emailNotificationScheduledService.sendEmailNotification();
         Car savedCar = carRepository.save(car);
+
 
         return new AddedCarId(savedCar.getId());
     }

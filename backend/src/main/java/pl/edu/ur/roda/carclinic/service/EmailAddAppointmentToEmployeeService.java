@@ -14,6 +14,7 @@ import pl.edu.ur.roda.carclinic.entity.MechanicalService;
 import pl.edu.ur.roda.carclinic.entity.User;
 import pl.edu.ur.roda.carclinic.exception.FileNoExistException;
 import pl.edu.ur.roda.carclinic.properties.EmailAddAppointmentToEmployeeProperties;
+import pl.edu.ur.roda.carclinic.util.filestorage.FileStorage;
 
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
@@ -27,10 +28,9 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 @Slf4j
 public class EmailAddAppointmentToEmployeeService {
-
-    private static final String IMG_HTML = "<p><img src='cid:image'></p>";
     private final EmailAddAppointmentToEmployeeProperties emailAddAppointmentToEmployeeProperties;
     private final JavaMailSender javaMailSender;
+    private final FileStorage fileStorage;
 
     @Async
     public void sendConfirmationEmail(EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee) {
@@ -40,24 +40,17 @@ public class EmailAddAppointmentToEmployeeService {
             message.setSubject(emailAddAppointmentToEmployeeProperties.getSubject());
             log.info("Sending confirmation email add appointment to {} with subject {}", emailAddAppointmentRequestToEmployee.user().getEmail(), emailAddAppointmentToEmployeeProperties.getSubject());
             message.setText(loadTextMessage(emailAddAppointmentRequestToEmployee), true);
-            if (emailAddAppointmentRequestToEmployee.image() != null && !emailAddAppointmentRequestToEmployee.image().isEmpty()) {
-                message.addInline("image", loadImage(emailAddAppointmentRequestToEmployee.image()));
-            }
+            message.addInline("image", loadImage());
         }
         ));
     }
 
-    private ByteArrayDataSource loadImage(MultipartFile image) throws IOException {
-        return new ByteArrayDataSource(image.getBytes(), image.getContentType());
+    private ByteArrayDataSource loadImage() throws IOException {
+        return new ByteArrayDataSource(fileStorage.getFileBytes("backend/src/main/resources/files/email/email-add-appointment.png"), fileStorage.getFileType("backend/src/main/resources/files/email/email-add-appointment.png"));
     }
 
     private String loadTextMessage(EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee) {
-        if (emailAddAppointmentRequestToEmployee.image() != null && !emailAddAppointmentRequestToEmployee.image().isEmpty()) {
-//            return getMessageFromFile(emailErrorReportRequest.emailReporter(), emailErrorReportRequest.errorReportTitle(), emailErrorReportRequest.errorReportDescription() + IMG_HTML, emailErrorReportRequest.errorReportId());
-            return null;
-        } else {
-            return getMessageFromFile(emailAddAppointmentRequestToEmployee.user().getFirstName(),emailAddAppointmentRequestToEmployee.sendingUser().getEmail(), emailAddAppointmentRequestToEmployee.mechanicalService().getName(), emailAddAppointmentRequestToEmployee.appointment().getDate(), emailAddAppointmentRequestToEmployee.appointment().getFromTime(), emailAddAppointmentRequestToEmployee.appointment().getPaymentType());
-        }
+            return getMessageFromFile(emailAddAppointmentRequestToEmployee.user().getFirstName(), emailAddAppointmentRequestToEmployee.sendingUser().getEmail(), emailAddAppointmentRequestToEmployee.mechanicalService().getName(), emailAddAppointmentRequestToEmployee.appointment().getDate(), emailAddAppointmentRequestToEmployee.appointment().getFromTime(), emailAddAppointmentRequestToEmployee.appointment().getPaymentType(),emailAddAppointmentRequestToEmployee.appointment.getRepairType());
     }
 
     private String getMessageFromFile(
@@ -66,7 +59,8 @@ public class EmailAddAppointmentToEmployeeService {
             String mechanicalService,
             LocalDate appointmentDate,
             LocalTime appointmentTime,
-            String paymentType) {
+            String paymentType,
+            String repairType) {
         StringBuilder stringBuilder = new StringBuilder();
         try (Scanner scanner = new Scanner(getFile())) {
             while (scanner.hasNextLine()) {
@@ -74,7 +68,7 @@ public class EmailAddAppointmentToEmployeeService {
             }
         }
         String message = stringBuilder.toString();
-        return String.format(message, userName, sendingUserEmail, mechanicalService, appointmentDate, appointmentTime, paymentType);
+        return String.format(message, userName, sendingUserEmail, mechanicalService, appointmentDate, appointmentTime, paymentType, repairType);
     }
 
     private InputStream getFile() {
@@ -88,18 +82,16 @@ public class EmailAddAppointmentToEmployeeService {
     record EmailAddAppointmentRequestToEmployee(User sendingUser, Appointment appointment,
                                                 User user,
                                                 Car car,
-                                                pl.edu.ur.roda.carclinic.entity.MechanicalService mechanicalService,
-                                                MultipartFile image) {
+                                                pl.edu.ur.roda.carclinic.entity.MechanicalService mechanicalService) {
 
 
-        static EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee of(User sendingUser, Appointment appointment, User user, Car car, MechanicalService mechanicalService, MultipartFile image) {
+        static EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee of(User sendingUser, Appointment appointment, User user, Car car, MechanicalService mechanicalService) {
             return new EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee(
                     sendingUser,
                     appointment,
                     user,
                     car,
-                    mechanicalService,
-                    image
+                    mechanicalService
             );
         }
     }

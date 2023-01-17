@@ -29,15 +29,12 @@ public class WorkingPeriodService {
 
     public List<WorkingPeriodInfoDto> getAvailableWorkingPeriods(Long mechanicalServiceId, AvailableWorkingPeriodDto availableWorkingPeriodDto, String typeOfWork) {
         MechanicalService mechanicalService = mechanicalServiceRepository.findById(mechanicalServiceId).orElseThrow(() -> new CouldNotFindMechanicalServiceException(mechanicalServiceId));
-        if (mechanicalService.getName().startsWith("Diagnostyka")) {
-            return workingPeriodRepository.findByDate(availableWorkingPeriodDto.dayOfWork())
-                    .stream().map(WorkingPeriodInfoDto::of)
-                    .collect(Collectors.toList());
-        }
         LocalTime expectedExecutionTime = mechanicalService.getExpectedExecutionTime();
+
         if (typeOfWork.equals("Zdalna")) {
             expectedExecutionTime = expectedExecutionTime.plusHours(1);
         }
+
         List<WorkingPeriod> byDateAndAvailableWithoutTime = workingPeriodRepository.findAvailableDateInDay(availableWorkingPeriodDto.dayOfWork(), AppointmentAvailableStatus.WOLNE.name());
         List<LocalDateTime> listOfLocalDateTimesOfPeriods = getListOfLocalDateTimesOfPeriods(byDateAndAvailableWithoutTime);
         List<WorkingPeriod> listOfAvailableDateWithMechanicalService = new ArrayList<>();
@@ -47,7 +44,7 @@ public class WorkingPeriodService {
                     LocalDateTime expectedDateTo = workingPeriod.getDate().plusHours(finalExpectedExecutionTime.getHour()).plusMinutes(finalExpectedExecutionTime.getMinute());
                     if (listOfLocalDateTimesOfPeriods.contains(expectedDateTo.minusMinutes(MINUTES_PERIOD))) {
                         LocalDateTime localDateTimeToCheckAvailability = workingPeriod.getDate().plusMinutes(MINUTES_PERIOD);
-                        while (!localDateTimeToCheckAvailability.equals(expectedDateTo.minusMinutes(MINUTES_PERIOD))) {
+                        while (!localDateTimeToCheckAvailability.equals(expectedDateTo)) {
                             if (listOfLocalDateTimesOfPeriods.contains(localDateTimeToCheckAvailability)) {
                                 localDateTimeToCheckAvailability = localDateTimeToCheckAvailability.plusMinutes(MINUTES_PERIOD);
                             } else {
@@ -76,9 +73,10 @@ public class WorkingPeriodService {
 
         workingPeriodList
                 .forEach(workingPeriod -> {
-                    if(workingPeriod.getDate().isAfter(LocalDateTime.now())){
+                    if (workingPeriod.getDate().isAfter(LocalDateTime.now())) {
                         availableWorkingPeriod.add(workingPeriod);
-                    };
+                    }
+                    ;
                 });
         return availableWorkingPeriod;
     }

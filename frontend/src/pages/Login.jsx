@@ -29,12 +29,12 @@ const Login = (props) => {
             dispatch(checkUserRegularCustomer());
             navigate(redirect)
             dispatch({type: USER_REGISTER_RESET})
-
         }
     }, [navigate, userInfo]);
 
-
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[])
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(signin(username, password));

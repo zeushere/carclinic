@@ -10,7 +10,7 @@ import {
     RABAT_CODE_DETAILS_REQUEST,
     RABAT_CODE_DETAILS_SUCCESS,
     RABAT_CODE_DISCOUNT_FAIL,
-    RABAT_CODE_DISCOUNT_REQUEST,
+    RABAT_CODE_DISCOUNT_REQUEST, RABAT_CODE_DISCOUNT_RESET,
     RABAT_CODE_DISCOUNT_SUCCESS,
     RABAT_CODE_UPDATE_FAIL,
     RABAT_CODE_UPDATE_REQUEST,
@@ -48,6 +48,8 @@ export const rabatCodeDiscountReducer = (
             return {loading: false, discount: action.payload};
         case RABAT_CODE_DISCOUNT_FAIL:
             return {loading: false, error: action.payload};
+        case RABAT_CODE_DISCOUNT_RESET:
+            return {};
         default:
             return state;
     }
