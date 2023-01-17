@@ -44,7 +44,7 @@ public class WorkingPeriodService {
                     LocalDateTime expectedDateTo = workingPeriod.getDate().plusHours(finalExpectedExecutionTime.getHour()).plusMinutes(finalExpectedExecutionTime.getMinute());
                     if (listOfLocalDateTimesOfPeriods.contains(expectedDateTo.minusMinutes(MINUTES_PERIOD))) {
                         LocalDateTime localDateTimeToCheckAvailability = workingPeriod.getDate().plusMinutes(MINUTES_PERIOD);
-                        while (!localDateTimeToCheckAvailability.equals(expectedDateTo.minusMinutes(MINUTES_PERIOD))) {
+                        while (!localDateTimeToCheckAvailability.equals(expectedDateTo)) {
                             if (listOfLocalDateTimesOfPeriods.contains(localDateTimeToCheckAvailability)) {
                                 localDateTimeToCheckAvailability = localDateTimeToCheckAvailability.plusMinutes(MINUTES_PERIOD);
                             } else {

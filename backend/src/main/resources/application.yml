@@ -51,7 +51,7 @@ mail:
     subject: 'Dodano rezerwację usługi w serwisie CarClinic!'
     pathToMessage: '/content/mail/addAppointment_pl.html'
   add-appointment-to-employee:
-    subject: 'Dodano rezerwację usługi'
+    subject: 'Dodano rezerwację usługi w serwisie CarClinic!'
     pathToMessage: '/content/mail/addAppointment_Message_To_Employee_pl.html'
   send-notification:
     subject: 'Czy wymieniłeś już olej i filtry w swoim samochodzie?'
