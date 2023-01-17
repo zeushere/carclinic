@@ -102,13 +102,13 @@ public class AppointmentService {
             workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
             setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
         }
-        EmailAddAppointmentToUserService.EmailAddAppointmentRequest emailAddAppointmentRequest = EmailAddAppointmentToUserService.EmailAddAppointmentRequest.of(appointment, user, car, mechanicalService, null);
+        EmailAddAppointmentToUserService.EmailAddAppointmentRequest emailAddAppointmentRequest = EmailAddAppointmentToUserService.EmailAddAppointmentRequest.of(appointment, user, car, mechanicalService);
         emailAddAppointmentToUserService.sendConfirmationEmail(emailAddAppointmentRequest);
 
         List<User> usersWithRoleEmployeeOrAdmin = getUsersWithRoleEmployeeOrAdmin();
         usersWithRoleEmployeeOrAdmin
                 .forEach(u -> {
-                    EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(user, appointment, u, car, mechanicalService, null);
+                    EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(user, appointment, u, car, mechanicalService);
                     emailAddAppointmentToEmployeeService.sendConfirmationEmail(emailAddAppointmentRequestToEmployee);
                 });
         return AppointmentId.of(appointment);
