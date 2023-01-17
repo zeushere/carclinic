@@ -92,7 +92,7 @@ const AddMechanicalService = () => {
                                         value={expectedExecutionTime}
                                         onChange={(e) => setExpectedExecutionTime(e.target.value)}
                                         placeholder={'Szacowany czas'}
-                                        required={!name.startsWith('Diagnostyka')}
+                                        required
                                     />
                                     <button className={'profile__button'} type={"submit"}>Zatwierdź</button>
                                 </form>

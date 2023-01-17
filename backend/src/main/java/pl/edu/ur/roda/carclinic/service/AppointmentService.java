@@ -64,11 +64,9 @@ public class AppointmentService {
         Car car = getCar(appointmentAddDto.getCarId());
         LocalDateTime appointmentDateTimeFrom = createDateTimeFrom(appointmentAddDto);
         LocalDateTime expectedTimeTo = null;
-        if (!mechanicalService.getName().startsWith("Diagnostyka")) {
-            expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
-            if (appointmentAddDto.getRepairType().equals("Zdalna")) {
-                expectedTimeTo = expectedTimeTo.plusHours(1);
-            }
+        expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
+        if (appointmentAddDto.getRepairType().equals("Zdalna")) {
+            expectedTimeTo = expectedTimeTo.plusHours(1);
         }
 
         if (user.isRegularCustomer()) {
@@ -98,10 +96,8 @@ public class AppointmentService {
         WorkingPeriod workingPeriodDateFrom = workingPeriodRepository.findByDateAndAvailable(appointmentDateTimeFrom, AppointmentAvailableStatus.WOLNE.name());
 
         WorkingPeriod workingPeriodDateTo;
-        if (!mechanicalService.getName().startsWith("Diagnostyka")) {
-            workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
-            setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
-        }
+        workingPeriodDateTo = workingPeriodRepository.findByDateAndAvailable(expectedTimeTo.minusMinutes(MINUTES_PERIOD), AppointmentAvailableStatus.WOLNE.name());
+        setToReservedWorkingPeriodByAppointment(savedAppointment, workingPeriodDateFrom, workingPeriodDateTo);
         EmailAddAppointmentToUserService.EmailAddAppointmentRequest emailAddAppointmentRequest = EmailAddAppointmentToUserService.EmailAddAppointmentRequest.of(appointment, user, car, mechanicalService);
         emailAddAppointmentToUserService.sendConfirmationEmail(emailAddAppointmentRequest);
 
@@ -113,8 +109,6 @@ public class AppointmentService {
                 });
         return AppointmentId.of(appointment);
     }
-
-
 
 
     public record AppointmentId(String id) {
