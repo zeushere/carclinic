@@ -3,42 +3,42 @@ const serviceData = [
     id: 1,
     title: "Dobra lokalizacja",
     icon: "ri-map-pin-2-line",
-    desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
+    desc: "Znajdujemy się w samym centrum Rzeszowa.",
   },
 
   {
     id: 2,
     title: "Zdalna naprawa",
     icon: "ri-community-line",
-    desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
+    desc: "Możemy naprawić Twój samochód, a Ty nawet nie wyjdziesz z domu.",
   },
 
   {
     id: 3,
     title: "Doświadczenie motoryzacyjne",
     icon: "ri-roadster-line",
-    desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
+    desc: 'W zakładce "O nas" możesz sprawdzić naszych ekspertów z wieloletnim doświadczeniem.',
   },
 
   {
     id: 4,
-    title: "Możliwość rezerwacji wizyty online",
+    title: "Możliwość płatności online",
     icon: "ri-timer-flash-line",
-    desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
+    desc: "Oferujemy możliwość płatności bezgotówkowej w ramach za pełnione usługi",
   },
 
   {
     id: 5,
     title: "Kody rabatowe",
     icon: "ri-gift-line",
-    desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
+    desc: "Jeśli posiadasz kod rabatowy wykorzystaj go. Wartość usługi zostanie obniżona o przypisaną mu zniżkę.",
   },
 
   {
     id: 6,
     title: "Karty stałych klientów",
     icon: "ri-bank-card-2-line",
-    desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
+    desc: "Dbamy o naszych klientów, dlatego w ramach długiej współpracy oferujemy karty stałych klientów.",
   },
 ];
 

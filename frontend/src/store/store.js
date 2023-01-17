@@ -78,6 +78,12 @@ const initialState = {
             : null,
     },
 
+    isUserRegularCustomer: {
+        regularCustomer: localStorage.getItem('userRegularCustomer')
+            ? JSON.parse(localStorage.getItem('userRegularCustomer'))
+            : null,
+    },
+
     userDetails: {
         user: null
     }

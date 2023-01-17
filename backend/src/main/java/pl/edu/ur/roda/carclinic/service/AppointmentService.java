@@ -72,15 +72,6 @@ public class AppointmentService {
             expectedTimeTo = expectedTimeTo.plusHours(1);
         }
 
-        if (user.isRegularCustomer()) {
-            BigDecimal expectedServiceCost = appointmentAddDto.getCost();
-            double aDouble = expectedServiceCost.doubleValue();
-            double finalPrice = (aDouble * 10) / 100;
-            long round = Math.round(aDouble - finalPrice);
-
-            appointmentAddDto.setCost(BigDecimal.valueOf(round));
-        }
-
         Appointment appointment = AppointmentAddDto.prepareAppointment(
                 appointmentAddDto.getDate(),
                 appointmentAddDto.getFromTime(),

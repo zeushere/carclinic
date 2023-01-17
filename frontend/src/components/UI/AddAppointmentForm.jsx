@@ -23,6 +23,7 @@ import {availableWorkingPeriodList} from "../../actions/workingPeriodActions";
 import {addAppointment} from "../../actions/appointmentActions";
 import {APPOINTMENT_ADD_RESET, APPOINTMENT_UPDATE_PAYMENT_RESET} from "../../constants/appointmentConstants";
 import {RABAT_CODE_DISCOUNT_RESET} from "../../constants/rabatCodeConstants";
+import {isDisabled} from "bootstrap/js/src/util";
 
 function StaticDateRangePicker(props) {
     return null;
@@ -73,6 +74,7 @@ const AddAppointmentForm = () => {
     const snackBarRefAddAppointmentSuccess = useRef(null);
     const snackBarRefAddAppointmentFail = useRef(null);
     const snackBarRefLeakData = useRef(null);
+    const snackBarRefLeakDataRabat = useRef(null);
     let navigate = useNavigate();
     const [value, setValue] = useState(
         dayjs(date.now())
@@ -148,6 +150,14 @@ const AddAppointmentForm = () => {
         if (discount) {
             calculateDiscount();
             dispatch({type: RABAT_CODE_DISCOUNT_RESET});
+        }
+    }, [discount])
+
+    useEffect(() => {
+        if (localStorage.getItem('discountSize') === "null") {
+            snackBarRefAddRabatCodeFail.current.show(0);
+            dispatch({type: RABAT_CODE_DISCOUNT_RESET});
+            localStorage.setItem('discountSize', 'checked')
         }
     }, [discount])
 
@@ -274,17 +284,20 @@ const AddAppointmentForm = () => {
 
 
     function isRabatCodeCheckBeActive() {
-        if (localStorage.getItem('mechanicalServiceId') === null || typeOfWork === null) {
+        if (localStorage.getItem('mechanicalServiceId') === null || typeOfWork === '') {
             return true;
         } else {
             return false;
         }
     }
 
-    function checkRabatCode() {
+    function checkRabatCode(isDisabled) {
         if (rabatCode !== '' && rabatCode !== null && typeOfWork !== null) {
             dispatch(rabatCodeDiscount(rabatCode));
-        } else {
+        }
+        else if(isDisabled){
+            snackBarRefLeakDataRabat.current.show();
+        } else{
             return;
         }
     }
@@ -431,7 +444,7 @@ const AddAppointmentForm = () => {
                     <FormGroup className="form__group">
                         <Link id={'rabatCodeButton'} className={'btn find__rabat__code-btn'}
 
-                              disabled={isRabatCodeCheckBeActive() || rabatActivated} onClick={() => checkRabatCode()}
+                              disabled={isRabatCodeCheckBeActive() || rabatActivated} onClick={() => checkRabatCode(isDisabled())}
                               to={'#'}>Sprawdź
                             kod
 
@@ -482,6 +495,11 @@ const AddAppointmentForm = () => {
             <Snackbar
                 ref={snackBarRefLeakData}
                 message="Uzupełnij brakujące dane!"
+                type={SnackbarType.fail}
+            />
+            <Snackbar
+                ref={snackBarRefLeakDataRabat}
+                message="Uzupełnij brakujące dane, aby wyliczyć rabat!"
                 type={SnackbarType.fail}
             />
             <Snackbar

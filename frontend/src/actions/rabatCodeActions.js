@@ -24,6 +24,8 @@ export const rabatCodeDiscount = (code) => async (dispatch, getState) => {
     dispatch({type: RABAT_CODE_DISCOUNT_REQUEST, payload: code});
     try {
         const {data} = await Axios.get(`/rabat-code/${code}`);
+        localStorage.setItem('discountSize', JSON.stringify(data.discountSize))
+
         dispatch({type: RABAT_CODE_DISCOUNT_SUCCESS, payload: data.discountSize});
     } catch (error) {
         dispatch({
