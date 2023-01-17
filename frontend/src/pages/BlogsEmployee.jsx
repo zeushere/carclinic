@@ -10,16 +10,23 @@ import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteRabatCode, listRabatCodes} from "../actions/rabatCodeActions";
 import {deleteBlog, getBlogs} from "../actions/blogActions";
 import $ from "jquery";
+import {BLOG_ADD_RESET, BLOG_DELETE_RESET, BLOG_UPDATE_RESET} from "../constants/blogConstants";
 
 export const BlogsEmployee = () => {
 
     const blogList = useSelector(state => state.blogList);
     const {blogs} = blogList;
-    const rabatCodeDelete = useSelector((state) => state.rabatCodeDelete);
-    const {loading: loadingDelete, error: errorDelete, success: successDelete} = rabatCodeDelete;
+    const blogDelete = useSelector((state) => state.blogDelete);
+    const {loading: loadingDelete, error: errorDelete, success: successDelete} = blogDelete;
+    const blogUpdate = useSelector((state) => state.blogUpdate);
+    const {success: successUpdate} = blogUpdate;
+    const blogAdded = useSelector((state) => state.blogAdded);
+    const {blog} = blogAdded;
     const dispatch = useDispatch();
     const snackbarRefDeleteBlog = useRef(null);
     const navigate = useNavigate();
+    const snackbarRefAdd = useRef(null);
+    const snackbarRefEdit = useRef(null);
 
     const addBlogHandler = (e) => {
         if (window.confirm('Czy na pewno chcesz dodać wpis na bloga?')) {
@@ -39,8 +46,27 @@ export const BlogsEmployee = () => {
     }, [dispatch])
 
     useEffect(() => {
-        dispatch(getBlogs())
+        if(successDelete){
+            dispatch(getBlogs())
+            dispatch({type: BLOG_DELETE_RESET})
+        }
     }, [successDelete])
+
+    useEffect(() => {
+        if(blog){
+            dispatch(getBlogs())
+            dispatch({type: BLOG_ADD_RESET})
+            snackbarRefAdd.current.show()
+        }
+    }, [blog])
+
+    useEffect(() => {
+        if(successUpdate){
+            dispatch(getBlogs())
+            dispatch({type: BLOG_UPDATE_RESET});
+            snackbarRefEdit.current.show();
+        }
+    }, [successUpdate])
 
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
@@ -182,6 +208,16 @@ export const BlogsEmployee = () => {
                     <Snackbar
                         ref={snackbarRefDeleteBlog}
                         message="Pomyślnie usunięto wpis!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRefAdd}
+                        message="Wpis został pomyślnie dodany!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRefEdit}
+                        message="Wpis został pomyślnie zaktualizowany!"
                         type={SnackbarType.success}
                     />
                 </Container>

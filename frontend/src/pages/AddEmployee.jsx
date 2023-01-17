@@ -15,7 +15,6 @@ const AddEmployee = () => {
     const [expectedServiceCost, setExpectedServiceCost] = useState('');
     const [expectedExecutionTime, setExpectedExecutionTime] = useState('');
     const dispatch = useDispatch();
-    const snackbarRef = useRef(null);
     const navigate = useNavigate();
 
     const [firstName, setFirstName] = useState('');
@@ -47,14 +46,9 @@ const AddEmployee = () => {
                     regularCustomer
                 )
             );
-            snackbarRef.current.show();
+            navigate('/employees/admin')
         }
     }
-    // if(mechanicalServiceId) {
-    //     const timer = setTimeout(() =>{
-    //         navigate('/mechanical-services/employee')
-    //     },3000)
-    // }
     return (
         <Helmet title="Dodawanie pracownika">
             <MDBContainer fluid>
@@ -162,11 +156,7 @@ const AddEmployee = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Pracownik został pomyślnie dodany!"
-                type={SnackbarType.success}
-            />
+
         </Helmet>
     )
 }

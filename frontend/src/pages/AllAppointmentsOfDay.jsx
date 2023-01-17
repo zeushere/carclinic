@@ -16,10 +16,17 @@ import * as dayjs from "dayjs";
 import date from "moment/moment";
 import sortTable from "../components/table-sorting/table-sorting";
 import $ from "jquery";
-import {APPOINTMENT_DELETE_RESET} from "../constants/appointmentConstants";
+import {
+    APPOINTMENT_DELETE_RESET,
+    APPOINTMENT_SET_COMPLETE_RESET,
+    APPOINTMENT_SET_IN_PROGRESS_RESET, APPOINTMENT_UPDATE_PAYMENT_RESET
+} from "../constants/appointmentConstants";
 
 const AllAppointmentsOfDay = () => {
     const snackbarRefDeleteAppointment = useRef(null);
+    const snackbarRefChangeStatusAppointment = useRef(null);
+    const snackbarRefPayAppointment = useRef(null);
+
     const {width} = useWindowDimensions();
     const dispatch = useDispatch();
     const allAppointmentsForDay = useSelector(state => state.allAppointmentsOfDay);
@@ -29,6 +36,13 @@ const AllAppointmentsOfDay = () => {
     const [value, setValue] = useState(
         dayjs(date.now())
     );
+
+    const setProgressAppointment = useSelector(state => state.setProgressAppointment);
+    const {setInProgressAppointment} = setProgressAppointment;
+    const setCompletedAppointment = useSelector(state => state.setCompletedAppointment);
+    const {setCompleteAppointment} = setCompletedAppointment;
+    const paidAppointment = useSelector(state => state.paidAppointment);
+    const {appointmentPaid} = paidAppointment;
 
     let formattedDate = moment(moment()).format('YYYY-MM-DD');
     let formattedTime = moment(moment()).format('HH:mm:SS');
@@ -45,14 +59,36 @@ const AllAppointmentsOfDay = () => {
     }
 
     useEffect(() => {
-        if(success){
+        if (setInProgressAppointment) {
+            snackbarRefChangeStatusAppointment.current.show();
+            dispatch({type: APPOINTMENT_SET_IN_PROGRESS_RESET})
+        }
+    }, [setInProgressAppointment])
+
+    useEffect(() => {
+        if (setCompleteAppointment) {
+            snackbarRefChangeStatusAppointment.current.show();
+            dispatch({type: APPOINTMENT_SET_COMPLETE_RESET})
+        }
+    }, [setCompleteAppointment])
+
+    useEffect(() => {
+        if (appointmentPaid) {
+            snackbarRefPayAppointment.current.show();
+            dispatch({type: APPOINTMENT_UPDATE_PAYMENT_RESET})
+        }
+    }, [appointmentPaid])
+
+
+    useEffect(() => {
+        if (success) {
             snackbarRefDeleteAppointment.current.show();
             dispatch({type: APPOINTMENT_DELETE_RESET})
         }
-    },[success])
+    }, [success])
 
     useEffect(() => {
-        if(value) {
+        if (value) {
             let formattedDate = value.format('YYYY-MM-DD');
             dispatch(listAppointmentsOfDay(formattedDate))
         }
@@ -61,8 +97,9 @@ const AllAppointmentsOfDay = () => {
     function connectCarVars(brand, model) {
         return brand + ' ' + model;
     }
+
     function checkRepairStatusIsCompleted(appointment) {
-        if(appointment.repairStatus === 'Wykonane'){
+        if (appointment.repairStatus === 'Wykonane') {
             return true
         }
     }
@@ -85,14 +122,15 @@ const AllAppointmentsOfDay = () => {
         },
         plPL,
     );
-    $(document).ready(function(){
-        $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#myTable tr:not(:first)").filter(function() {
+            $("#myTable tr:not(:first)").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
     });
+
     function sortAllAppointemntsOfDay(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("myTable");
@@ -136,7 +174,7 @@ const AllAppointmentsOfDay = () => {
                 rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                 switching = true;
                 // Each time a switch is done, increase this count by 1:
-                switchcount ++;
+                switchcount++;
             } else {
                 /* If no switching has been done AND the direction is "asc",
                 set the direction to "desc" and run the while loop again. */
@@ -147,6 +185,7 @@ const AllAppointmentsOfDay = () => {
             }
         }
     }
+
     return (
         <section>
             <Container>
@@ -178,7 +217,7 @@ const AllAppointmentsOfDay = () => {
                     </Col>
                 </Row>
                 <Row className={'justify-content-end mr-4'}>
-                    <Col lg= '2' className={''}>
+                    <Col lg='2' className={''}>
                         <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                     </Col>
                 </Row>
@@ -187,8 +226,8 @@ const AllAppointmentsOfDay = () => {
                         <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
                             <thead className="text-center">
                             <tr className={'table-th'}>
-                                <th  onClick={() => sortAllAppointemntsOfDay(0)}>Nazwa usługi</th>
-                                <th onClick={() => sortAllAppointemntsOfDay(1)}>Godzina wykonania </th>
+                                <th onClick={() => sortAllAppointemntsOfDay(0)}>Nazwa usługi</th>
+                                <th onClick={() => sortAllAppointemntsOfDay(1)}>Godzina wykonania</th>
 
                                 <th onClick={() => sortAllAppointemntsOfDay(2)}>Godzina zakończenia</th>
                                 <th onClick={() => sortAllAppointemntsOfDay(3)}>Typ naprawy</th>
@@ -202,7 +241,7 @@ const AllAppointmentsOfDay = () => {
                             </thead>
                             {allAppointmentsOfDay?.map((appointment) => (
                                 <tbody className="align-middle text-center">
-                                <tr style={checkRepairStatusIsCompleted(appointment) && {color : "lawngreen"}}
+                                <tr style={checkRepairStatusIsCompleted(appointment) && {color: "lawngreen"}}
 
 
                                     key={appointment?.appointmentId} className={'table-th'} iskey={true}>
@@ -216,15 +255,17 @@ const AllAppointmentsOfDay = () => {
                                     <td>{appointment?.appointmentCost} zł</td>
                                     <td>{appointment.carModel ? connectCarVars(appointment.carBrand, appointment.carModel) : 'Nie dodano'}</td>
                                     <td>
-                                        <button type="button" className="btn btn-primary btn-lg appointment_car__link m-2">
-                                            <Link to={`/appointments/${appointment?.appointmentId}`} className="appointment_car__link">Podgląd</Link>
+                                        <button type="button"
+                                                className="btn btn-primary btn-lg appointment_car__link m-2">
+                                            <Link to={`/appointments/${appointment?.appointmentId}`}
+                                                  className="appointment_car__link">Podgląd</Link>
                                         </button>
                                     </td>
                                 </tr>
                                 </tbody>
                             ))}
                             {allAppointmentsOfDay?.length === 0 && <tbody className="align-middle text-center">
-                            <tr  className={'table-th'}>
+                            <tr className={'table-th'}>
                                 <td>Brak</td>
                                 <td>Brak</td>
                                 <td>Brak</td>
@@ -244,6 +285,16 @@ const AllAppointmentsOfDay = () => {
                 <Snackbar
                     ref={snackbarRefDeleteAppointment}
                     message="Pomyślnie usunięto zgłoszenie!"
+                    type={SnackbarType.success}
+                />
+                <Snackbar
+                    ref={snackbarRefPayAppointment}
+                    message="Pomyślnie opłacono zgłoszenie!"
+                    type={SnackbarType.success}
+                />
+                <Snackbar
+                    ref={snackbarRefChangeStatusAppointment}
+                    message="Pomyślnie zmienono status zgłoszenia!"
                     type={SnackbarType.success}
                 />
             </Container>

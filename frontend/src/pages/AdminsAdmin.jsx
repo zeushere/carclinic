@@ -14,6 +14,7 @@ import {
     getUsersWithUserRole
 } from "../actions/userActions";
 import $ from "jquery";
+import {USER_REGISTER_BY_ADMIN_RESET} from "../constants/userConstants";
 
 export const AdminsAdmin = () => {
 
@@ -22,9 +23,12 @@ export const AdminsAdmin = () => {
     const isUserDeletedByAdmin = useSelector((state) => state.isUserDeletedByAdmin);
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = isUserDeletedByAdmin;
     const usersWithAdminRoleList = useSelector(state => state.usersWithAdminRole);
+    const userRegisteredByAdminId = useSelector(state => state.userRegisteredByAdminId);
+    const {userRegisterId} = userRegisteredByAdminId;
     const {admins} = usersWithAdminRoleList;
     const dispatch = useDispatch();
-    const snackbarRefDeleteEmployee = useRef(null);
+    const snackbarRefDeleteAdmin = useRef(null);
+    const snackbarRefAddAdmin = useRef(null);
     const navigate = useNavigate();
 
     const addUserHandler = (e) => {
@@ -36,7 +40,7 @@ export const AdminsAdmin = () => {
     const deleteUserHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz usunąć administratora?')) {
             dispatch(deleteUserByAdmin(id));
-            snackbarRefDeleteEmployee.current.show();
+            snackbarRefDeleteAdmin.current.show();
 
         }
     };
@@ -48,6 +52,15 @@ export const AdminsAdmin = () => {
     useEffect(() => {
             dispatch(getUsersWithAdminRole())
     }, [successDelete])
+
+    useEffect(() => {
+        if(userRegisterId) {
+            dispatch(getUsersWithAdminRole())
+            dispatch({type: USER_REGISTER_BY_ADMIN_RESET})
+            snackbarRefAddAdmin.current.show();
+        }
+
+    },[userRegisterId])
 
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
@@ -179,8 +192,13 @@ export const AdminsAdmin = () => {
                         </Col>
                     </Row>
                     <Snackbar
-                        ref={snackbarRefDeleteEmployee}
+                        ref={snackbarRefDeleteAdmin}
                         message="Pomyślnie usunięto administratora!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRefAddAdmin}
+                        message="Administrator został pomyślnie dodany!"
                         type={SnackbarType.success}
                     />
                 </Container>

@@ -4,7 +4,7 @@ import Helmet from "../components/Helmet/Helmet";
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
 import Snackbar from "../components/Snackbar/Snackbar";
 import SnackbarType from "../components/Snackbar/SnackbarType";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {MECHANICAL_SERVICE_UPDATE_RESET} from "../constants/mechanicalServicesConstants";
 import {detailsMechanicalService, updateMechanicalService} from "../actions/mechanicalServicesActions";
 import {RABAT_CODE_UPDATE_RESET} from "../constants/rabatCodeConstants";
@@ -12,12 +12,12 @@ import {detailsRabatCode, updateRabatCode} from "../actions/rabatCodeActions";
 
 const EditRabatCode = () => {
     const {id} = useParams();
-    const snackbarRef = useRef(null);
     const rabatCodeDetails = useSelector((state) => state.rabatCodeDetails);
     const {rabatCode} = rabatCodeDetails;
     const [code, setCode] = useState('');
     const [discountSize, setDiscountSize] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,9 +28,7 @@ const EditRabatCode = () => {
                 discountSize,
             )
         );
-
-        dispatch({type: RABAT_CODE_UPDATE_RESET});
-        snackbarRef.current.show();
+        navigate('/rabat-codes/employee')
     }
 
 
@@ -90,11 +88,6 @@ const EditRabatCode = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Kod został pomyślnie zaktualizowany!"
-                type={SnackbarType.success}
-            />
         </Helmet>
     );
 };

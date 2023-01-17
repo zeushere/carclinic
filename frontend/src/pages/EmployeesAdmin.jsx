@@ -9,6 +9,7 @@ import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteUserByAdmin, getUsersWithEmployeeRole, getUsersWithUserRole} from "../actions/userActions";
 import $ from "jquery";
+import {USER_REGISTER_BY_ADMIN_RESET} from "../constants/userConstants";
 
 export const EmployeesAdmin = () => {
 
@@ -21,6 +22,10 @@ export const EmployeesAdmin = () => {
     const dispatch = useDispatch();
     const snackbarRefDeleteEmployee = useRef(null);
     const navigate = useNavigate();
+    const snackBarRefAddEmployee = useRef(null);
+    const userRegisteredByAdminId = useSelector(state => state.userRegisteredByAdminId);
+    const {userRegisterId} = userRegisteredByAdminId;
+
 
     const addUserHandler = (e) => {
         if (window.confirm('Czy na pewno chcesz dodać pracownika?')) {
@@ -43,6 +48,14 @@ export const EmployeesAdmin = () => {
     useEffect(() => {
         dispatch(getUsersWithEmployeeRole())
     }, [successDelete])
+
+    useEffect(() => {
+        if (userRegisterId) {
+            dispatch(getUsersWithEmployeeRole())
+            snackBarRefAddEmployee.current.show()
+            dispatch({type: USER_REGISTER_BY_ADMIN_RESET});
+        }
+    }, [userRegisterId])
 
     $(document).ready(function () {
         $("#myInput").on("keyup", function () {
@@ -181,6 +194,11 @@ export const EmployeesAdmin = () => {
                     <Snackbar
                         ref={snackbarRefDeleteEmployee}
                         message="Pomyślnie usunięto pracownika!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackBarRefAddEmployee}
+                        message="Pracownik został pomyślnie dodany!"
                         type={SnackbarType.success}
                     />
                 </Container>

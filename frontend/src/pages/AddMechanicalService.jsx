@@ -10,8 +10,7 @@ import {useNavigate} from "react-router-dom";
 
 const AddMechanicalService = () => {
 
-    const addedMechanicalServiceId = useSelector((state) => state.addedMechanicalServiceId);
-    const {mechanicalServiceId} = addedMechanicalServiceId;
+
     const [name, setName] = useState('');
     const [expectedServiceCost, setExpectedServiceCost] = useState('');
     const [expectedExecutionTime, setExpectedExecutionTime] = useState('');
@@ -39,8 +38,7 @@ const AddMechanicalService = () => {
                 )
             );
         }
-        dispatch({type: MECHANICAL_SERVICE_ADD_RESET});
-        snackbarRef.current.show();
+        navigate('/mechanical-services/employee')
     }
     // if(mechanicalServiceId) {
     //     const timer = setTimeout(() =>{
@@ -103,11 +101,7 @@ const AddMechanicalService = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Usługa została pomyślnie dodana!"
-                type={SnackbarType.success}
-            />
+
         </Helmet>
     )
 }

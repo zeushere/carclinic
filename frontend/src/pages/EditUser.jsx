@@ -4,7 +4,7 @@ import Helmet from "../components/Helmet/Helmet";
 import {MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow} from "mdb-react-ui-kit";
 import Snackbar from "../components/Snackbar/Snackbar";
 import SnackbarType from "../components/Snackbar/SnackbarType";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {MECHANICAL_SERVICE_UPDATE_RESET} from "../constants/mechanicalServicesConstants";
 import {detailsMechanicalService, updateMechanicalService} from "../actions/mechanicalServicesActions";
 import {getUserForAdmin, updateUserByAdmin} from "../actions/userActions";
@@ -12,7 +12,6 @@ import {UPDATE_USER_BY_ADMIN_RESET} from "../constants/userConstants";
 
 const EditUser = () => {
     const {id} = useParams();
-    const snackbarRef = useRef(null);
     const userForAdmin = useSelector((state) => state.userForAdmin);
     const {user} = userForAdmin;
     const updatedUserByAdmin = useSelector((state) => state.updatedUserByAdmin);
@@ -27,6 +26,7 @@ const EditUser = () => {
     const [regularCustomer, isRegularCustomer] = useState('');
     const [role, setRole] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -45,8 +45,7 @@ const EditUser = () => {
                     regularCustomer
                 )
             );
-            dispatch({type: UPDATE_USER_BY_ADMIN_RESET});
-            snackbarRef.current.show();
+
         } else if (password !== confirmPassword) {
             alert('Podane hasła nie pasują do siebie!');
             setPassword('');
@@ -65,8 +64,8 @@ const EditUser = () => {
                     regularCustomer
                 )
             );
-            snackbarRef.current.show();
         }
+        navigate('/users/admin')
     }
 
     useEffect(() => {
@@ -218,11 +217,6 @@ const EditUser = () => {
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
-            <Snackbar
-                ref={snackbarRef}
-                message="Użytkownik został pomyślnie zaktualizowany!"
-                type={SnackbarType.success}
-            />
         </Helmet>
     );
 };

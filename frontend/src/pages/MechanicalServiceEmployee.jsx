@@ -8,6 +8,7 @@ import '../styles/mechanical-service-employee.css'
 import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
 import $ from "jquery";
+import {MECHANICAL_SERVICE_ADD_RESET, MECHANICAL_SERVICE_UPDATE_RESET} from "../constants/mechanicalServicesConstants";
 
 export const MechanicalServiceEmployee = () => {
 
@@ -15,9 +16,15 @@ export const MechanicalServiceEmployee = () => {
     const {mechanicalServices} = mechanicalServicesList;
     const mechanicalServiceDelete = useSelector((state) => state.mechanicalServiceDelete);
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = mechanicalServiceDelete;
+    const mechanicalServiceUpdate = useSelector((state) => state.mechanicalServiceUpdate);
+    const {success: successUpdate} = mechanicalServiceUpdate;
     const dispatch = useDispatch();
     const snackbarRefDeleteMechanicalService = useRef(null);
     const navigate = useNavigate();
+    const snackbarRef = useRef(null);
+    const snackbarRefEditSuccess = useRef(null);
+
+
 
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
@@ -40,7 +47,8 @@ export const MechanicalServiceEmployee = () => {
             snackbarRefDeleteMechanicalService.current.show();
         }
     };
-
+    const addedMechanicalServiceId = useSelector((state) => state.addedMechanicalServiceId);
+    const {mechanicalServiceId} = addedMechanicalServiceId;
     useEffect(() => {
         dispatch(listMechanicalServices())
     }, [dispatch])
@@ -49,7 +57,20 @@ export const MechanicalServiceEmployee = () => {
             dispatch(listMechanicalServices())
     }, [successDelete])
 
+    useEffect(() => {
+        if(mechanicalServiceId){
+            dispatch(listMechanicalServices())
+            dispatch({type: MECHANICAL_SERVICE_ADD_RESET});
+            snackbarRef.current.show()
+        }
+    },[mechanicalServiceId])
 
+    useEffect(() => {
+        if(successUpdate){
+            dispatch({type: MECHANICAL_SERVICE_UPDATE_RESET});
+            snackbarRefEditSuccess.current.show();
+        }
+    },[successUpdate])
     function sortEmployeeMechanicalServices(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("myTable");
@@ -172,6 +193,16 @@ export const MechanicalServiceEmployee = () => {
                     <Snackbar
                         ref={snackbarRefDeleteMechanicalService}
                         message="Pomyślnie usunięto usługę!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRef}
+                        message="Usługa została pomyślnie dodana!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRefEditSuccess}
+                        message="Usługa została pomyślnie zaktualizowana!"
                         type={SnackbarType.success}
                     />
                 </Container>

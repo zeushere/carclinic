@@ -9,16 +9,25 @@ import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteRabatCode, listRabatCodes} from "../actions/rabatCodeActions";
 import $ from "jquery";
+import {RABAT_CODE_ADD_RESET, RABAT_CODE_UPDATE_RESET} from "../constants/rabatCodeConstants";
 
 export const RabatCodesEmployee = () => {
 
     const rabatCodesList = useSelector(state => state.rabatCodesList);
     const {rabatCodes} = rabatCodesList;
+    const rabatCodeAddedId = useSelector((state) => state.rabatCodeAddedId);
+    const {rabatCodeId} = rabatCodeAddedId;
+    const rabatCodeUpdate = useSelector((state) => state.rabatCodeUpdate);
+    const {success} = rabatCodeUpdate;
     const rabatCodeDelete = useSelector((state) => state.rabatCodeDelete);
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = rabatCodeDelete;
     const dispatch = useDispatch();
     const snackbarRefDeleteRabatCode = useRef(null);
     const navigate = useNavigate();
+    const snackbarRef = useRef(null);
+    const snackbarRefUpdate = useRef(null);
+
+
 
     const addRabatCodeHandler = (e) => {
         if (window.confirm('Czy na pewno chcesz dodać kod?')) {
@@ -40,6 +49,26 @@ export const RabatCodesEmployee = () => {
     useEffect(() => {
             dispatch(listRabatCodes())
     }, [successDelete])
+
+    useEffect(() => {
+        if(rabatCodeId) {
+            dispatch(listRabatCodes())
+            snackbarRef.current.show()
+            dispatch({type: RABAT_CODE_ADD_RESET});
+        }
+
+    },[rabatCodeId])
+
+    useEffect(() => {
+        if(success) {
+            dispatch(listRabatCodes())
+            snackbarRefUpdate.current.show()
+            dispatch({type: RABAT_CODE_UPDATE_RESET});
+        }
+
+    },[success])
+
+
 
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
@@ -173,6 +202,16 @@ export const RabatCodesEmployee = () => {
                     <Snackbar
                         ref={snackbarRefDeleteRabatCode}
                         message="Pomyślnie usunięto kod!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRef}
+                        message="Kod został pomyślnie dodany!"
+                        type={SnackbarType.success}
+                    />
+                    <Snackbar
+                        ref={snackbarRefUpdate}
+                        message="Kod został pomyślnie zaktualizowany!"
                         type={SnackbarType.success}
                     />
                 </Container>
