@@ -18,6 +18,7 @@ const UserAppointments = () => {
     const {userAppointments} = appointmentList;
     const appointmentDelete = useSelector((state) => state.appointmentDelete);
     const {loading, error, success} = appointmentDelete;
+    const inputRef = React.useRef(null)
 
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
@@ -53,10 +54,8 @@ const UserAppointments = () => {
         }
     };
 
-
-
     useEffect(() => {
-        dispatch(listUserAppointments());
+        dispatch(listUserAppointments())
     }, [dispatch]);
 
     useEffect(() => {
@@ -71,6 +70,9 @@ const UserAppointments = () => {
             return true;
         }
     }
+    useEffect(() => {
+        inputRef.current.click()
+    },[document.readyState])
     function sortUserAppointments(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("myTable");
@@ -149,7 +151,7 @@ const UserAppointments = () => {
                             <thead className="text-center">
                             <tr className={'table-th'}>
                                 <th onClick={() => sortUserAppointments(0)}>Nazwa usługi</th>
-                                <th onClick={() => sortUserAppointments(1)}>Data wykonania</th>
+                                <th ref={inputRef} onClick={() => sortUserAppointments(1)}>Data wykonania</th>
                                 <th onClick={() => sortUserAppointments(2)}>Godzina wykonania</th>
                                 <th onClick={() => sortUserAppointments(3)}>Typ naprawy</th>
                                 <th onClick={() => sortUserAppointments(4)}>Status naprawy</th>

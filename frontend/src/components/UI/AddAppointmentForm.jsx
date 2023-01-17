@@ -21,7 +21,7 @@ import Snackbar from "../Snackbar/Snackbar";
 import SnackbarType from "../Snackbar/SnackbarType";
 import {availableWorkingPeriodList} from "../../actions/workingPeriodActions";
 import {addAppointment} from "../../actions/appointmentActions";
-import {APPOINTMENT_ADD_RESET} from "../../constants/appointmentConstants";
+import {APPOINTMENT_ADD_RESET, APPOINTMENT_UPDATE_PAYMENT_RESET} from "../../constants/appointmentConstants";
 import {RABAT_CODE_DISCOUNT_RESET} from "../../constants/rabatCodeConstants";
 
 function StaticDateRangePicker(props) {
@@ -71,16 +71,39 @@ const AddAppointmentForm = () => {
     const snackBarRefAddRabatCodeFail = useRef(null);
     const snackBarRefAddRabatCodeWarning = useRef(null);
     const snackBarRefAddAppointmentSuccess = useRef(null);
-    const snackBarRefAddAppointmentSuccessOnline = useRef(null);
     const snackBarRefAddAppointmentFail = useRef(null);
     const snackBarRefLeakData = useRef(null);
     let navigate = useNavigate();
     const [value, setValue] = useState(
         dayjs(date.now())
     );
+    const paidAppointment = useSelector(state => state.paidAppointment);
+    const {appointmentPaid} = paidAppointment;
+    const snackBarRefAppointmentPaid = useRef(null);
+
     const addedAppointment = useSelector(state => state.addedAppointment);
     const {appointment, loading, error} = addedAppointment;
     const [userAddedAppointment, setUserAddedAppointment] = useState(null);
+
+    useEffect(() => {
+        if(appointmentPaid){
+
+            localStorage.removeItem('fromTime');
+            localStorage.removeItem('date')
+            localStorage.removeItem('repairType');
+            localStorage.removeItem('paymentType');
+            localStorage.removeItem("cost");
+            localStorage.removeItem("appointment");
+            localStorage.removeItem("description");
+            localStorage.removeItem("mechanicalServiceExpectedServiceCost");
+            localStorage.removeItem("carId");
+
+            snackBarRefAppointmentPaid.current.show();
+            setCost('')
+            dispatch({type: APPOINTMENT_UPDATE_PAYMENT_RESET});
+            window.scrollTo(0, 400);
+        }
+    },[appointmentPaid])
 
     useEffect(() => {
         if (appointment) {
@@ -95,6 +118,7 @@ const AddAppointmentForm = () => {
             setValue(Date.now())
             setCarId('')
             dispatch({type: APPOINTMENT_ADD_RESET});
+            localStorage.removeItem('addedAppointment')
         }
     }, [appointment])
     useEffect(() => {
@@ -140,7 +164,6 @@ const AddAppointmentForm = () => {
                 setCost(localStorage.getItem('mechanicalServiceExpectedServiceCost'))
 
             }
-
         }
     }
 
@@ -155,8 +178,8 @@ const AddAppointmentForm = () => {
         }
         if (typeOfPayment === 'Przy odbiorze') {
             dispatch(addAppointment(value, fromTime, description, typeOfWork, typeOfPayment, cost, mechanicalServiceId, carId));
-
         } else if (typeOfPayment === 'Online') {
+
             localStorage.setItem('fromTime', fromTime);
             localStorage.setItem('date', value.format('YYYY-MM-DD'))
             localStorage.setItem('repairType', typeOfWork);
@@ -166,6 +189,7 @@ const AddAppointmentForm = () => {
             localStorage.setItem("description", description);
 
             navigate('/payment-screen')
+            setCost('')
         }
     }
 
@@ -269,9 +293,11 @@ const AddAppointmentForm = () => {
         if (discount && !rabatActivated) {
             setCost(() => Math.round(cost - ((cost * discount) / 100)));
             setRabatActivated(() => true)
+            snackBarRefAddRabatCodeSuccess.current.show()
+        } else if(discount && rabatActivated){
+            snackBarRefAddRabatCodeWarning.current.show()
         }
     }
-
 
     function navigateToMechanicalServices() {
         navigate('/mechanical-services')
@@ -279,11 +305,6 @@ const AddAppointmentForm = () => {
 
     return (
         <div>
-            {userAddedAppointment && typeOfPayment === 'Online' ?
-                snackBarRefAddAppointmentSuccessOnline.current.show()
-                : ''
-            }
-
             <Form id={'addAppointmentForm'} className="form" ref={formRef}>
                 <div className=" d-flex align-items-center justify-content-between flex-wrap">
                     <FormGroup className="form__group text-center">
@@ -444,6 +465,11 @@ const AddAppointmentForm = () => {
                 type={SnackbarType.success}
             />
             <Snackbar
+                ref={snackBarRefAddAppointmentSuccess}
+                message="Pomyślnie dodano zgłoszenie!"
+                type={SnackbarType.success}
+            />
+            <Snackbar
                 ref={snackBarRefAddRabatCodeFail}
                 message="Kod rabatowy jest niepoprawny!"
                 type={SnackbarType.fail}
@@ -451,12 +477,6 @@ const AddAppointmentForm = () => {
             <Snackbar
                 ref={snackBarRefAddRabatCodeWarning}
                 message="Dodałeś już kod rabatowy!"
-                type={SnackbarType.success}
-            />
-            <Snackbar
-                ref={snackBarRefAddAppointmentSuccess}
-                message="Pomyślnie dodano rezerwację wizyty!
-                Sprawdź skrzynkę pocztową"
                 type={SnackbarType.success}
             />
             <Snackbar
@@ -471,12 +491,10 @@ const AddAppointmentForm = () => {
                 type={SnackbarType.fail}
             />
             <Snackbar
-                ref={snackBarRefAddAppointmentSuccessOnline}
-                message="Pomyślnie dodano rezerwację wizyty!
-                Za chwilę nastąpi przekierowanie do płatności"
+                ref={snackBarRefAppointmentPaid}
+                message="Pomyślnie opłacono zamówienie!"
                 type={SnackbarType.success}
             />
-
 
         </div>
     );

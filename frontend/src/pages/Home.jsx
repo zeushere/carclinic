@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import HeroSlider from "../components/UI/HeroSlider";
 import Helmet from "../components/Helmet/Helmet";
@@ -11,14 +11,15 @@ import BecomeDriverSection from "../components/UI/BecomeDriverSection";
 import Testimonial from "../components/UI/Testimonial";
 
 import BlogList from "../components/UI/BlogList";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {APPOINTMENT_UPDATE_PAYMENT_RESET} from "../constants/appointmentConstants";
+import Snackbar from "../components/Snackbar/Snackbar";
+import SnackbarType from "../components/Snackbar/SnackbarType";
 
 const Home = () => {
 
     const userSignin = useSelector((state) => state.userSignin);
     const {userInfo} = userSignin;
-    const [selectedOption, setSelectedOption] = useState("");
-
 
     useEffect(() => {
         window.scrollTo(0, 0);

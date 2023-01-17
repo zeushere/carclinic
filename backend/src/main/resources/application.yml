@@ -64,6 +64,9 @@ mail:
   complete-appointment-remote:
     subject: 'Twoje zgłoszenie w serwisie CarClinic zostało wykonane!'
     pathToMessage: '/content/mail/completeAppointmentRemote.html'
-  in progress-appointment:
+  in-progress-appointment:
     subject: 'Twoje zgłoszenie w CarClinic jest w trakcie rozpatrywania!'
     pathToMessage: '/content/mail/inProgressAppointment.html'
+  cancel-appointment:
+    subject: 'Zgłoszenie w CarClinic zostało anulowane!'
+    pathToMessage: '/content/mail/cancelAppointment.html'

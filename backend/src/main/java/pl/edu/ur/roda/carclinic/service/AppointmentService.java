@@ -15,7 +15,6 @@ import pl.edu.ur.roda.carclinic.entity.Role;
 import pl.edu.ur.roda.carclinic.entity.User;
 import pl.edu.ur.roda.carclinic.entity.WorkingPeriod;
 import pl.edu.ur.roda.carclinic.enums.AppointmentAvailableStatus;
-import pl.edu.ur.roda.carclinic.exception.CouldNotCancelPastAppointment;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindCarException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindMechanicalServiceException;
 import pl.edu.ur.roda.carclinic.exception.CouldNotFindUserException;
@@ -54,6 +53,7 @@ public class AppointmentService {
     private final EmailCompleteAppointmentService emailCompleteAppointmentService;
     private final EmailInProgressAppointmentService emailInProgressAppointmentService;
     private final EmailAddAppointmentToEmployeeService emailAddAppointmentToEmployeeService;
+    private final EmailCancelAppointmentService emailCancelAppointmentService;
     private final RoleRepository roleRepository;
 
 
@@ -61,7 +61,10 @@ public class AppointmentService {
     public AppointmentId addAppointment(AppointmentAddDto appointmentAddDto, String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
         MechanicalService mechanicalService = mechanicalServiceRepository.findById(appointmentAddDto.getMechanicalServiceId()).orElseThrow(() -> new CouldNotFindMechanicalServiceException(appointmentAddDto.getMechanicalServiceId()));
-        Car car = getCar(appointmentAddDto.getCarId());
+        Car car = null;
+        if (appointmentAddDto.getCarId() != null && !appointmentAddDto.getCarId().equals("null")) {
+            car = getCar(appointmentAddDto.getCarId());
+        }
         LocalDateTime appointmentDateTimeFrom = createDateTimeFrom(appointmentAddDto);
         LocalDateTime expectedTimeTo = null;
         expectedTimeTo = appointmentDateTimeFrom.plusHours(mechanicalService.getExpectedExecutionTime().getHour()).plusMinutes(mechanicalService.getExpectedExecutionTime().getMinute());
@@ -102,9 +105,10 @@ public class AppointmentService {
         emailAddAppointmentToUserService.sendConfirmationEmail(emailAddAppointmentRequest);
 
         List<User> usersWithRoleEmployeeOrAdmin = getUsersWithRoleEmployeeOrAdmin();
+        Car finalCar = car;
         usersWithRoleEmployeeOrAdmin
                 .forEach(u -> {
-                    EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(user, appointment, u, car, mechanicalService);
+                    EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee emailAddAppointmentRequestToEmployee = EmailAddAppointmentToEmployeeService.EmailAddAppointmentRequestToEmployee.of(user, appointment, u, finalCar, mechanicalService);
                     emailAddAppointmentToEmployeeService.sendConfirmationEmail(emailAddAppointmentRequestToEmployee);
                 });
         return AppointmentId.of(appointment);
@@ -149,15 +153,21 @@ public class AppointmentService {
     @Transactional
     public void cancelAppointment(String id, String userId) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();
-//        if (appointment.getDate().isBefore(LocalDate.now())) {
-//            throw new CouldNotCancelPastAppointment();
-//        }
+        MechanicalService mechanicalService = mechanicalServiceRepository.findById(appointment.getMechanicalService().getId()).orElseThrow(() -> new CouldNotFindMechanicalServiceException(appointment.getMechanicalService().getId()));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CouldNotFindUserException(userId));
         Set<WorkingPeriod> workingPeriodSet = appointment.getWorkingPeriods();
         workingPeriodSet
                 .forEach(workingPeriod -> {
                     workingPeriod.setAvailable(AppointmentAvailableStatus.WOLNE);
                     workingPeriod.setAppointment(null);
                 });
+        EmailCancelAppointmentService.EmailCancelAppointmentRequest emailCancelAppointmentRequest = new EmailCancelAppointmentService.EmailCancelAppointmentRequest(appointment, user, mechanicalService);
+        emailCancelAppointmentService.sendConfirmationEmail(emailCancelAppointmentRequest);
+
+        List<User> usersWithRoleEmployeeOrAdmin = getUsersWithRoleEmployeeOrAdmin();
+        usersWithRoleEmployeeOrAdmin
+                .forEach(u -> emailCancelAppointmentService.sendConfirmationEmail(new EmailCancelAppointmentService.EmailCancelAppointmentRequest(appointment, u, mechanicalService)));
+
         appointmentRepository.delete(appointment);
     }
 

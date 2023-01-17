@@ -49,7 +49,7 @@ export const rabatCodeDiscountReducer = (
         case RABAT_CODE_DISCOUNT_FAIL:
             return {loading: false, error: action.payload};
         case RABAT_CODE_DISCOUNT_RESET:
-            return {loading: false, success: false};
+            return {};
         default:
             return state;
     }

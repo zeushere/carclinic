@@ -111,7 +111,6 @@ const Register = (props) => {
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="email"
                                         id="email"
-                                        title={'Wprowadzono niepoprawny email.'}
                                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                         autoComplete="off"
                                         onChange={(e) => setEmail(e.target.value)}

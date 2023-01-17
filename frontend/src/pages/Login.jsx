@@ -24,7 +24,6 @@ const Login = (props) => {
     const redirect = '/';
 
     useEffect(() => {
-        window.scrollTo(0, 0);
         if (userInfo) {
             dispatch(getUserRole());
             dispatch(checkUserRegularCustomer());
@@ -33,6 +32,9 @@ const Login = (props) => {
         }
     }, [navigate, userInfo]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[])
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(signin(username, password));
