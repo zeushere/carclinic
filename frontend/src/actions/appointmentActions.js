@@ -54,6 +54,10 @@ export const addAppointment = (date, fromTime, description, repairType, paymentT
             carId: carId
         }
         dispatch({type: APPOINTMENT_ADD_SUCCESS, payload: appointment});
+        localStorage.removeItem('mechanicalServiceExpectedExecutionTime');
+        localStorage.removeItem('mechniacalServiceExpectedServiceCost');
+        localStorage.removeItem('mechanicalServiceId');
+        localStorage.removeItem('mechanicalServiceName');
         if (paymentType === 'Online') {
             dispatch(payAppointment(appointment.id));
         }

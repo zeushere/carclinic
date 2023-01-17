@@ -10,7 +10,7 @@ CREATE TABLE rabat_code
 );
 
 INSERT INTO rabat_code (id, code, discount_size) VALUES (
-                                                         1, 'test', 25
+                                                         1, 'zima', 25
                                                         );
 
 CREATE SEQUENCE seq_rabat_code
