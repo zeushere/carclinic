@@ -58,7 +58,7 @@
 
 .hero__form {
     position: absolute;
-    bottom: -300px;
+    bottom: -32vh;
     z-index: 11;
     width: 100%;
 }
@@ -154,10 +154,16 @@
 }
 
 @media only screen and (max-width: 576px) {
-    .form__group {
+    #addAppointmentForm{
         width: 100%;
-        margin: auto;
-        margin-bottom: 15px;
+    
+
+    }
+    .hero__form{
+        height: 550px;
+    }
+    .form__group {
+        width: 100% !important;
     }
 
     .appointment__description{
