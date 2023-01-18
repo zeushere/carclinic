@@ -50,7 +50,7 @@ const Login = (props) => {
 
             <MDBContainer fluid>
 
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3 mb-4' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol md='6' lg='6'

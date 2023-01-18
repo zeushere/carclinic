@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect} from "react";
 
 import HeroSlider from "../components/UI/HeroSlider";
 import Helmet from "../components/Helmet/Helmet";
@@ -11,10 +11,8 @@ import BecomeDriverSection from "../components/UI/BecomeDriverSection";
 import Testimonial from "../components/UI/Testimonial";
 
 import BlogList from "../components/UI/BlogList";
-import {useDispatch, useSelector} from "react-redux";
-import {APPOINTMENT_UPDATE_PAYMENT_RESET} from "../constants/appointmentConstants";
-import Snackbar from "../components/Snackbar/Snackbar";
-import SnackbarType from "../components/Snackbar/SnackbarType";
+import {useSelector} from "react-redux";
+import useWindowDimensions from "../components/WindowDimension/WindowDimension";
 
 const Home = () => {
 
@@ -24,6 +22,9 @@ const Home = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [userInfo, localStorage]);
+    const windowDimensions = useWindowDimensions();
+    const {width} = windowDimensions;
+
     return (
         <Helmet title="Home">
             {/* ============= hero section =========== */}
@@ -64,7 +65,7 @@ const Home = () => {
             <BecomeDriverSection/>
 
             {/* =========== testimonial section =========== */}
-            <section>
+            {width > 400 && <section>
                 <Container>
                     <Row className="m-0">
                         <Col lg="12" className="mb-4 text-center">
@@ -75,7 +76,7 @@ const Home = () => {
                         <Testimonial/>
                     </Row>
                 </Container>
-            </section>
+            </section>}
 
             {/* =============== blog section =========== */}
             <section>
