@@ -91,15 +91,20 @@ export const MechanicalServices = () => {
         <Helmet title="Usługi Mechaniczne">
             <CommonSection title="Usługi mechaniczne"/>
             <Container>
-            <Row className={'justify-content-end mr-4'}>
-                <Col lg= '2' className={'mb-2'}>
-                    <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
-                </Col>
-            </Row>
                 <Row>
-            <div className="table-responsive-md m-3">
+                    <Col className={'mb-2 col-3'} style={{width: "100%"}}>
+                        <Col className={'col-9'}></Col>
+                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
+                    </Col>
+                </Row>
+                <Row>
 
-                <table className="table table-faults mb-0" id="myTable" style={{color: "white"}}>
+            <div className="table-responsive-md mb-3 service_table">
+
+                <Row className="justify-content-end">
+
+                </Row>
+                <table className="table table-faults mb-0 " id="myTable" style={{color: "white"}}>
                     <thead className="text-center">
                     <tr className={'table-th'}>
                         <th onClick={() => sortMechanicalServices(0)}>Nazwa usługi</th>

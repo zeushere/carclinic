@@ -9,6 +9,8 @@ import {Link} from "react-router-dom";
 import moment from "moment/moment";
 import $ from 'jquery'
 import {APPOINTMENT_DELETE_RESET} from "../constants/appointmentConstants";
+import '../styles/user-appointments.css'
+import '../styles/footer-fix.css';
 
 const UserAppointments = () => {
     const snackbarRefDeleteAppointment = useRef(null);
@@ -128,7 +130,7 @@ const UserAppointments = () => {
         }
     }
     return (
-        <section>
+        <section className={userAppointments?.length < 2 ? 'cars__section' : ''}>
             <Container>
 
                 <Row>
@@ -136,18 +138,17 @@ const UserAppointments = () => {
                         <h2 className="section__title">Twoje zgłoszenia</h2>
                     </Col>
                 </Row>
-                    <Row className={'justify-content-end'}>
-                    <Col lg= '2' className={'mb-4'}>
-                    <div className="search__box mr-3">
-                        <input id="myInput" type="text" placeholder="Szukaj"/>
-                    </div>
+                <Row>
+                    <Col className={'mb-2 col-3'} style={{width: "100%"}}>
+                        <Col className={'col-9'}></Col>
+                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                     </Col>
-                    </Row>
+                </Row>
 
                 <Row>
 
-                    <div className="table-responsive-lg m-0">
-                        <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
+                    <div className="table-responsive-lg m-0 user__appointments__table">
+                        <table id="myTable" className="table table-faults mb-0 " style={{color: "white"}}>
                             <thead className="text-center">
                             <tr className={'table-th'}>
                                 <th onClick={() => sortUserAppointments(0)}>Nazwa usługi</th>
@@ -159,7 +160,7 @@ const UserAppointments = () => {
                                 <th onClick={() => sortUserAppointments(6)}>Status płatności</th>
                                 <th onClick={() => sortUserAppointments(7)}>Koszt usługi</th>
                                 <th onClick={() => sortUserAppointments(8)}>Samochód</th>
-                                <th>Akcja</th>
+                                <th>Rodzaj Akcji</th>
                             </tr>
                             </thead>
                             {userAppointments?.map((userAppointment) => (

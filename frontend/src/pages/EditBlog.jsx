@@ -8,6 +8,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {addBlog, detailsBlog, updateBlog} from "../actions/blogActions";
 import {BLOG_UPDATE_RESET} from "../constants/blogConstants";
 import {detailsUser} from "../actions/userActions";
+import '../styles/edit-blog.css'
 
 const EditBlog = () => {
     const {id} = useParams();
@@ -94,21 +95,20 @@ const EditBlog = () => {
                                         placeholder={'Tytuł'}
                                         required
                                     />
-                                    <label className={'mt-4'} htmlFor="imageFile">Obraz</label>
+                                    <label className={'mt-4 input__file__style'} htmlFor="imageFile">Obraz</label>
 
-                                    <input type="file" id="imageFile" label="Choose File" onChange={(e) => getImage(e)}
-                                    ></input>
+                                    <input type="file" className={'input__file__style'} id="imageFile" label="Choose File" onChange={(e) => getImage(e)}/>
                                     <label className={'label__add__blog mt-5'} htmlFor="lastName">Wpis:</label>
                                     <textarea
                                         value={article}
                                         onChange={(e) => setArticle(e.target.value)}
                                         rows="20"
-                                        cols="130"
+                                        cols="70"
                                         placeholder="Wiadomość"
-                                        className="textarea textarea__blog"
+                                        className="textarea textarea__blog w-100"
                                         required
                                     ></textarea>
-                                    <button className={'profile__button w-25'} type={"submit"}>Zatwierdź</button>
+                                    <button className={'profile__button w-30'} type={"submit"}>Zatwierdź</button>
                                 </form>
                             </MDBCol>
                         </MDBRow>

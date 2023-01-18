@@ -54,7 +54,7 @@ const Footer = () => {
                     </Col>
 
                     <Col lg="4" md="4" sm="6" className={'text-center'}>
-                        <div className="mb-4 ml-5">
+                        <div className="mb-4 margin">
                             <h5 className="footer__link-title">Szybkie linki</h5>
                             <ListGroup>
                                 {quickLinks.map((item, index) => (

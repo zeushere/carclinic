@@ -29,7 +29,6 @@ const ClientCarDetails = (props) => {
     const deleteHandler = (id) => {
         if (window.confirm('Czy na pewno chcesz usunąć ten samochód?')) {
             dispatch(deleteCar(id));
-            dispatch({type: CAR_DELETE_RESET})
             navigate('/client-cars')
         }
     };
@@ -46,6 +45,7 @@ const ClientCarDetails = (props) => {
 
     useEffect(() => {
         dispatch(carAppointments(id))
+        dispatch({type: CAR_DELETE_RESET})
     },[success])
 
     function typicalFaultsCar() {

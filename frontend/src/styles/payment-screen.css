@@ -1,3 +1,12 @@
 .summary-cost__appointment{
     color: #f9a826;
 }
+
+
+
+
+@media only screen and (max-width: 580px) {
+    .paypal-style {
+        margin-top: 20px;
+    }
+}

@@ -21,6 +21,7 @@ import {
     APPOINTMENT_SET_IN_PROGRESS_RESET,
     APPOINTMENT_UPDATE_PAYMENT_RESET
 } from "../constants/appointmentConstants";
+import '../styles/footer-fix.css';
 
 const AllAppointmentsOfDay = () => {
     const snackbarRefDeleteAppointment = useRef(null);
@@ -194,7 +195,7 @@ const AllAppointmentsOfDay = () => {
     }, [allAppointmentsOfDay])
 
     return (
-        <section>
+        <section className={ allAppointmentsOfDay?.length ===  0 ? 'cars__section' : ''}>
             <Container>
                 <Row>
                     <Col lg="12" md='12' className={'text-center mb-4'}>
@@ -222,14 +223,14 @@ const AllAppointmentsOfDay = () => {
                             </LocalizationProvider>
                         </ThemeProvider>
                     </Col>
-                </Row>
-                <Row className={'justify-content-end mr-4'}>
-                    <Col lg='2' className={''}>
-                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
-                    </Col>
-                </Row>
+                </Row>  <Row>
+                <Col className={'mb-2 col-3'} style={{width: "100%"}}>
+                    <Col className={'col-9'}></Col>
+                    <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
+                </Col>
+            </Row>
                 <Row>
-                    <div className="table-responsive-lg mt-3">
+                    <div className="table-responsive-lg mt-2">
                         <table aria-sort={'descending'} id="myTable" className="table table-faults mb-0"
                                style={{color: "white"}}>
                             <thead className="text-center">
@@ -244,7 +245,7 @@ const AllAppointmentsOfDay = () => {
                                 <th onClick={() => sortAllAppointmentsOfDay(6)}>Status płatności</th>
                                 <th onClick={() => sortAllAppointmentsOfDay(7)}>Koszt usługi</th>
                                 <th onClick={() => sortAllAppointmentsOfDay(8)}>Samochód</th>
-                                <th>Akcja</th>
+                                <th>Rodzaj Akcji</th>
                             </tr>
                             </thead>
                             {allAppointmentsOfDay?.map((appointment) => (

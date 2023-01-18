@@ -135,25 +135,26 @@ export const MechanicalServiceEmployee = () => {
                             <h2 className="section__title">Panel usług mechanicznych</h2>
                         </Col>
                         <Row className={'justify-content-center'}>
-                            <Col  md={'3'}><button className={'btn add__mechanical__service__btn'} onClick={() => addMechanicalServiceHandler()}><Link to={'#'}>Dodaj usługę</Link></button></Col></Row>
+                            <Col  md={'3'}> <button className={'btn add__mechanical__service__btn'} onClick={() => addMechanicalServiceHandler()}><Link to={'#'}>Dodaj usługę</Link></button></Col></Row>
                     </Row>
-                    <Row className={'justify-content-end mr-5'}>
-                        <Col lg= '2' className={'search__box'}>
-                            <input id="myInput" type="text" placeholder="Szukaj"/>
+                    <Row>
+                        <Col className={'mb-2 col-3 mt-3'} style={{width: "100%"}}>
+                            <Col className={'col-9'}></Col>
+                            <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                         </Col>
                     </Row>
 
                     <Row>
                         <Col lg={'12'} md={'12'}>
 
-                            <div className="table-responsive-md mt-3 m-4">
+                            <div className="table-responsive-md mt-2 service_table">
                                 <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
                                         <th onClick={() => sortEmployeeMechanicalServices(0)}>Nazwa usługi</th>
                                         <th onClick={() => sortEmployeeMechanicalServices(1)}>Czas wykonania</th>
                                         <th onClick={() => sortEmployeeMechanicalServices(2)}>Koszt usługi</th>
-                                        <th>Akcja</th>
+                                        <th>Rodzaj Akcji</th>
                                     </tr>
                                     </thead>
                                     {mechanicalServices?.map((mechanicalService) => (
