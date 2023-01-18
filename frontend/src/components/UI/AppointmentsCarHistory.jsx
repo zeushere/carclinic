@@ -128,7 +128,7 @@ const AppointmentsCarHistory = (props) => {
                         <th onClick={() => appointmentsCarHistories(5)}>Typ płatności</th>
                         <th onClick={() => appointmentsCarHistories(6)}>Status płatności</th>
                         <th onClick={() => appointmentsCarHistories(7)}>Koszt usługi</th>
-                        <th>Akcja</th>
+                        <th>Rodzaj Akcji</th>
                     </tr>
                     </thead>
                     {carAppointments?.map((carAppointment) => (

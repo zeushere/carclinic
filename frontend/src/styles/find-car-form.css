@@ -58,7 +58,7 @@
 
 .hero__form {
     position: absolute;
-    bottom: -300px;
+    bottom: -32vh;
     z-index: 11;
     width: 100%;
 }
@@ -77,7 +77,7 @@
 .find__car-btn {
     background: #000d6b !important;
     color: #fff !important;
-    padding: 8px 15px;
+    padding: 8px 8`px !important;
     width: 100%;
     border: none;
     outline: none;
@@ -154,10 +154,17 @@
 }
 
 @media only screen and (max-width: 576px) {
-    .form__group {
+    #addAppointmentForm{
         width: 100%;
-        margin: auto;
-        margin-bottom: 15px;
+
+
+    }
+    .hero__form{
+        height: 550px;
+        width: 100%;
+    }
+    .form__group {
+        width: 100% !important;
     }
 
     .appointment__description{

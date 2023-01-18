@@ -9,6 +9,7 @@ import {CAR_DELETE_RESET} from "../constants/carConstants";
 import useWindowDimensions from "../components/WindowDimension/WindowDimension";
 import {Link} from "react-router-dom";
 import '../styles/client-cars.css'
+import '../styles/footer-fix.css'
 import AddCarForm from "../components/UI/AddCarForm";
 
 const ClientCars = () => {
@@ -70,11 +71,11 @@ const ClientCars = () => {
     }, [dispatch, successDelete, addedCarId, isImageAdded]);
 
     return (
-        <section>
+        <section className={cars?.length === 0 ? 'cars__section' : ''}>
             <Container>
                 <Row>
                     <Col lg="7" md='12' className={width >= 992 ? 'text-end mb-5' : 'text-center mb-5'}>
-                        <h2 className="section__title">Twoje samochody</h2>
+                        <h2 className="section__title">Samochody</h2>
                     </Col>
                     <Col lg="5" md='12' className={width >= 992 ? 'text-end mb-5' : 'text-center mb-5'}>
                         <button className="header__btn btn car__add__button"

@@ -10,6 +10,7 @@ import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteUserByAdmin, getUsersWithUserRole} from "../actions/userActions";
 import $ from "jquery";
 import {UPDATE_USER_BY_ADMIN_RESET, USER_REGISTER_BY_ADMIN_RESET} from "../constants/userConstants";
+import '../styles/users-admin.css'
 
 export const UsersAdmin = () => {
 
@@ -142,8 +143,8 @@ export const UsersAdmin = () => {
                             <h2 className="section__title">Panel zarządzania użytkownikami</h2>
                         </Col>
                         <Row className={'justify-content-center'}>
-                            <Col md={'3'}>
-                                <button className={'btn add__mechanical__service__btn'}
+                            <Col md={'3'} className={'button add__user__btn'}>
+                                <button className={'btn  add__mechanical__service__btn'}
                                         onClick={() => addUserHandler()}><Link to={'#'}>Dodaj użytkownika</Link>
                                 </button>
                             </Col></Row>
@@ -151,19 +152,20 @@ export const UsersAdmin = () => {
                     <Row>
                         <Col lg={'12'} md={'12'}>
                             <div className="table-responsive-md m-5">
-                                <Row className={'justify-content-end mr-3 mb-2'}>
-                                    <Col lg='2' className={'search__box'}>
-                                        <input id="myInput" type="text" placeholder="Szukaj"/>
+                                <Row>
+                                    <Col className={'mb-2 col-3'} style={{width: "100%"}}>
+                                        <Col className={'col-9'}></Col>
+                                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                                     </Col>
                                 </Row>
-                                <table id="myTable" className="table table-faults mb-0 mt-3" style={{color: "white"}}>
+                                <table id="myTable" className="table table-faults mb-0 mt-2" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
                                         <th onClick={() => sortUsersAdmin(0)}>Email</th>
                                         <th onClick={() => sortUsersAdmin(1)}>Login</th>
                                         <th onClick={() => sortUsersAdmin(2)}>Imię</th>
                                         <th onClick={() => sortUsersAdmin(3)}>Nazwisko</th>
-                                        <th>Akcja</th>
+                                        <th>Rodzaj Akcji</th>
                                     </tr>
                                     </thead>
                                     {users?.map((user) => (

@@ -3,3 +3,8 @@
     text-decoration: none
 ;
 }
+
+.service_table {
+    overflow-y: scroll !important;
+    height: 70vh!important;
+}

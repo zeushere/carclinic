@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect} from "react";
 
 import HeroSlider from "../components/UI/HeroSlider";
 import Helmet from "../components/Helmet/Helmet";
@@ -11,10 +11,8 @@ import BecomeDriverSection from "../components/UI/BecomeDriverSection";
 import Testimonial from "../components/UI/Testimonial";
 
 import BlogList from "../components/UI/BlogList";
-import {useDispatch, useSelector} from "react-redux";
-import {APPOINTMENT_UPDATE_PAYMENT_RESET} from "../constants/appointmentConstants";
-import Snackbar from "../components/Snackbar/Snackbar";
-import SnackbarType from "../components/Snackbar/SnackbarType";
+import {useSelector} from "react-redux";
+import useWindowDimensions from "../components/WindowDimension/WindowDimension";
 
 const Home = () => {
 
@@ -24,6 +22,9 @@ const Home = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [userInfo, localStorage]);
+    const windowDimensions = useWindowDimensions();
+    const {width} = windowDimensions;
+
     return (
         <Helmet title="Home">
             {/* ============= hero section =========== */}
@@ -32,8 +33,8 @@ const Home = () => {
 
                 <div className="hero__form">
                     <Container>
-                        <Row className="form__row">
-                            <Row className={'text-center p-2'}>
+                        <Row className="form__row m-0">
+                            <Row className={'text-center p-2 m-0'}>
                                 <h2 className={'mt-2'}>Zarezerwuj wizytę</h2>
                             </Row>
                             <Col lg="12" md="12" sm="12">
@@ -48,7 +49,7 @@ const Home = () => {
             {/* ========== services section ============ */}
             <section>
                 <Container>
-                    <Row>
+                    <Row className="m-0">
                         <Col lg="12" className="mb-5 text-center">
                             <h6 className="section__subtitle">Sprawdź nasze</h6>
                             <h2 className="section__title">Atuty</h2>
@@ -64,9 +65,9 @@ const Home = () => {
             <BecomeDriverSection/>
 
             {/* =========== testimonial section =========== */}
-            <section>
+            {width > 400 && <section>
                 <Container>
-                    <Row>
+                    <Row className="m-0">
                         <Col lg="12" className="mb-4 text-center">
                             <h6 className="section__subtitle">Co o nas mówią?</h6>
                             <h2 className="section__title">Referencje</h2>
@@ -75,12 +76,12 @@ const Home = () => {
                         <Testimonial/>
                     </Row>
                 </Container>
-            </section>
+            </section>}
 
             {/* =============== blog section =========== */}
             <section>
                 <Container>
-                    <Row>
+                    <Row className="m-0">
                         <Col lg="12" className="mb-5 text-center">
                             <h6 className="section__subtitle">Sprawdź naszego bloga</h6>
                             <h2 className="section__title">Blog</h2>

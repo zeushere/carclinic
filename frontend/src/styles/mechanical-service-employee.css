@@ -1,6 +1,10 @@
 .edit-mechanical-service-button{
     background-color: goldenrod;
 }
+.service_table {
+    overflow-y: scroll !important;
+    height: 70vh!important;
+}
 
 .add__mechanical__service__btn {
     background: #0f74c2!important;

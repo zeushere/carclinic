@@ -47,7 +47,7 @@ const AddCarForm = (props) => {
     }
 
     return (
-        <Form className="form" onSubmit={handleSubmit}>
+        <Form className="form add__car__form__user" onSubmit={handleSubmit}>
             <div className={'text-right'}>
 
                 <button className="header__btn btn hide_car__add__button"

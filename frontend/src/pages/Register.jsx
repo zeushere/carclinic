@@ -54,7 +54,7 @@ const Register = (props) => {
 
             <MDBContainer fluid>
 
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-4 mb-4' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol md='6' lg='6' className=' d-flex flex-column align-items-center justify-content-md-start'>

@@ -8,8 +8,8 @@
 
 .car__form {
     position: absolute;
-    top: 25em;
-    left: 0em;
+    top: 320px;
+    left: 0;
     z-index: 11;
     width: 100%;
 }
@@ -33,3 +33,5 @@
 .client__cars__img {
     height: 250px;
 }
+
+

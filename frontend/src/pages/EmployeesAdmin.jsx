@@ -10,6 +10,7 @@ import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteUserByAdmin, getUsersWithEmployeeRole, getUsersWithUserRole} from "../actions/userActions";
 import $ from "jquery";
 import {USER_REGISTER_BY_ADMIN_RESET} from "../constants/userConstants";
+import '../styles/users-admin.css'
 
 export const EmployeesAdmin = () => {
 
@@ -129,18 +130,19 @@ export const EmployeesAdmin = () => {
                         <Col lg="12" md='12' className={'text-center mb-5'}>
                             <h2 className="section__title">Panel zarządzania pracownikami</h2>
                         </Col>
-                        <Row className={'justify-content-center'}>
-                            <Col md={'3'}>
-                                <button className={'btn add__mechanical__service__btn'}
+                        <Row className={'justify-content-center '}>
+                            <Col md={'3'} className={'add__user__btn'}>
+                                <button className={'btn add__mechanical__service__btn '}
                                         onClick={() => addUserHandler()}><Link to={'#'}>Dodaj pracownika</Link></button>
                             </Col></Row>
                     </Row>
                     <Row>
                         <Col lg={'12'} md={'12'}>
                             <div className="table-responsive-md m-5">
-                                <Row className={'justify-content-end mr-3 mb-3'}>
-                                    <Col lg='2' className={'search__box'}>
-                                        <input id="myInput" type="text" placeholder="Szukaj"/>
+                                <Row>
+                                    <Col className={'mb-2 col-3'} style={{width: "100%"}}>
+                                        <Col className={'col-9'}></Col>
+                                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                                     </Col>
                                 </Row>
                                 <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
@@ -150,7 +152,7 @@ export const EmployeesAdmin = () => {
                                         <th onClick={() => sortEmployeesAdmin(1)}>Login</th>
                                         <th onClick={() => sortEmployeesAdmin(2)}>Imię</th>
                                         <th onClick={() => sortEmployeesAdmin(3)}>Nazwisko</th>
-                                        <th>Akcja</th>
+                                        <th>Rodzaj Akcji</th>
                                     </tr>
                                     </thead>
                                     {employees?.map((user) => (

@@ -10,6 +10,7 @@ import Snackbar from "../components/Snackbar/Snackbar";
 import {deleteRabatCode, listRabatCodes} from "../actions/rabatCodeActions";
 import $ from "jquery";
 import {RABAT_CODE_ADD_RESET, RABAT_CODE_UPDATE_RESET} from "../constants/rabatCodeConstants";
+import '../styles/footer-fix.css';
 
 export const RabatCodesEmployee = () => {
 
@@ -135,7 +136,7 @@ export const RabatCodesEmployee = () => {
     }
     return (
         <Helmet title="Kody rabatowe">
-            <section>
+            <section className={rabatCodes ? 'cars__section' : ''}>
                 <Container>
                     <Row>
                         <Col lg="12" md='12' className={'text-center mb-5'}>
@@ -144,26 +145,27 @@ export const RabatCodesEmployee = () => {
                         <Row className={'justify-content-center'}>
                             <Col md={'3'}>
                                 <button className={'btn add__mechanical__service__btn'}
-                                        onClick={() => addRabatCodeHandler()}><Link to={'#'}>Dodaj kod rabatowy</Link>
+                                        onClick={() => addRabatCodeHandler()}><Link to={'#'}>Dodaj kod</Link>
                                 </button>
                             </Col></Row>
 
                     </Row>
                     <Row>
 
-                            <div className="table-responsive-md m-4">
-                                <Row className={'justify-content-end mr-3 mb-3'}>
-                                    <Col lg= '2' className={'search__box'}>
-                                        <input id="myInput" type="text" placeholder="Szukaj"/>
+                            <div className="table-responsive-md">
+                                <Row>
+                                    <Col className={'mb-2 mt-3 col-3'} style={{width: "100%"}}>
+                                        <Col className={'col-9'}></Col>
+                                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                                     </Col>
                                 </Row>
                                 <Col md={'12'}>
-                                <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
+                                <table id="myTable" className="table table-faults mb-0 mt-2" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
                                         <th className={'text-center'} onClick={() => sortRabatCodes(0)}>Kod rabatowy</th>
-                                        <th className={''} onClick={() => sortRabatCodes(1)}>Wysokość zniżki</th>
-                                        <th>Akcja</th>
+                                        <th className={'text-center'} onClick={() => sortRabatCodes(1)}>Wysokość zniżki</th>
+                                        <th className={'text-center'}>Rodzaj akcji</th>
                                     </tr>
                                     </thead>
                                     {rabatCodes?.map((rabatCode) => (
@@ -173,7 +175,7 @@ export const RabatCodesEmployee = () => {
                                             <td>{rabatCode?.discountSize} %</td>
                                             <td className={'mechanical__service__link'}>
                                                 <button type="button"
-                                                        className="btn btn-danger btn-lg appointment_car__link m-2"
+                                                        className="btn btn-danger btn-lg appointment_car__link mr-2"
                                                         onClick={() => deleteRabatCodeHandler(rabatCode?.id)}><Link
                                                     to={'#'}
                                                     className="appointment_car__link">Usuń</Link>

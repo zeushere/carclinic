@@ -87,10 +87,10 @@ const AddBlog = () => {
                                         rows="20"
                                         cols="130"
                                         placeholder="Wiadomość"
-                                        className="textarea textarea__blog"
+                                        className="textarea textarea__blog w-100"
                                         required
                                     ></textarea>
-                                    <button className={'profile__button w-25'} type={"submit"}>Zatwierdź</button>
+                                    <button className={'profile__button w-30'} type={"submit"}>Zatwierdź</button>
                                 </form>
                             </MDBCol>
                         </MDBRow>

@@ -11,6 +11,7 @@ import {deleteRabatCode, listRabatCodes} from "../actions/rabatCodeActions";
 import {deleteBlog, getBlogs} from "../actions/blogActions";
 import $ from "jquery";
 import {BLOG_ADD_RESET, BLOG_DELETE_RESET, BLOG_UPDATE_RESET} from "../constants/blogConstants";
+import '../styles/footer-fix.css';
 
 export const BlogsEmployee = () => {
 
@@ -133,7 +134,7 @@ export const BlogsEmployee = () => {
     }
     return (
         <Helmet title="Zarządzanie blogiem">
-            <section>
+            <section className={blogs ? 'cars__section' : ''}>
                 <Container>
                     <Row>
                         <Col lg="12" md='12' className={'text-center mb-5'}>
@@ -147,16 +148,17 @@ export const BlogsEmployee = () => {
                                 </button>
                             </Col></Row>
                     </Row>
-                    <Row className={'justify-content-end mr-5'}>
-                        <Col lg= '2' className={'search__box'}>
-                            <input id="myInput" type="text" placeholder="Szukaj"/>
+                    <Row>
+                        <Col className={'mb-2 mt-3 col-3'} style={{width: "100%"}}>
+                            <Col className={'col-9'}></Col>
+                            <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                         </Col>
                     </Row>
                     <Row>
 
                         <Col lg={'12'} md={'12'}>
 
-                            <div className="table-responsive-md mt-3 ">
+                            <div className="table-responsive-md mt-2 ">
                                 <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
                                     <thead className="text-center">
                                     <tr className={'table-th'}>
@@ -164,7 +166,7 @@ export const BlogsEmployee = () => {
                                         <th onClick={() => sortEmployeeBlogs(1)}>Tytuł</th>
                                         <th onClick={() => sortEmployeeBlogs(2)}>Data utworzenia</th>
                                         <th onClick={() => sortEmployeeBlogs(3)}>Godzina utworzenia</th>
-                                        <th>Akcja</th>
+                                        <th>Rodzaj akcji</th>
                                     </tr>
                                     </thead>
                                     {blogs?.map((blog) => (

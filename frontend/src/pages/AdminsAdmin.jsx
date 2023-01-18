@@ -1,20 +1,15 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useRef} from "react";
-import {deleteMechanicalService, listMechanicalServices} from "../actions/mechanicalServicesActions";
 import Helmet from "../components/Helmet/Helmet";
 import {Link, useNavigate} from "react-router-dom";
 import {Col, Container, Row} from "reactstrap";
 import '../styles/mechanical-service-employee.css'
 import SnackbarType from "../components/Snackbar/SnackbarType";
 import Snackbar from "../components/Snackbar/Snackbar";
-import {
-    deleteUserByAdmin,
-    getUsersWithAdminRole,
-    getUsersWithEmployeeRole,
-    getUsersWithUserRole
-} from "../actions/userActions";
+import {deleteUserByAdmin, getUsersWithAdminRole} from "../actions/userActions";
 import $ from "jquery";
 import {USER_REGISTER_BY_ADMIN_RESET} from "../constants/userConstants";
+import '../styles/users-admin.css'
 
 export const AdminsAdmin = () => {
 
@@ -50,22 +45,22 @@ export const AdminsAdmin = () => {
     }, [dispatch])
 
     useEffect(() => {
-            dispatch(getUsersWithAdminRole())
+        dispatch(getUsersWithAdminRole())
     }, [successDelete])
 
     useEffect(() => {
-        if(userRegisterId) {
+        if (userRegisterId) {
             dispatch(getUsersWithAdminRole())
             dispatch({type: USER_REGISTER_BY_ADMIN_RESET})
             snackbarRefAddAdmin.current.show();
         }
 
-    },[userRegisterId])
+    }, [userRegisterId])
 
-    $(document).ready(function(){
-        $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#myTable tr:not(:first)").filter(function() {
+            $("#myTable tr:not(:first)").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
@@ -114,7 +109,7 @@ export const AdminsAdmin = () => {
                 rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                 switching = true;
                 // Each time a switch is done, increase this count by 1:
-                switchcount ++;
+                switchcount++;
             } else {
                 /* If no switching has been done AND the direction is "asc",
                 set the direction to "desc" and run the while loop again. */
@@ -125,6 +120,7 @@ export const AdminsAdmin = () => {
             }
         }
     }
+
     return (
         <Helmet title="Panel administratorów">
             <section>
@@ -134,14 +130,19 @@ export const AdminsAdmin = () => {
                             <h2 className="section__title">Panel zarządzania administratorami</h2>
                         </Col>
                         <Row className={'justify-content-center'}>
-                            <Col  md={'3'}><button className={'btn add__mechanical__service__btn'} onClick={() => addUserHandler()}><Link to={'#'}>Dodaj administatora</Link></button></Col></Row>
+                            <Col md={'3'} className={'add__user__btn'}>
+                                <button className={'btn add__mechanical__service__btn'}
+                                        onClick={() => addUserHandler()}><Link to={'#'}>Dodaj administatora</Link>
+                                </button>
+                            </Col></Row>
                     </Row>
                     <Row>
                         <Col lg={'12'} md={'12'}>
                             <div className="table-responsive-md m-5">
-                                <Row className={'justify-content-end mr-3 mb-3'}>
-                                    <Col lg= '2' className={'search__box'}>
-                                        <input id="myInput" type="text" placeholder="Szukaj"/>
+                                <Row>
+                                    <Col className={'mb-2 col-3'} style={{width: "100%"}}>
+                                        <Col className={'col-9'}></Col>
+                                        <input className={'search__box'} id="myInput" type="text" placeholder="Szukaj"/>
                                     </Col>
                                 </Row>
                                 <table id="myTable" className="table table-faults mb-0" style={{color: "white"}}>
@@ -151,7 +152,7 @@ export const AdminsAdmin = () => {
                                         <th onClick={() => sortAdminsAdmin(1)}>Login</th>
                                         <th onClick={() => sortAdminsAdmin(2)}>Imię</th>
                                         <th onClick={() => sortAdminsAdmin(3)}>Nazwisko</th>
-                                        <th>Akcja</th>
+                                        <th>Rodzaj Akcji</th>
                                     </tr>
                                     </thead>
                                     {admins?.map((user) => (
@@ -171,13 +172,14 @@ export const AdminsAdmin = () => {
                                                 <button type="button"
                                                         className="btn btn-lg mechanicalService__button edit-mechanical-service-button btn-warning"
                                                 ><Link
-                                                    to={`/users/admin/edit/${user?.id}`} className="">Edytuj</Link></button>
+                                                    to={`/users/admin/edit/${user?.id}`} className="">Edytuj</Link>
+                                                </button>
                                             </td>
                                         </tr>
                                         </tbody>
                                     ))}
                                     {admins?.length === 0 && <tbody className="align-middle text-center">
-                                    <tr  className={'table-th'}>
+                                    <tr className={'table-th'}>
                                         <td>Brak</td>
                                         <td>Brak</td>
                                         <td>Brak</td>
