@@ -44,7 +44,7 @@ public class EmailCancelAppointmentService {
     }
 
     private ByteArrayDataSource loadImage() throws IOException {
-        return new ByteArrayDataSource(fileStorage.getFileBytes("backend/src/main/resources/files/email/email-in-progress.png"), fileStorage.getFileType("backend/src/main/resources/files/email/email-contact.png"));
+        return new ByteArrayDataSource(fileStorage.getFileBytes("backend/src/main/resources/files/email/email-cancelled.png"), fileStorage.getFileType("backend/src/main/resources/files/email/email-cancelled.png"));
     }
 
     private ByteArrayDataSource loadImage(MultipartFile image) throws IOException {
