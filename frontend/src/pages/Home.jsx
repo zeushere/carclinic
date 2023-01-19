@@ -65,7 +65,7 @@ const Home = () => {
             <BecomeDriverSection/>
 
             {/* =========== testimonial section =========== */}
-            {width > 400 && <section>
+            {width > 600 && <section>
                 <Container>
                     <Row className="m-0">
                         <Col lg="12" className="mb-4 text-center">
