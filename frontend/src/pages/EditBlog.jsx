@@ -76,7 +76,7 @@ const EditBlog = () => {
     return (
         <Helmet title="Edycja wpisu bloga">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -86,7 +86,7 @@ const EditBlog = () => {
                                       onSubmit={handleSubmit}>
                                     <label className={'label__add__blog'} htmlFor="name">Tytuł</label>
                                     <input
-                                        className={'login__input d-flex flex-row align-items-center'}
+                                        className={'login__input d-flex flex-row align-items-center title__input'}
                                         type="text"
                                         id="title"
                                         autoComplete="off"
@@ -103,7 +103,7 @@ const EditBlog = () => {
                                         value={article}
                                         onChange={(e) => setArticle(e.target.value)}
                                         rows="20"
-                                        cols="70"
+                                        cols="130"
                                         placeholder="Wiadomość"
                                         className="textarea textarea__blog w-100"
                                         required

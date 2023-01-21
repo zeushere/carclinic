@@ -93,8 +93,8 @@ const Header = () => {
                                 {userInfo && !checkIfCanUseEmployeeFunctionality() && !checkIfCanUseAdminFunctionality() && !regularCustomer &&
                                     <>
                                         <Row>
-                                            <div className="col-5"></div>
-                                            <div className="col-3 text-center">
+                                            <div className="col-5 d-flex"></div>
+                                            <div className="col-3 d-flex">
                                                 <button className="p-0 btn__profile dropdown-toggle d-flex align-items-center"
                                                         type="button"
                                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -111,13 +111,13 @@ const Header = () => {
                                                           to="/user-appointments">Statusy zgłoszeń</Link>
                                                 </div>
                                             </div>
-                                            <div className="col-3 text-center">
+                                            <div className="col-3 d-flex">
                                                 <Link to='/home' className=" d-flex align-items-center gap-1"
                                                       onClick={signoutHandler}>
                                                     <i className="ri-login-circle-line"></i> Wylogowanie
                                                 </Link>
                                             </div>
-                                            <div className="col-1 text-center"></div>
+                                            <div className="col-1 d-flex"></div>
                                         </Row>
                                     </>
                                 }

@@ -13,6 +13,7 @@ import $ from "jquery";
 import {BLOG_ADD_RESET, BLOG_DELETE_RESET, BLOG_UPDATE_RESET} from "../constants/blogConstants";
 import '../styles/footer-fix.css';
 
+
 export const BlogsEmployee = () => {
 
     const blogList = useSelector(state => state.blogList);
@@ -134,7 +135,7 @@ export const BlogsEmployee = () => {
     }
     return (
         <Helmet title="Zarządzanie blogiem">
-            <section className={blogs ? 'cars__section' : ''}>
+            <section className={blogs?.length <2 ? 'cars__section' : ''}>
                 <Container>
                     <Row>
                         <Col lg="12" md='12' className={'text-center mb-5'}>
@@ -178,7 +179,7 @@ export const BlogsEmployee = () => {
                                             <td>{blog?.creationDate?.substr(11, 5)}</td>
                                             <td className={'mechanical__service__link'}>
                                                 <button type="button"
-                                                        className="btn btn-danger btn-lg appointment_car__link m-2"
+                                                        className="btn btn-danger btn-lg appointment_car__link mr-2 button__position"
                                                         onClick={() => deleteBlogHandler(blog?.id)}><Link
                                                     to={'#'}
                                                     className="appointment_car__link">Usuń</Link>

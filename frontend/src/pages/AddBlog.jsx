@@ -58,8 +58,8 @@ const AddBlog = () => {
 
     return (
         <Helmet title="Dodawanie wpisu na bloga">
-            <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+            <MDBContainer fluid className={'w-100'}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -68,7 +68,7 @@ const AddBlog = () => {
                                 <form className={'login__form align-items-center form__add__blog'} autoComplete="off" onSubmit={handleSubmit}>
                                     <label className={'label__add__blog'} htmlFor="name">Tytuł</label>
                                     <input
-                                        className={'login__input d-flex flex-row align-items-center'}
+                                        className={'login__input d-flex flex-row align-items-center title__input'}
                                         type="text"
                                         id="title"
                                         autoComplete="off"

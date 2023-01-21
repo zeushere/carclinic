@@ -8,3 +8,9 @@
     overflow-y: scroll !important;
     height: 70vh!important;
 }
+
+@media only screen and (max-width: 1000px) {
+    .button__position {
+        margin-bottom: 5px;
+    }
+}

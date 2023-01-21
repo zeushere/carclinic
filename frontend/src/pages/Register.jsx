@@ -68,6 +68,7 @@ const Register = (props) => {
                                         type="text"
                                         id="name"
                                         autoComplete="off"
+                                        minLength={3}
                                         onChange={(e) => setFirstName(e.target.value)}
                                         placeholder={'Imię'}
                                         required
@@ -78,6 +79,7 @@ const Register = (props) => {
                                         type="text"
                                         id="surname"
                                         autoComplete="off"
+                                        minLength={3}
                                         onChange={(e) => setLastName(e.target.value)}
                                         placeholder={'Nazwisko'}
                                         required
@@ -87,7 +89,7 @@ const Register = (props) => {
                                         className={'login__input d-flex flex-row align-items-center'}
                                         type="text"
                                         id="address"
-                                        minLength={'5'}
+                                        minLength={5}
                                         autoComplete="off"
                                         onChange={(e) => setAddress(e.target.value)}
                                         placeholder={'Adres'}

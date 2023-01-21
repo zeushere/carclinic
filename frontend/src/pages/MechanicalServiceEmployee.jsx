@@ -165,7 +165,7 @@ export const MechanicalServiceEmployee = () => {
                                             <td>{mechanicalService?.expectedServiceCost} {mechanicalService?.expectedServiceCost ? ' zł' : 'Do uzgodnienia'}</td>
                                             <td className={'mechanical__service__link'}>
                                                 <button type="button"
-                                                        className="btn btn-danger btn-lg appointment_car__link m-2"
+                                                        className="btn btn-danger btn-lg appointment_car__link mr-2 button__position"
                                                         onClick={() => deleteHandler(mechanicalService?.id)}><Link
                                                     to={'#'}
                                                     className="appointment_car__link">Usuń</Link>

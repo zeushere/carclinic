@@ -67,7 +67,7 @@ const EditMechanicalService = () => {
     return (
         <Helmet title="Edycja usługi mechanicznej">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol

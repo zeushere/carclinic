@@ -175,7 +175,7 @@ export const RabatCodesEmployee = () => {
                                             <td>{rabatCode?.discountSize} %</td>
                                             <td className={'mechanical__service__link'}>
                                                 <button type="button"
-                                                        className="btn btn-danger btn-lg appointment_car__link mr-2"
+                                                        className="btn btn-danger btn-lg appointment_car__link mr-2 button__position"
                                                         onClick={() => deleteRabatCodeHandler(rabatCode?.id)}><Link
                                                     to={'#'}
                                                     className="appointment_car__link">Usuń</Link>

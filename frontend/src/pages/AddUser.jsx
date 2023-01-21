@@ -55,7 +55,7 @@ const AddUser = () => {
     return (
         <Helmet title="Dodawanie użytkownika">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -115,8 +115,8 @@ const AddUser = () => {
                                         type="text"
                                         id="login"
                                         autoComplete="off"
-                                        minLength={'4'}
-                                        maxLength={'20'}
+                                        minLength={4}
+                                        maxLength={20}
                                         value={login}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}
@@ -140,6 +140,7 @@ const AddUser = () => {
                                            id="password"
                                            onChange={(e) => setPassword(e.target.value)}
                                            value={password}
+                                           minLength={4}
                                            autoComplete={'off'}
                                            placeholder={'Hasło'}
                                            required

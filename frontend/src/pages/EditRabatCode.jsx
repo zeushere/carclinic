@@ -50,7 +50,7 @@ const EditRabatCode = () => {
     return (
         <Helmet title="Edycja kodu rabatowego">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -67,6 +67,7 @@ const EditRabatCode = () => {
                                         onChange={(e) => setCode(e.target.value)}
                                         placeholder={'Kod'}
                                         required
+                                        minLength={3}
                                     />
                                     <label htmlFor="lastName">Wysokość zniżki:</label>
                                     <input

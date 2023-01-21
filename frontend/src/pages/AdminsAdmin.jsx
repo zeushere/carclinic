@@ -123,7 +123,7 @@ export const AdminsAdmin = () => {
 
     return (
         <Helmet title="Panel administratorów">
-            <section>
+            <section  className={admins?.length <1 ? 'cars__section' : ''}>
                 <Container>
                     <Row>
                         <Col lg="12" md='12' className={'text-center mb-5'}>
@@ -138,7 +138,7 @@ export const AdminsAdmin = () => {
                     </Row>
                     <Row>
                         <Col lg={'12'} md={'12'}>
-                            <div className="table-responsive-md m-5">
+                            <div className="table-responsive-md mt-3">
                                 <Row>
                                     <Col className={'mb-2 col-3'} style={{width: "100%"}}>
                                         <Col className={'col-9'}></Col>
@@ -164,7 +164,7 @@ export const AdminsAdmin = () => {
                                             <td>{user?.lastName}</td>
                                             <td className={'mechanical__service__link'}>
                                                 <button type="button"
-                                                        className="btn btn-danger btn-lg appointment_car__link m-2"
+                                                        className="btn btn-danger btn-lg appointment_car__link mr-2 button__position"
                                                         onClick={() => deleteUserHandler(user?.id)}><Link
                                                     to={'#'}
                                                     className="appointment_car__link">Usuń</Link>

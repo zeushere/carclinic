@@ -57,7 +57,7 @@ const AddAdmin = () => {
     return (
         <Helmet title="Dodawanie administratora">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -118,6 +118,8 @@ const AddAdmin = () => {
                                         id="login"
                                         autoComplete="off"
                                         value={login}
+                                        minLength={4}
+                                        maxLength={20}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}
                                         required
@@ -140,6 +142,7 @@ const AddAdmin = () => {
                                            id="password"
                                            onChange={(e) => setPassword(e.target.value)}
                                            value={password}
+                                           minLength={4}
                                            autoComplete={'off'}
                                            placeholder={'Hasło'}
                                            required

@@ -52,7 +52,7 @@ const AddEmployee = () => {
     return (
         <Helmet title="Dodawanie pracownika">
             <MDBContainer fluid>
-                <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
+                <MDBCard className='text-black mt-3' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol
@@ -110,6 +110,8 @@ const AddEmployee = () => {
                                         type="text"
                                         id="login"
                                         autoComplete="off"
+                                        minLength={4}
+                                        maxLength={20}
                                         value={login}
                                         onChange={(e) => setLogin(e.target.value)}
                                         placeholder={'Login'}
@@ -144,6 +146,7 @@ const AddEmployee = () => {
                                            id="confirmPassword"
                                            onChange={(e) => setConfirmPassword(e.target.value)}
                                            value={confirmPassword}
+                                           minLength={4}
                                            autoComplete={'off'}
                                            placeholder={'Powtórz hasło'}
                                            required

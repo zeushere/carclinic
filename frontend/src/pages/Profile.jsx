@@ -99,6 +99,7 @@ const Profile = () => {
                                         id="firstName"
                                         autoComplete="off"
                                         value={firstName}
+                                        minLength={3}
                                         onChange={(e) => setFirstName(e.target.value)}
                                         placeholder={'Imię'}
                                         required
@@ -110,6 +111,7 @@ const Profile = () => {
                                         id="lastName"
                                         autoComplete="off"
                                         value={lastName}
+                                        minLength={3}
                                         onChange={(e) => setLastName(e.target.value)}
                                         placeholder={'Nazwisko'}
                                         required
@@ -122,7 +124,7 @@ const Profile = () => {
                                         id="address"
                                         autoComplete="off"
                                         value={address}
-                                        minLength={'5'}
+                                        minLength={5}
                                         onChange={(e) => setAddress(e.target.value)}
                                         placeholder={'Adres'}
                                         required
